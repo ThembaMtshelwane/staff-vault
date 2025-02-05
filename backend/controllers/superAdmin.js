@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import Organization from "../model/organizationModel.js";
 
 /**
  *  @description create an organization
@@ -7,6 +8,21 @@ import asyncHandler from "express-async-handler";
  */
 
 const addOrganization = asyncHandler(async (req, res) => {
+  const { name, description, staffEmails, departments, registrationNumber } =
+    req.body;
+
+  const organizationExists = await Organization.findOne({ registrationNumber });
+  if (organizationExists) {
+    res.status(400);
+    throw new Error("Organization already exists.");
+  }
+  const org = await Organization.create({
+    name,
+    description,
+    staffEmails,
+    departments,
+    registrationNumber,
+  });
   res.status(200).json({
     success: true,
     message: "Organization added",

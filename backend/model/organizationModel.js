@@ -1,7 +1,6 @@
-import { type } from "express/lib/response";
 import mongoose from "mongoose";
 
-const organizationSchema = mongo.Schema(
+const organizationSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,9 +10,13 @@ const organizationSchema = mongo.Schema(
       type: String,
       required: true,
     },
-    staffList: {
+    staffEmails: {
       type: [String],
       default: [],
+    },
+    registrationNumber: {
+      type: String,
+      required: true,
     },
     departments: [
       {
