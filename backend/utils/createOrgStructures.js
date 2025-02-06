@@ -2,13 +2,11 @@ import Department from "../model/departmentModel.js";
 import User from "../model/userModel.js";
 
 /**
- *  @description create a user profiles by default.
- *               Use an array of strings to store
- *               staff email.
- *               Use that array as the input
- *               Output is an array with object elements,
- *               { email and user _id}
- * ['email1@email.com']=>[{_id:'1234',email : 'email1@email.com'}]
+ *  @description Create user profiles by default.
+ *               Takes an array of email strings.
+ *               Returns an array of user objects with _id and email.
+ * @param {Array<string>} staffEmails
+ * @returns {Promise<Array<{_id: string, email: string}>>}
  */
 
 export const createUsers = async (staffEmails) => {
@@ -24,10 +22,11 @@ export const createUsers = async (staffEmails) => {
 };
 
 /**
- *  @description create a departments by default.
- *               Use an array of objects to store
- *               department's details (email and name).
- * [{name:dept1, email: 'email1@email.com'}]=>[{_id:123, name:dept1, email: 'email1@email.com'}]
+ *  @description Create departments by default.
+ *               Takes an array of objects containing department name and email.
+ *               Returns an array of created department objects.
+ * @param {Array<{name: string, email: string}>} departmentsInfo
+ * @returns {Promise<Array<{_id: string, name: string, email: string}>>}
  */
 export const createDepartments = async (departmentsInfo) => {
   return (departmentsInfo = await Promise.all(
