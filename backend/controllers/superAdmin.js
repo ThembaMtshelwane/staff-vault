@@ -1,7 +1,9 @@
 import asyncHandler from "express-async-handler";
 import Organization from "../model/organizationModel.js";
-import User from "../model/userModel.js";
-import Department from "../model/departmentModel.js";
+import {
+  createDepartments,
+  createUsers,
+} from "../utils/createOrgStructures.js";
 
 /**
  *  @description create an organization
@@ -97,4 +99,3 @@ export {
   getOrganizationById,
   deleteOrganization,
 };
-
