@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { userSchema } from "./userModel.js";
+import { departmentSchema } from "./departmentModel.js";
 
 const organizationSchema = mongoose.Schema(
   {
@@ -10,27 +12,21 @@ const organizationSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    staffEmails: {
-      type: [String],
+    admin: {
+      type: String,
+    },
+    users: {
+      type: [userSchema],
       default: [],
     },
     registrationNumber: {
       type: String,
       required: true,
     },
-    departments: [
-      {
-        name: {
-          type: String,
-          default: "",
-        },
-        email: {
-          type: String,
-          required: true,
-          match: [/.+@.+\..+/, "Please enter a valid email"],
-        },
-      },
-    ],
+    departments: {
+      type: [departmentSchema],
+      default: [],
+    },
   },
   {
     timestamps: true,
