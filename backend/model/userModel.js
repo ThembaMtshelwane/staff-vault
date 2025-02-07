@@ -10,11 +10,12 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "",
     },
+    position: { type: String, default: "" },
     email: { type: String, required: true },
     password: { type: String, default: "st@f5Va_ul7" },
     role: {
       type: String,
-      default: "",
+      default: "general",
     },
     permissions: {
       type: [String],

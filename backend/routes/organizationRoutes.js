@@ -8,11 +8,8 @@ import {
 
 const router = express.Router();
 
-router.route("/organizations").post(addOrganization).get(getAllOrganizations);
+router.route("/").post(addOrganization).get(getAllOrganizations);
 
-router
-  .route("/organizations/:id")
-  .get(getOrganizationById)
-  .delete(deleteOrganization);
+router.route("/:id").get(getOrganizationById).delete(deleteOrganization);
 
 export default router;
