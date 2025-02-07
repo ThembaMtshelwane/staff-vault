@@ -4,7 +4,7 @@ import {
   getAllOrganizations,
   getOrganizationById,
   deleteOrganization,
-} from "../controllers/superAdmins/organizationControllers.js";
+} from "../controllers/organizationControllers.js";
 
 const router = express.Router();
 

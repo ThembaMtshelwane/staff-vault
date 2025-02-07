@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Organization from "../../model/organizationModel.js";
+import Organization from "../model/organizationModel.js";
 
 /**
  *  @description create an organization
