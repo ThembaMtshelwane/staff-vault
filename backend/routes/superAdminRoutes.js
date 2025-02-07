@@ -3,8 +3,9 @@ import {
   addOrganization,
   getAllOrganizations,
   getOrganizationById,
-  deleteOrganization
-} from "../controllers/superAdmin.js";
+  deleteOrganization,
+} from "../controllers/superAdmins/organizationControllers.js";
+
 const router = express.Router();
 
 router.route("/organizations").post(addOrganization).get(getAllOrganizations);
@@ -14,4 +15,4 @@ router
   .get(getOrganizationById)
   .delete(deleteOrganization);
 
-export default router
+export default router;

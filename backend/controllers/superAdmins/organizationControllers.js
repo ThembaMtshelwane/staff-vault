@@ -1,9 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Organization from "../model/organizationModel.js";
-import {
-  createDepartments,
-  createUsers,
-} from "../utils/createOrgStructures.js";
+import Organization from "../../model/organizationModel.js";
 
 /**
  *  @description create an organization
@@ -12,23 +8,9 @@ import {
  */
 
 const addOrganization = asyncHandler(async (req, res) => {
-  const {
-    name,
-    description,
-    staffEmails,
-    departmentsInfo,
-    registrationNumber,
-    admin,
-  } = req.body;
+  const { name, description, registrationNumber } = req.body;
 
-  if (
-    !name ||
-    !description ||
-    !staffEmails ||
-    !departmentsInfo ||
-    !registrationNumber ||
-    !admin
-  ) {
+  if (!name || !description || !registrationNumber) {
     res.status(400);
     throw new Error("All fields are required.");
   }
@@ -36,23 +18,17 @@ const addOrganization = asyncHandler(async (req, res) => {
   const organizationExists = await Organization.findOne({ registrationNumber });
   if (organizationExists) {
     res.status(400);
-    throw new Error("Organization already exists.");
+    throw new Error(`This organization already exists within our database.`);
   }
-
-  const users = await createUsers(staffEmails);
-  const departments = await createDepartments(departmentsInfo);
 
   const org = await Organization.create({
     name,
     description,
     registrationNumber,
-    departments,
-    admin,
-    users,
   });
   res.status(201).json({
     success: true,
-    message: "Organization added",
+    message: `${name}'s basic information is added`,
     organization: org,
   });
 });
