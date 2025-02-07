@@ -33,4 +33,30 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export { registerAllUsers };
+const createAdminUser = expressAsyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  console.log(email);
+
+  if (!email) {
+    throw new Error("Please enter an email address for the admin");
+  }
+
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    throw new Error(`This email already exists within our database.`);
+  }
+
+  const user = await User.create({
+    email,
+    permissions: ["add_user", "suspend_user"],
+    role: "admin",
+  });
+  res.status(201).json({
+    success: true,
+    message: `Successfully created an admin`,
+    data: user,
+  });
+});
+
+export { registerAllUsers, createAdminUser };
