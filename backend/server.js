@@ -2,8 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+
 import organizationRoutes from "./routes/organizationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import departmentRoutes from "./routes/departmentRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -16,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/organization", organizationRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/departments", departmentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

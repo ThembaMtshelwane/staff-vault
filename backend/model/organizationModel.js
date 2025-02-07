@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { userSchema } from "./userModel.js";
-import { departmentSchema } from "./departmentModel.js";
 
 const organizationSchema = mongoose.Schema(
   {
@@ -12,20 +10,9 @@ const organizationSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    admin: {
-      type: String,
-    },
-    users: {
-      type: [userSchema],
-      default: [],
-    },
     registrationNumber: {
       type: String,
       required: true,
-    },
-    departments: {
-      type: [departmentSchema],
-      default: [],
     },
   },
   {

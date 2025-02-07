@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import User from "../model/userModel.js";
 /**
  *  @description Register all organization's users
- *  @route POST /api/superAdmin/organizations
+ *  @route POST /api/users
  *  @access PRIVATE
  */
 const registerAllUsers = expressAsyncHandler(async (req, res) => {

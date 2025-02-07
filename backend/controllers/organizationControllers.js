@@ -8,7 +8,11 @@ import Organization from "../model/organizationModel.js";
  */
 
 const addOrganization = asyncHandler(async (req, res) => {
-  const { name, description, registrationNumber } = req.body;
+  const {
+    name,
+    description,
+    registrationNumber,
+  } = req.body;
 
   if (!name || !description || !registrationNumber) {
     res.status(400);
@@ -20,6 +24,7 @@ const addOrganization = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(`This organization already exists within our database.`);
   }
+
 
   const org = await Organization.create({
     name,
