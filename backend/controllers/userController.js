@@ -80,4 +80,18 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export { registerAllUsers, createAdminUser, loginUser };
+const fetchAllUsers = expressAsyncHandler(async (req, res) => {
+  const users = await User.find();
+  if (users) {
+    res.status(200).json({
+      success: true,
+      message: "Retrieved all users",
+      data: users,
+    });
+  } else {
+    res.status(500);
+    throw new Error("Users not fetched");
+  }
+});
+
+export { registerAllUsers, createAdminUser, loginUser, fetchAllUsers };

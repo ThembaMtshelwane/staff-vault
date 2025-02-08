@@ -1,13 +1,14 @@
 import express from "express";
 import {
   createAdminUser,
+  fetchAllUsers,
   loginUser,
   registerAllUsers,
 } from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.route("/").post(registerAllUsers);
+router.route("/").post(registerAllUsers).get(fetchAllUsers);
 router.post("/admin", createAdminUser);
 router.post("/login", loginUser);
 
