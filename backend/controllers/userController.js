@@ -94,4 +94,27 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export { registerAllUsers, createAdminUser, loginUser, fetchAllUsers };
+const fetchUserById = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log("id  ", id);
+
+  const user = await User.findById(id);
+  if (user) {
+    res.status(200).json({
+      success: true,
+      message: "Retrieved user",
+      data: user,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not founded");
+  }
+});
+
+export {
+  registerAllUsers,
+  createAdminUser,
+  loginUser,
+  fetchAllUsers,
+  fetchUserById,
+};
