@@ -111,10 +111,27 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const deleteUser = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const removedUser = await User.findByIdAndDelete(id);
+
+  if (removedUser) {
+    res.status(200).json({
+      success: true,
+      message: "User deleted",
+      data: removedUser,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not founded");
+  }
+});
+
 export {
   registerAllUsers,
   createAdminUser,
   loginUser,
   fetchAllUsers,
   fetchUserById,
+  deleteUser,
 };
