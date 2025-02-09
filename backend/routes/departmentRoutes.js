@@ -1,8 +1,16 @@
 import express from "express";
-import { createAllDepartments } from "../controllers/departmentController.js";
+import {
+  createAllDepartments,
+  getDepartments,
+  getDepartmentById,
+  updateDepartment,
+  addDepartment,
+} from "../controllers/departmentController.js";
 
 const router = express.Router();
 
-router.post("/", createAllDepartments);
+router.route("/").post(createAllDepartments).get(getDepartments);
+router.route("/add").post(addDepartment);
+router.route("/:id").get(getDepartmentById).put(updateDepartment);
 
 export default router;
