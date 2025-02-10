@@ -91,7 +91,7 @@ const deleteDepartment = asyncHandler(async (req, res) => {
   if (department) {
     res.status(200).json({
       success: true,
-      message: `Department ${department.name} deleted`,
+      message: `${department.name} Department deleted`,
     });
   } else {
     res.status(404);
