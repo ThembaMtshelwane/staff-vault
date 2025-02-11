@@ -38,8 +38,6 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
 const createAdminUser = expressAsyncHandler(async (req, res) => {
   const { email } = req.body;
 
-  console.log(email);
-
   if (!email) {
     throw new Error("Please enter an email address for the admin");
   }

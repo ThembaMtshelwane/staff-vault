@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import { protect } from "./middleware/authMiddleware.js";
 
 import organizationRoutes from "./routes/organizationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -23,7 +24,7 @@ app.use(cookieParser());
 
 app.use("/api/organization", organizationRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/departments", departmentRoutes);
+app.use("/api/departments", protect, departmentRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
