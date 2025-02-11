@@ -8,15 +8,18 @@ import {
   deleteUser,
   addUser,
   logoutUser,
+  getUserProfile,
 } from "../controllers/userController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(registerAllUsers).get(fetchAllUsers);
+router.route("/").post(protect, registerAllUsers).get(protect, fetchAllUsers);
 router.post("/admin", createAdminUser);
 router.post("/login", loginUser);
-router.post("/logout", logoutUser);
-router.post("/add-user", addUser);
-router.route("/:id").get(fetchUserById).delete(deleteUser);
+router.post("/logout", protect, logoutUser);
+router.post("/add-user", protect, addUser);
+router.get("/profile", protect, getUserProfile);
+router.route("/:id").get(protect, fetchUserById).delete(protect, deleteUser);
 
 export default router;

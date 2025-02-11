@@ -95,6 +95,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    getUserProfile: builder.query<IUser, void>({
+      query: () => ({
+        url: `${USERS_URL}/profile`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
@@ -107,4 +114,5 @@ export const {
   useDeleteMutation,
   useGetUsersQuery,
   useGetUserQuery,
+  useGetUserProfileQuery,
 } = userApiSlice;

@@ -165,6 +165,29 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const getUserProfile = expressAsyncHandler(async (req, res) => {
+  if (!req.user) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Not authorized, user not found" });
+  }
+  const user = {
+    _id: req.user._id,
+    firstName: req.user.firstName,
+    lastName: req.user.lastName,
+    email: req.user.email,
+    position: req.user.position,
+    role: req.user.role,
+    permissions: req.user.permissions,
+    files: req.user.files || [],
+  };
+  res.status(200).json({
+    success: true,
+    message: "Logged in user data returned",
+    data: user,
+  });
+});
+
 export {
   registerAllUsers,
   createAdminUser,
@@ -174,4 +197,5 @@ export {
   deleteUser,
   addUser,
   logoutUser,
+  getUserProfile,
 };
