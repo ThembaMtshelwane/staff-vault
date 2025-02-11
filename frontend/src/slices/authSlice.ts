@@ -1,22 +1,36 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IUser } from "../definitions";
 
-const initialState = {
-  userInfo: localStorage.getItem("userInfo")
-    ? JSON.parse(localStorage.getItem("userInfo") || "")
-    : null,
+interface initialUserState {
+  userInfo: IUser | null;
+}
+
+const USER_INFO_KEY = "userInfo";
+
+const getStoredUserInfo = (): IUser | null => {
+  try {
+    const storedData = localStorage.getItem(USER_INFO_KEY);
+    return storedData ? (JSON.parse(storedData) as IUser) : null;
+  } catch {
+    return null;
+  }
+};
+
+const initialState: initialUserState = {
+  userInfo: getStoredUserInfo(),
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
+    setCredentials: (state, action: PayloadAction<IUser>) => {
       state.userInfo = action.payload;
-      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      localStorage.setItem(USER_INFO_KEY, JSON.stringify(action.payload));
     },
     clearCredentials: (state) => {
       state.userInfo = null;
-      localStorage.removeItem("userInfo");
+      localStorage.removeItem(USER_INFO_KEY);
     },
   },
 });

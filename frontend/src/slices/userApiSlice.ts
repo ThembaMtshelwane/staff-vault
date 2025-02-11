@@ -1,10 +1,13 @@
 import { apiSlice } from "./apiSlice";
-
+import { IUser } from "../definitions";
 const USERS_URL = "/api/users";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation({
+    login: builder.mutation<
+      { success: boolean; message: string; data: IUser },
+      { email: string; password: string }
+    >({
       query: (data) => ({
         url: `${USERS_URL}/login`,
         method: "POST",
@@ -12,14 +15,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    registerUser: builder.mutation({
+    registerUser: builder.mutation<
+      { success: boolean; message: string; data: IUser },
+      Partial<IUser>
+    >({
       query: (data) => ({
         url: `${USERS_URL}/register`,
         method: "POST",
         body: data,
       }),
     }),
-    multiRegister: builder.mutation({
+    multiRegister: builder.mutation<
+      { success: boolean; message: string; data: IUser[] },
+      { emails: string[] }
+    >({
       query: (data) => ({
         url: `${USERS_URL}`,
         method: "POST",
@@ -27,7 +36,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    registerAdmin: builder.mutation({
+    registerAdmin: builder.mutation<
+      { success: boolean; message: string; data: IUser[] },
+      Partial<IUser>
+    >({
       query: (data) => ({
         url: `${USERS_URL}/admin`,
         method: "POST",
@@ -35,7 +47,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    update: builder.mutation({
+    update: builder.mutation<
+      {
+        success: boolean;
+        message: string;
+        data: IUser;
+      },
+      { id: string; data: Partial<IUser> }
+    >({
       query: ({ data, id }) => ({
         url: `${USERS_URL}/${id}`,
         method: "PUT",
@@ -43,21 +62,33 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    delete: builder.mutation({
+    delete: builder.mutation<
+      {
+        success: boolean;
+        message: string;
+      },
+      void
+    >({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["User"],
     }),
-    getUsers: builder.query({
+    getUsers: builder.query<
+      { success: boolean; message: string; data: IUser[] },
+      void
+    >({
       query: () => ({
         url: `${USERS_URL}`,
         method: "GET",
       }),
       providesTags: ["User"],
     }),
-    getUser: builder.query({
+    getUser: builder.query<
+      { success: boolean; message: string; data: IUser },
+      { id: string }
+    >({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
         method: "GET",
