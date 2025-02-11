@@ -26,13 +26,13 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
     })
   );
 
-  if (data) {
-    res.status(201).json({
-      success: true,
-      message: `Uploaded ${data.length} staff emails to the database`,
-      data,
-    });
+  if (!data) {
+    throw new Error("Failed to register all staff");
   }
+  res.status(201).json({
+    success: true,
+    message: `Uploaded ${data.length} staff emails to the database`,
+  });
 });
 
 const createAdminUser = expressAsyncHandler(async (req, res) => {
@@ -55,10 +55,13 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
     role: "admin",
     password: "admin_st@f5Va_ul7",
   });
+  if (!user) {
+    res.status(500);
+    throw new Error(`Failed to create admin`);
+  }
   res.status(201).json({
     success: true,
     message: `Successfully created an admin`,
-    data: user,
   });
 });
 
@@ -134,9 +137,13 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
 
 const fetchUserById = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log("id  ", id);
 
+  if (!id) {
+    res.status(400);
+    throw new Error("Invalid id");
+  }
   const user = await User.findById(id);
+
   if (user) {
     res.status(200).json({
       success: true,
@@ -151,6 +158,11 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
 
 const deleteUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
+  if (!id) {
+    res.status(400);
+    throw new Error("Invalid id");
+  }
+
   const removedUser = await User.findByIdAndDelete(id);
 
   if (removedUser) {
