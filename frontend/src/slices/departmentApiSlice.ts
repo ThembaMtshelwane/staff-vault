@@ -6,7 +6,7 @@ const DEPARTMENTS_URL = "/api/departments";
 export const departmentApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createDepartments: builder.mutation<
-      { success: boolean; message: string; data: IDepartment[] },
+      { success: boolean; message: string;},
       IDepartmentInput[]
     >({
       query: (data) => ({
@@ -17,7 +17,7 @@ export const departmentApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Department"],
     }),
     createDepartment: builder.mutation<
-      { success: boolean; message: string; data: IDepartment },
+      { success: boolean; message: string; },
       Partial<IDepartment>
     >({
       query: (data) => ({

@@ -26,7 +26,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     multiRegister: builder.mutation<
-      { success: boolean; message: string; data: IUser[] },
+      { success: boolean; message: string },
       { emails: string[] }
     >({
       query: (data) => ({
@@ -44,6 +44,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/admin`,
         method: "POST",
         body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    logout: builder.mutation<{ success: boolean; message: string }, void>({
+      query: () => ({
+        url: `${USERS_URL}/logout`,
+        method: "POST",
       }),
       invalidatesTags: ["User"],
     }),
@@ -67,7 +74,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         success: boolean;
         message: string;
       },
-      void
+      { id: string }
     >({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,

@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
       default: "",
     },
     position: { type: String, default: "" },
+    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
     email: { type: String, required: true },
     password: { type: String, default: "st@f5Va_ul7" },
     role: {

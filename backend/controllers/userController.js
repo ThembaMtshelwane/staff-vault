@@ -60,6 +60,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
   res.status(201).json({
     success: true,
     message: `Successfully created an admin`,
+    data: user,
   });
 });
 
@@ -154,6 +155,35 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const updateUser = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(400);
+    throw new Error("Invalid id");
+  }
+  const user = await User.findById(id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  user.firstName = req.body.firstName || user.firstName;
+  user.lastName = req.body.lastName || user.lastName;
+  user.email = req.body.email || user.email;
+  user.password = req.body.password || user.password;
+  user.position = req.body.position || user.position;
+  user.department = req.body.department || user.department;
+
+  const updatedUser = await user.save();
+  res.status(200).json({
+    success: true,
+    message: `${
+      updatedUser.firstName ? updatedUser.firstName : "User"
+    } updated`,
+    data: updatedUser,
+  });
+});
+
 const deleteUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!id) {
@@ -205,6 +235,7 @@ export {
   fetchAllUsers,
   fetchUserById,
   deleteUser,
+  updateUser,
   addUser,
   logoutUser,
   getUserProfile,
