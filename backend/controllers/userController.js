@@ -107,6 +107,17 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const logoutUser = expressAsyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({
+    success: true,
+    message: "User logged out",
+  });
+});
+
 const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   const users = await User.find();
   if (users) {
@@ -162,4 +173,5 @@ export {
   fetchUserById,
   deleteUser,
   addUser,
+  logoutUser,
 };
