@@ -1,18 +1,17 @@
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
-    <section className="bg-background min-h-screen ">
-      <div className="relative h-[75vh]  text-background bg-[url(hero-background.jpg)] bg-cover bg-center opacity-90">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(0,0,0,0.4)]  via-[80%] to-background to-[99%]"></div>
-
-        <Navbar />
+    <section className="bg-background min-h-screen  ">
+      <Navbar />
+      <div className="relative h-[65vh]  bg-[url(hero-background.jpg)] bg-cover bg-center opacity-90">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(0,0,0,0.4)]  via-[60%] to-background to-[95%] -z-10 "></div>
 
         <section className="p-4 flex flex-col gap-2 items-center justify-center h-[60vh] text-background">
-          <h1 className=" text-center relative z-10">
+          <h1 className=" text-center relative ">
             Safe, Secure and Centralized Hub.
           </h1>
-          <h3 className=" text-center w-[75vw] relative z-10">
+          <h3 className=" text-center w-[75%] relative">
             A streamlined staff management system designed for efficiency and
             security.
           </h3>
@@ -60,7 +59,7 @@ const Home = () => {
           Access Anywhere
         </div>
       </div>
-      <div className=" bg-secondary flex flex-col items-center text-background px-4 py-10 gap-2 ">
+      <div className=" bg-secondary flex flex-col items-center text-background px-4 py-10 gap-2 mt-10 ">
         <h2>Get in touch.</h2>
         <p className=" max-w-[600px] ">
           Contact us to learn more about how we can help you manage your staff
