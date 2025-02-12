@@ -45,7 +45,7 @@ const Navbar = () => {
               onClick={() => setToggle(false)}
               className=" text-3xl p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
             >
-              <Link to="register"> Register</Link>
+              <Link to="login"> Register</Link>
             </li>
           </ul>
         </div>
@@ -68,7 +68,7 @@ const Navbar = () => {
           onClick={() => setToggle(false)}
           className="hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg md:w-[240px]"
         >
-          <Link to="register"> Register</Link>
+          <Link to="login"> Register</Link>
         </li>
       </ul>
     </ul>

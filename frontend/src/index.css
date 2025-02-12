@@ -25,4 +25,13 @@ html {
   h3 {
     @apply text-xl;
   }
+  input {
+    @apply border-2 border-secondary rounded-lg w-full p-2;
+  }
+}
+
+@layer components {
+  .button {
+    @apply hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg;
+  }
 }
