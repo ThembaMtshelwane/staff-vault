@@ -6,7 +6,7 @@ import { Link } from "react-router";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
-    <ul className="px-4 py-6  fixed w-full flex justify-between items-center text-background z-[999]">
+    <ul className="px-4 py-6  fixed w-full flex justify-between items-center text-background z-[999] ">
       <li className="flex items-center gap-2">
         <img src="logo.svg" alt="StaffVault logo" className="size-[50px]" />
         <span className="text-xl font-bold">StaffVault</span>
@@ -27,13 +27,22 @@ const Navbar = () => {
                 className="ml-auto hover:text-accent hover:scale-[1.5] cursor-pointer"
               />
             </li>
-            <li className=" text-3xl  p-2  w-full  hover:text-accent hover:scale-102 cursor-pointer">
+            <li
+              onClick={() => setToggle(false)}
+              className=" text-3xl  p-2  w-full  hover:text-accent hover:scale-102 cursor-pointer"
+            >
               <a href="#about"> About</a>
             </li>
-            <li className=" text-3xl  p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer">
+            <li
+              onClick={() => setToggle(false)}
+              className=" text-3xl  p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
+            >
               <a href="#contact"> Contact</a>
             </li>
-            <li className=" text-3xl p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer">
+            <li
+              onClick={() => setToggle(false)}
+              className=" text-3xl p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
+            >
               <Link to="register"> Register</Link>
             </li>
           </ul>
