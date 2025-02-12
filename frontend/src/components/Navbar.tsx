@@ -6,10 +6,12 @@ import { Link } from "react-router";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
-    <ul className="px-4 py-6  fixed w-full flex justify-between items-center text-background z-[999] ">
-      <li className="flex items-center gap-2">
-        <img src="logo.svg" alt="StaffVault logo" className="size-[50px]" />
-        <span className="text-xl font-bold">StaffVault</span>
+    <ul className="p-8 absolute w-full flex justify-between items-center text-background z-[999] ">
+      <li className=" hover:scale-102 cursor-pointer">
+        <a href="/" className="flex  items-center gap-2">
+          <img src="logo.svg" alt="StaffVault logo" className="size-[50px]" />
+          <span className="text-xl font-bold">StaffVault</span>
+        </a>
       </li>
       <li className="">
         <IoMdMenu
@@ -48,6 +50,27 @@ const Navbar = () => {
           </ul>
         </div>
       )}
+
+      <ul className="hidden md:flex  w-[40%] max-w-[350px]">
+        <li
+          onClick={() => setToggle(false)}
+          className=" p-2  w-full  hover:text-accent hover:scale-102 cursor-pointer"
+        >
+          <a href="#about"> About</a>
+        </li>
+        <li
+          onClick={() => setToggle(false)}
+          className="  p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
+        >
+          <a href="#contact"> Contact</a>
+        </li>
+        <li
+          onClick={() => setToggle(false)}
+          className="hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg md:w-[240px]"
+        >
+          <Link to="register"> Register</Link>
+        </li>
+      </ul>
     </ul>
   );
 };

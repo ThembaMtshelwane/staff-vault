@@ -4,10 +4,13 @@ const Home = () => {
   return (
     <section className="bg-background min-h-screen relative flex flex-col ">
       <Navbar />
-      <div className="relative h-[65vh]  bg-[url(hero-background.jpg)] bg-cover bg-center opacity-90">
+      <div className="relative h-[75vh]  bg-[url(hero-background.jpg)] bg-cover bg-center opacity-90">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(0,0,0,0.4)]  via-[60%] to-background to-[95%] -z-10 "></div>
 
-        <section className="p-4 flex flex-col gap-2 items-center justify-center h-[60vh] text-background max-w-[700px] mx-auto  md:max-w-[1040px]">
+        <section
+          id="hero"
+          className="p-4 flex flex-col gap-2 items-center justify-center h-[70vh] text-background max-w-[700px] mx-auto  md:max-w-[1040px]"
+        >
           <h1 className=" text-center relative md:text-7xl">
             Safe, Secure and Centralized Hub.
           </h1>
@@ -68,14 +71,14 @@ const Home = () => {
       </div>
       <div
         id="contact"
-        className=" bg-secondary flex flex-col items-center text-background px-4 py-10 gap-2 mt-10   "
+        className=" bg-secondary flex flex-col items-center justify-center text-background px-4 py-10 gap-2 mt-10   "
       >
         <h2>Get in touch.</h2>
-        <p className=" max-w-[600px] ">
+        <p className=" max-w-[600px]  ">
           Contact us to learn more about how we can help you manage your staff
           more efficiently.
         </p>
-        <div className="flex gap-4 mt-4 w-full justify-between max-w-[600px] mx-auto  md:max-w-[1040px]">
+        <div className="flex gap-4 mt-4 w-[80%] justify-between max-w-[600px] mx-auto  md:max-w-[1040px]">
           <ul className="flex flex-col gap-2">
             <li>
               <span>Email: </span>

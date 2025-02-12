@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
 @theme {
   --font-primary: "Satoshi", "sans-serif";
   --font-secondary: "Satoshi", "sans-serif";
@@ -15,7 +20,7 @@
     @apply text-5xl font-extrabold;
   }
   h2 {
-   @apply text-3xl font-bold;
+    @apply text-3xl font-bold;
   }
   h3 {
     @apply text-xl;
