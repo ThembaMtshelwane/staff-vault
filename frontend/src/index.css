@@ -34,4 +34,10 @@ html {
   .button {
     @apply hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg;
   }
+  .sidebar-icons {
+    @apply text-5xl;
+  }
+  .icon-container {
+    @apply bg-accent p-4 rounded-lg hover:scale-102 cursor-pointer;
+  }
 }
