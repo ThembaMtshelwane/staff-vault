@@ -23,7 +23,7 @@ const Navbar = () => {
     }
   };
   return (
-    <ul className="py-4 px-2 sm:p-4 md:p-8 absolute w-full flex justify-between items-center bg-accent text-background z-[999] ">
+    <ul className="py-4 px-2 sm:p-4 md:p-8 w-full flex justify-between items-center bg-accent text-background">
       <li className=" hover:scale-102 cursor-pointer">
         <a href="/" className="flex  items-center gap-2">
           <img src="/logo.svg" alt="StaffVault logo" className="size-[50px]" />
