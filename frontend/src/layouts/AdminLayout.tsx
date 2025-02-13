@@ -4,17 +4,15 @@ import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
-
 import { useEffect, useRef, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 
 const AdminLayout = () => {
   return (
-    <section className="bg-background h-screen relative">
+    <section className="bg-background h-screen relative max-h-[1080px]">
       <AdminNavbar />
       <SideMenu />
-
-      <section className="border">
+      <section className="border h-[90%] md:h-[85%]">
         <Outlet />
       </section>
     </section>
@@ -44,7 +42,7 @@ const SideMenu = () => {
   }, [toggle]);
   return (
     <>
-      <section className="min-w--[15px] h-[60%] min-h-[60%] bg-secondary text-background absolute left-0 transform translate-y-[30%] rounded-tr-2xl rounded-br-2xl hover:scale-102">
+      <section className="min-w--[15px] h-[60%] min-h-[60%] bg-secondary text-background absolute left-0 transform translate-y-[20%] rounded-tr-2xl rounded-br-2xl hover:scale-102">
         {toggle ? (
           <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
             <li>
