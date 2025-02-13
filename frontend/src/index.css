@@ -35,13 +35,12 @@ html {
     @apply hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg;
   }
   .sidebar-icons {
-    @apply text-5xl;
+    @apply text-5xl text-background;
   }
   .icon-container-isActive {
-    @apply bg-accent rounded-lg hover:scale-102 p-4 flex cursor-pointer ;
+    @apply bg-accent rounded-lg hover:scale-102 p-4 flex cursor-pointer;
   }
   .icon-container-notActive {
     @apply hover:border hover:border-accent rounded-lg hover:scale-102 p-4 flex cursor-pointer;
   }
-  
 }

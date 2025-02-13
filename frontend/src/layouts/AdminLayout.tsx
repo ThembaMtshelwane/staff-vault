@@ -12,7 +12,10 @@ const AdminLayout = () => {
     <section className="bg-background h-screen relative max-h-[1080px]">
       <AdminNavbar />
       <SideMenu />
-      <section className="border h-[90%] md:h-[85%]">
+      <section
+        className="border border-red-600 h-[90%] md:h-[85%] p-4 md:p-8 overflow-y-scroll
+      "
+      >
         <Outlet />
       </section>
     </section>
@@ -45,7 +48,7 @@ const SideMenu = () => {
       <section className="min-w--[15px] h-[60%] min-h-[60%] bg-secondary text-background absolute left-0 transform translate-y-[20%] rounded-tr-2xl rounded-br-2xl hover:scale-102">
         {toggle ? (
           <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
-            <li>
+            <li onClick={() => setToggle(false)}>
               <NavLink
                 to="/admin/dashboard"
                 className={({ isActive }) =>
@@ -57,7 +60,7 @@ const SideMenu = () => {
                 <MdOutlineDashboard className="sidebar-icons" />
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setToggle(false)}>
               <NavLink
                 to="/admin/employees"
                 className={({ isActive }) =>
@@ -69,7 +72,7 @@ const SideMenu = () => {
                 <GrGroup className="sidebar-icons" />
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setToggle(false)}>
               <NavLink
                 to="/admin/departments"
                 className={({ isActive }) =>
@@ -81,7 +84,7 @@ const SideMenu = () => {
                 <PiTreeStructureLight className="sidebar-icons rotate-90 font-extrabold" />
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setToggle(false)}>
               <NavLink
                 to="/admin/profile"
                 className={({ isActive }) =>
@@ -93,7 +96,7 @@ const SideMenu = () => {
                 <FaRegUser className="sidebar-icons" />
               </NavLink>
             </li>
-            <li>
+            <li onClick={() => setToggle(false)}>
               <NavLink
                 to="/admin/settings"
                 className={({ isActive }) =>
