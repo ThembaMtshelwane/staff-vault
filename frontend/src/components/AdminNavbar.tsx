@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useLogoutMutation } from "../slices/userApiSlice";
 import { useDispatch } from "react-redux";
 import { clearCredentials } from "../slices/authSlice";
@@ -59,10 +59,10 @@ const Navbar = () => {
 
       <ul className="hidden md:flex  border">
         <li
-          onClick={() => setToggle(false)}
+          onClick={handleLogout}
           className="hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg"
         >
-          <Link to="/"> Logout</Link>
+          Logout
         </li>
       </ul>
     </ul>
