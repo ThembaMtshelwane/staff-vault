@@ -4,8 +4,9 @@ import TagAndStat from "../../components/TagAndStat";
 
 const AdminDashboard = () => {
   return (
-    <section className=" min-h-full flex flex-col gap-4 sm:px-8">
-      <h1>Dashboard Overview.</h1>
+    // <section className=" min-h-full flex flex-col gap-4 sm:px-8 border">
+    <>
+      <h1 className="">Dashboard Overview.</h1>
 
       <div className="flex flex-col gap-4 max-w-[640px]">
         <h3 className="font-bold">
@@ -45,7 +46,8 @@ const AdminDashboard = () => {
           link={"/admin/departments"}
         />
       </div>
-    </section>
+    </>
+    // </section>
   );
 };
 
