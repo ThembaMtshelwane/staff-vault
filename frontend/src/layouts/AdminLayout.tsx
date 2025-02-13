@@ -3,7 +3,7 @@ import { GrGroup } from "react-icons/gr";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import { Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 
 import { useEffect, useRef, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
@@ -44,32 +44,74 @@ const SideMenu = () => {
   }, [toggle]);
   return (
     <>
-      <section
-        className={`w-fit py-4 px-2 bg-secondary text-background absolute left-0 transform translate-y-[25%] rounded-tr-2xl rounded-br-2xl
-        }`}
-      >
+      <section className="min-w--[15px] h-[60%] min-h-[60%] bg-secondary text-background absolute left-0 transform translate-y-[30%] rounded-tr-2xl rounded-br-2xl hover:scale-102">
         {toggle ? (
-          <ul ref={menuRef} className="flex flex-col gap-4 ">
-            <li className="icon-container">
-              <MdOutlineDashboard className="sidebar-icons" />
+          <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
+            <li>
+              <NavLink
+                to="/admin/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "icon-container-isActive"
+                    : "icon-container-notActive"
+                }
+              >
+                <MdOutlineDashboard className="sidebar-icons" />
+              </NavLink>
             </li>
-            <li className="icon-container">
-              <GrGroup className="sidebar-icons" />
+            <li>
+              <NavLink
+                to="/admin/employees"
+                className={({ isActive }) =>
+                  isActive
+                    ? "icon-container-isActive"
+                    : "icon-container-notActive"
+                }
+              >
+                <GrGroup className="sidebar-icons" />
+              </NavLink>
             </li>
-            <li className="icon-container">
-              <PiTreeStructureLight className="sidebar-icons rotate-90 font-extrabold" />
+            <li>
+              <NavLink
+                to="/admin/departments"
+                className={({ isActive }) =>
+                  isActive
+                    ? "icon-container-isActive"
+                    : "icon-container-notActive"
+                }
+              >
+                <PiTreeStructureLight className="sidebar-icons rotate-90 font-extrabold" />
+              </NavLink>
             </li>
-            <li className="icon-container">
-              <FaRegUser className="sidebar-icons" />
+            <li>
+              <NavLink
+                to="/admin/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "icon-container-isActive"
+                    : "icon-container-notActive"
+                }
+              >
+                <FaRegUser className="sidebar-icons" />
+              </NavLink>
             </li>
-            <li className="icon-container">
-              <FiSettings className="sidebar-icons" />
+            <li>
+              <NavLink
+                to="/admin/settings"
+                className={({ isActive }) =>
+                  isActive
+                    ? "icon-container-isActive"
+                    : "icon-container-notActive"
+                }
+              >
+                <FiSettings className="sidebar-icons" />
+              </NavLink>
             </li>
           </ul>
         ) : (
           <div
             onClick={() => setToggle(true)}
-            className="h-[55vh] w-[5px] "
+            className="h-full w-[15px]  cursor-pointer"
           ></div>
         )}
       </section>

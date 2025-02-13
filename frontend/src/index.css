@@ -37,7 +37,11 @@ html {
   .sidebar-icons {
     @apply text-5xl;
   }
-  .icon-container {
-    @apply bg-accent p-4 rounded-lg hover:scale-102 cursor-pointer;
+  .icon-container-isActive {
+    @apply bg-accent rounded-lg hover:scale-102 p-4 flex cursor-pointer ;
   }
+  .icon-container-notActive {
+    @apply hover:border hover:border-accent rounded-lg hover:scale-102 p-4 flex cursor-pointer;
+  }
+  
 }
