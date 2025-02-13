@@ -1,9 +1,9 @@
-import Navbar from "../components/Navbar";
+import HomeNavbar from "../components/HomeNavbar";
 
 const Home = () => {
   return (
     <section className="bg-background min-h-screen relative flex flex-col ">
-      <Navbar />
+      <HomeNavbar />
       <div className="relative h-[75vh]  bg-[url(hero-background.jpg)] bg-cover bg-center opacity-90">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(0,0,0,0.4)]  via-[60%] to-background to-[95%] -z-10 "></div>
 

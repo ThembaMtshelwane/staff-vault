@@ -122,4 +122,5 @@ export const {
   useGetUsersQuery,
   useGetUserQuery,
   useGetUserProfileQuery,
+  useLogoutMutation,
 } = userApiSlice;

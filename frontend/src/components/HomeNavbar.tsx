@@ -3,7 +3,7 @@ import { IoMdMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router";
 
-const Navbar = () => {
+const HomeNavbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
     <ul className="p-8 absolute w-full flex justify-between items-center text-background z-[999] ">
@@ -75,4 +75,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HomeNavbar;

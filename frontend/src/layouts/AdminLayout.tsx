@@ -6,11 +6,12 @@ import { FiSettings } from "react-icons/fi";
 import { Outlet } from "react-router";
 
 import { useEffect, useRef, useState } from "react";
+import AdminNavbar from "../components/AdminNavbar";
 
 const AdminLayout = () => {
   return (
     <section className="bg-background h-screen relative">
-      {/* <Navbar /> */}
+      <AdminNavbar />
       <SideMenu />
 
       <section className="border">
@@ -68,7 +69,7 @@ const SideMenu = () => {
         ) : (
           <div
             onClick={() => setToggle(true)}
-            className="h-[55vh] w-[10px] "
+            className="h-[55vh] w-[5px] "
           ></div>
         )}
       </section>
