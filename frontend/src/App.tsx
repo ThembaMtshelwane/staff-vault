@@ -8,6 +8,7 @@ import Departments from "./pages/admin/Departments/Departments";
 import Employees from "./pages/admin/Employees/Employees";
 import Settings from "./pages/admin/Settings";
 import AddEmployee from "./pages/admin/Employees/AddEmployee";
+import Employee from "./pages/admin/Employees/Employee";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="employees">
           <Route index element={<Employees />} />
           <Route path="add-employee" element={<AddEmployee />} />
+          <Route path=":id" element={<Employee />} />
         </Route>
         <Route path="departments" element={<Departments />} />
         <Route path="profile" element={<Profile />} />

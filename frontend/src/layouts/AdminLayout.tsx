@@ -9,12 +9,12 @@ import AdminNavbar from "../components/AdminNavbar";
 
 const AdminLayout = () => {
   return (
-    <section className="bg-background h-screen relative max-h-[1080px] text-general   ">
+    <section className="bg-background h-screen relative text-general overflow-y-hidden ">
       <AdminNavbar />
       <SideMenu />
       <section
-        className="border border-red-600 h-[90%] md:h-[85%] p-4 md:p-8 overflow-y-scroll
-       flex flex-col gap-4 sm:px-8 md:w-[75%]  ml-auto
+        className="border border-red-600 p-4  overflow-y-scroll relative
+       flex flex-col gap-4 md:w-[75%] h-[85%] ml-auto
       "
       >
         <Outlet />
@@ -46,7 +46,7 @@ const SideMenu = () => {
   }, [toggle]);
   return (
     <>
-      <section className="min-w--[15px] h-[60%] min-h-[60%] bg-secondary text-background absolute left-0 transform translate-y-[20%] rounded-tr-2xl rounded-br-2xl hover:scale-102">
+      <section className="min-w-[15px]  bg-secondary text-background absolute left-0 h-full rounded-tr-2xl rounded-br-2xl">
         {toggle ? (
           <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
             <li onClick={() => setToggle(false)}>

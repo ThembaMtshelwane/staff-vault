@@ -37,11 +37,8 @@ const Employees = () => {
           <Filter filterOptions={departments?.data || []} />
         </div>
       </div>
-      <div>
-        <p>20 out of {employees?.data.length}</p>
-      </div>
 
-      <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll ">
+      <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
         {employees?.data.slice(0, 20).map((employee) => (
           <EmployeeCard
             key={employee._id}
@@ -52,6 +49,9 @@ const Employees = () => {
           />
         ))}
       </div>
+      <div className=" w-full flex justify-center">
+          <p className=" px-4 py-2 rounded-lg bg-white font-semibold">20 out of {employees?.data.length }</p>
+        </div>
     </>
   );
 };
