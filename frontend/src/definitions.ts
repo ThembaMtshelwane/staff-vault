@@ -1,3 +1,8 @@
+export interface IFiles {
+  image: string;
+  docs: string[];
+}
+
 export interface IUser {
   _id: string;
   firstName: string;
@@ -6,7 +11,7 @@ export interface IUser {
   position: string;
   role: string;
   permissions: string[];
-  files?: string[];
+  files: IFiles;
 }
 
 export interface IDepartment {

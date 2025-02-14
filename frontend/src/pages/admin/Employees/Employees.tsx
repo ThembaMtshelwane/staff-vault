@@ -1,7 +1,10 @@
 import { IoAddCircleOutline, IoSearch } from "react-icons/io5";
 import { CiFilter } from "react-icons/ci";
+import { useGetUsersQuery } from "../../../slices/userApiSlice";
+import EmployeeCard from "../../../components/EmployeeCard";
 
 const Employees = () => {
+  const { data } = useGetUsersQuery();
   return (
     <>
       <h1>Manage Employees.</h1>
@@ -32,6 +35,16 @@ const Employees = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col gap-4">
+        {data?.data.map((employee) => (
+          <EmployeeCard
+            firstName={employee.firstName}
+            lastName={employee.lastName}
+            position={employee.position}
+            id={employee._id}
+          />
+        ))}
       </div>
     </>
   );
