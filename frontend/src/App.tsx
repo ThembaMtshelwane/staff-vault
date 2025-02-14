@@ -3,9 +3,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminLayout from "./layouts/AdminLayout";
-import Employees from "./pages/admin/Profile";
+import Profile from "./pages/admin/Profile";
 import Departments from "./pages/admin/Departments/Departments";
-import Profile from "./pages/admin/Employees/Employees";
+import Employees from "./pages/admin/Employees/Employees";
 import Settings from "./pages/admin/Settings";
 
 function App() {

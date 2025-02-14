@@ -14,7 +14,7 @@ const AdminLayout = () => {
       <SideMenu />
       <section
         className="border border-red-600 h-[90%] md:h-[85%] p-4 md:p-8 overflow-y-scroll 
-        min-h-full flex flex-col gap-4 sm:px-8 
+        flex flex-col gap-4 sm:px-8 
       "
       >
         <Outlet />
