@@ -8,13 +8,14 @@ const Employees = () => {
   return (
     <>
       <h1>Manage Employees.</h1>
-      <div className="flex flex-col gap-2">
+
+      <div className="flex flex-col gap-2 md:flex-row justify-between">
         <div className="button w-fit flex items-center px-4 gap-2">
           <IoAddCircleOutline className="text-2xl" />
           <p>Add Employees</p>
         </div>
 
-        <div className=" flex gap-1">
+        <div className=" flex gap-1 w-full md:w-[50%] max-w-[450px]">
           <label htmlFor="search" className="w-[80%]  flex items-center">
             <input
               type="text"
@@ -28,7 +29,7 @@ const Employees = () => {
             </div>
           </label>
 
-          <div className=" -yellow-300 w-[20%] text-background  flex items-center justify-around bg-secondary rounded-lg">
+          <div className="  w-[20%] text-background  flex items-center justify-around bg-secondary rounded-lg">
             <CiFilter className="text-2xl font-extrabold" />
             <div className="hidden">
               <ul></ul>
@@ -36,9 +37,14 @@ const Employees = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-4">
-        {data?.data.map((employee) => (
+      <div>
+        <p>20 out of {data?.data.length}</p>
+      </div>
+
+      <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll ">
+        {data?.data.slice(0, 20).map((employee) => (
           <EmployeeCard
+            key={employee._id}
             firstName={employee.firstName}
             lastName={employee.lastName}
             position={employee.position}

@@ -11,7 +11,10 @@ type Props = {
 
 const EmployeeCard = ({ firstName, lastName, position, id }: Props) => {
   return (
-    <Link to={`/${id}/`} className="h-[420px] rounded-lg bg-white">
+    <Link
+      to={`/${id}/`}
+      className="h-[420px] max-w-[340px] w-full  rounded-lg bg-white justify-self-center"
+    >
       <img
         className="h-[70%] object-center object-cover w-full rounded-tl-lg rounded-tr-lg"
         src={

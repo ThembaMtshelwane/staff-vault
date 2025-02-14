@@ -9,12 +9,12 @@ import AdminNavbar from "../components/AdminNavbar";
 
 const AdminLayout = () => {
   return (
-    <section className="bg-background h-screen relative max-h-[1080px]">
+    <section className="bg-background h-screen relative max-h-[1080px]   ">
       <AdminNavbar />
       <SideMenu />
       <section
-        className="border border-red-600 h-[90%] md:h-[85%] p-4 md:p-8 overflow-y-scroll 
-        flex flex-col gap-4 sm:px-8 
+        className="border border-red-600 h-[90%] md:h-[85%] p-4 md:p-8 overflow-y-scroll
+       flex flex-col gap-4 sm:px-8 md:w-[75%]  ml-auto
       "
       >
         <Outlet />
