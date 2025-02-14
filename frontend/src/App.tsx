@@ -7,6 +7,7 @@ import Profile from "./pages/admin/Profile";
 import Departments from "./pages/admin/Departments/Departments";
 import Employees from "./pages/admin/Employees/Employees";
 import Settings from "./pages/admin/Settings";
+import AddEmployee from "./pages/admin/Employees/AddEmployee";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="employees">
           <Route index element={<Employees />} />
-          <Route path="add" element={<Employees />} />
+          <Route path="add-employee" element={<AddEmployee />} />
         </Route>
         <Route path="departments" element={<Departments />} />
         <Route path="profile" element={<Profile />} />

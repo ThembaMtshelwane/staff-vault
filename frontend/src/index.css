@@ -12,7 +12,7 @@ html {
   --color-background: oklch(92.74% 0.0168 236.7);
   --color-secondary: oklch(43.8% 0.0658 256.9);
   --color-accent: oklch(82.31% 0.0796 252.2);
-  ---color-text: oklch(24.21% 0.0089 255.59);
+  ---color-general: oklch(24.21% 0.0089 255.59);
 }
 
 @layer base {

@@ -14,7 +14,7 @@ const Employees = () => {
 
       <div className="flex flex-col gap-2 md:flex-row justify-between">
         <Link
-          to="/add-employee"
+          to="add-employee"
           className="button w-fit flex items-center px-4 gap-2"
         >
           <IoAddCircleOutline className="text-2xl" />
@@ -22,7 +22,7 @@ const Employees = () => {
         </Link>
 
         <div className=" flex gap-1 w-full md:w-[50%] max-w-[450px] relative">
-          <label htmlFor="search" className="w-[80%]  flex items-center">
+          <div className="w-[80%]  flex items-center">
             <input
               type="text"
               name="search"
@@ -33,7 +33,7 @@ const Employees = () => {
             <div className="bg-secondary w-[20%] h-full text-background flex items-center justify-center rounded-tr-lg rounded-br-lg">
               <IoSearch className="text-2xl" />
             </div>
-          </label>
+          </div>
           <Filter filterOptions={departments?.data || []} />
         </div>
       </div>

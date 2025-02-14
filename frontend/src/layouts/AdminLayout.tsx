@@ -9,7 +9,7 @@ import AdminNavbar from "../components/AdminNavbar";
 
 const AdminLayout = () => {
   return (
-    <section className="bg-background h-screen relative max-h-[1080px]   ">
+    <section className="bg-background h-screen relative max-h-[1080px] text-general   ">
       <AdminNavbar />
       <SideMenu />
       <section
