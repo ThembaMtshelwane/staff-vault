@@ -4,10 +4,11 @@ import EmployeeCard from "../../../components/EmployeeCard";
 import { Link } from "react-router";
 import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
 import Filter from "../../../components/Filter";
+import { CustomSpinner } from "../../../components/CustomSpinner";
 
 const Employees = () => {
   const { data: employees } = useGetUsersQuery();
-  const { data: departments } = useGetDepartmentsQuery();
+  const { data: departments, isLoading } = useGetDepartmentsQuery();
   return (
     <>
       <h1>Manage Employees.</h1>
@@ -38,20 +39,32 @@ const Employees = () => {
         </div>
       </div>
 
-      <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
-        {employees?.data.slice(0, 20).map((employee) => (
-          <EmployeeCard
-            key={employee._id}
-            firstName={employee.firstName}
-            lastName={employee.lastName}
-            position={employee.position}
-            id={employee._id}
-          />
-        ))}
-      </div>
-      <div className=" w-full flex justify-center">
-          <p className=" px-4 py-2 rounded-lg bg-white font-semibold">20 out of {employees?.data.length }</p>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <CustomSpinner isLoading={isLoading}/>
         </div>
+      ) : (
+        <>
+          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
+            {employees?.data.slice(0, 20).map((employee) => (
+              <EmployeeCard
+                key={employee._id}
+                firstName={employee.firstName}
+                lastName={employee.lastName}
+                position={employee.position}
+                id={employee._id}
+              />
+            ))}
+          </div>
+          {employees?.data.length && (
+            <div className="border w-full flex justify-center">
+              <p className=" md:px-4 MD:py-2 rounded-lg bg-white font-semibold">
+                20 out of {employees?.data.length}
+              </p>
+            </div>
+          )}
+        </>
+      )}
     </>
   );
 };
