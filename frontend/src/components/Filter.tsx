@@ -26,20 +26,23 @@ const Filter = ({ filterOptions }: Props) => {
   }, [toggle]);
 
   return (
-    <div
-      onClick={() => setToggle((prev) => !prev)}
-      className="w-[20%] text-background  flex items-center justify-around bg-secondary rounded-lg "
-    >
-      <CiFilter className="text-2xl font-extrabold h-full" />
+    <div className="w-[20%] text-background  flex items-center justify-around bg-secondary rounded-lg ">
+      <CiFilter
+        onClick={() => setToggle((prev) => !prev)}
+        className="text-2xl font-extrabold h-full"
+      />
       {toggle && (
         <ul
           ref={menuRef}
-          className=" flex flex-col p-2 gap-2 absolute border bg-white top-0 right-0  w-[250px] h-98 overflow-y-scroll rounded-lg"
+          className=" flex flex-col p-2 gap-2 absolute border bg-white top-0 right-0  w-[250px] h-98 overflow-y-scroll rounded-lg z-[999]"
         >
           {filterOptions?.map((option) => (
             <li
               key={option._id}
-              onClick={() => setToggle(false)}
+              onClick={() => {
+                setToggle((prev) => !prev);
+                console.log(toggle);
+              }}
               className="text-secondary border px-2 py-4 hover:bg-secondary hover:text-background rounded-lg hover:scale-102 cursor-pointer"
             >
               {option.name}
