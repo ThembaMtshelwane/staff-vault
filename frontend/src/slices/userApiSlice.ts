@@ -109,6 +109,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    addUser: builder.mutation<
+      { success: boolean; message: string },
+      { data: Partial<IUser> }
+    >({
+      query: (data) => ({
+        url: `${USERS_URL}/add-user`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -123,4 +134,5 @@ export const {
   useGetUserQuery,
   useGetUserProfileQuery,
   useLogoutMutation,
+  useAddUserMutation,
 } = userApiSlice;

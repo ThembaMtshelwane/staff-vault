@@ -1,7 +1,33 @@
 import { IoArrowBack } from "react-icons/io5";
 import { Link } from "react-router";
+import { useAddUserMutation } from "../../../slices/userApiSlice";
+import { FormEvent } from "react";
+import { useNavigate } from "react-router";
 
 const AddEmployee = () => {
+  const [addUser] = useAddUserMutation();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const email = formData.get("email") as string;
+    const position = formData.get("position") as string;
+
+    const data = { firstName, lastName, email, position };
+
+    console.log(data);
+
+    const res = await addUser({ data });
+
+    if (res.data?.success) {
+      navigate("/admin/employees");
+    }
+  };
   return (
     <>
       <div className="flex items-center gap-2">
@@ -18,27 +44,27 @@ const AddEmployee = () => {
           Fill in the form below to add a new employee to the system. Ensure all
           details are accurate before submitting.
         </p>
-        <form className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <label htmlFor="firstName">
               First Name:
-              <input type="text" required />
+              <input type="text" name="firstName" id="firstName" required />
             </label>
             <label htmlFor="lastName">
               Last Name:
-              <input type="text" required />
+              <input type="text" required name="lastName" id="lastName" />
             </label>
-            <label htmlFor="emailAddress">
+            <label htmlFor="email">
               Work Email Address:
-              <input type="email" required />
+              <input type="email" required name="email" id="email" />
             </label>
             <label htmlFor="staffID">
               Staff ID:
-              <input type="text" required />
+              <input type="text" required name="staffID" id="staffID" />
             </label>
             <label htmlFor="position">
               Position:
-              <input type="text" required />
+              <input type="text" required name="position" id="position" />
             </label>
           </div>
 

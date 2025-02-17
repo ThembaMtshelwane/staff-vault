@@ -65,25 +65,26 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 });
 
 const addUser = expressAsyncHandler(async (req, res) => {
-  const { email, permissions, role, password } = req.body;
+  const data = req.body;
+  const { firstName, lastName, email, position } = data.data;
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
+    res.status(400);
     throw new Error(`This email already exists within our database.`);
   }
   const user = await User.create({
+    firstName,
+    lastName,
     email,
-    permissions,
-    role,
-    password,
+    position,
   });
 
   if (user) {
     res.status(201).json({
       success: true,
       message: `Successfully created a user`,
-      data: user,
     });
   } else {
     res.status(500);
