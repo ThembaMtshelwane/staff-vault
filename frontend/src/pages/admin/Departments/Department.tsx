@@ -1,5 +1,8 @@
-import { useParams } from "react-router";
-import { useGetDepartmentQuery } from "../../../slices/departmentApiSlice";
+import { useNavigate, useParams } from "react-router";
+import {
+  useDeleteDepartmentMutation,
+  useGetDepartmentQuery,
+} from "../../../slices/departmentApiSlice";
 import { CustomSpinner } from "../../../components/CustomSpinner";
 import { useGetUsersQuery } from "../../../slices/userApiSlice";
 import EmployeeCard from "../../../components/EmployeeCard";
@@ -9,11 +12,21 @@ const Department = () => {
   const { id } = useParams<{ id: string }>();
   const { data } = useGetDepartmentQuery(String(id));
   const { data: employees, isLoading } = useGetUsersQuery();
+  const [deleteDepartment] = useDeleteDepartmentMutation();
+  const navigate = useNavigate();
+
   const name = data?.data.name || "Not Available";
   const email = data?.data.email || "Not Available";
   const staff = data?.data.staff;
   const supervisor = data?.data.supervisor || "Not Available";
   const location = "Not Available";
+
+  const handleDeleteDepartment = async () => {
+    const res = await deleteDepartment(String(id));
+    if (res.data?.success) {
+      navigate("/admin/departments");
+    }
+  };
 
   return (
     <>
@@ -30,7 +43,9 @@ const Department = () => {
         </div>
         <div className="flex gap-4 justify-center border w-full  sm:w-[40%]">
           <button className="button w-[150px]">Edit</button>
-          <button className="button w-[150px]">Delete</button>
+          <button onClick={handleDeleteDepartment} className="button w-[150px]">
+            Delete
+          </button>
         </div>
       </div>
       {isLoading ? (
