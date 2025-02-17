@@ -1,15 +1,36 @@
 import { IoArrowBack } from "react-icons/io5";
-import { Link } from "react-router";
-// import { useGetUserQuery } from "../../../slices/userApiSlice";
+import { Link, useParams, useNavigate } from "react-router";
+import {
+  useDeleteUserMutation,
+  useGetUserQuery,
+} from "../../../slices/userApiSlice";
 import { GrFingerPrint } from "react-icons/gr";
 import { TbBriefcase2 } from "react-icons/tb";
 import { FaUserGraduate } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 
 const Employee = () => {
-  // const { id } = useParams<{ id: string }>();
-  // const { data: employee } = useGetUserQuery({ id: id ?? "" });
+  const { id } = useParams<{ id: string }>();
+  const { data: employee } = useGetUserQuery(String(id));
+  const [deleteUser] = useDeleteUserMutation();
+  const navigate = useNavigate();
 
+  const firstName = employee?.data?.firstName || "N/A";
+  const lastName = employee?.data?.lastName || "N/A";
+  const position = employee?.data?.position || "Not Available";
+  const department = employee?.data?.position || "Not Available";
+  const supervisor = employee?.data?.position || "Not Available";
+  const location = employee?.data?.position || "Not Available";
+
+  const handleDeleteEmployee = async () => {
+    const res = await deleteUser(String(id));
+    console.log(res);
+
+    if (res.data?.success) {
+      navigate("/admin/employees");
+      return;
+    }
+  };
   return (
     <>
       <div className="flex items-center gap-2">
@@ -23,13 +44,18 @@ const Employee = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div>
-          <h3 className="font-bold">Themba Mtshelwane.</h3>
-          <p>Software Developer Intern.</p>
+          <h3 className="font-bold">
+            {firstName === "N/A" || lastName === "N/A"
+              ? "Not Available"
+              : `${firstName} ${lastName}`}
+            .
+          </h3>
         </div>
 
-        <p>Dpeartment: Software Developer Academy. </p>
-        <p>Supervisor: Katlego Molala. </p>
-        <p>Location: 2nd Floor.</p>
+        <p>Position: {position}. </p>
+        <p>Dpeartment: {department}. </p>
+        <p>Supervisor: {supervisor}. </p>
+        <p>Location: {location}.</p>
 
         <div className="">
           <p>Documents:</p>
@@ -63,6 +89,13 @@ const Employee = () => {
               <p>Others.</p>
             </div>
           </div>
+        </div>
+
+        <div className="border flex justify-center gap-4">
+          <button className="button w-[150px]">Edit</button>
+          <button onClick={handleDeleteEmployee} className="button w-[150px]">
+            Delete
+          </button>
         </div>
       </div>
     </>

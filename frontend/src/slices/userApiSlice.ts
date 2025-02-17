@@ -69,12 +69,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    delete: builder.mutation<
+    deleteUser: builder.mutation<
       {
         success: boolean;
         message: string;
       },
-      { id: string }
+      string
     >({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
@@ -94,7 +94,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     getUser: builder.query<
       { success: boolean; message: string; data: IUser },
-      { id: string }
+      string
     >({
       query: (id) => ({
         url: `${USERS_URL}/${id}`,
@@ -129,7 +129,7 @@ export const {
   useMultiRegisterMutation,
   useRegisterAdminMutation,
   useUpdateMutation,
-  useDeleteMutation,
+  useDeleteUserMutation,
   useGetUsersQuery,
   useGetUserQuery,
   useGetUserProfileQuery,
