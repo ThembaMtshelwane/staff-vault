@@ -12,7 +12,7 @@ const Department = () => {
   const name = data?.data.name || "Not Available";
   const email = data?.data.email || "Not Available";
   const staff = data?.data.staff;
-  const supervisor = "Not Available";
+  const supervisor = data?.data.supervisor || "Not Available";
   const location = "Not Available";
 
   return (
@@ -21,14 +21,14 @@ const Department = () => {
         <ReturnIcon />
         <h1 className="">{name}.</h1>
       </div>
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row items-start justify-between">
         <div>
           <h3>Supervisor: {supervisor}.</h3>
           <p>Contact: {email}</p>
           <p>Location: {location}</p>
           <p>Total staff: {staff?.length}</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 justify-center border w-full  sm:w-[40%]">
           <button className="button w-[150px]">Edit</button>
           <button className="button w-[150px]">Delete</button>
         </div>

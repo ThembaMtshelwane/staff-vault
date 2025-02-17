@@ -122,9 +122,9 @@ const deleteDepartment = asyncHandler(async (req, res) => {
 });
 
 const addDepartment = asyncHandler(async (req, res) => {
-  const { name, email, staff } = req.body;
+  const { name, email, staff, supervisor } = req.body;
 
-  if (!name || !email) {
+  if (!name || !email || !supervisor) {
     res.status(400);
     throw new Error("Department must have both an email and a name");
   }
@@ -140,6 +140,7 @@ const addDepartment = asyncHandler(async (req, res) => {
     name,
     email,
     staff,
+    supervisor,
   });
   if (department) {
     res.status(201).json({

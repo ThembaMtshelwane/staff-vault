@@ -18,6 +18,7 @@ export interface IDepartment {
   _id: string;
   name: string;
   email: string;
+  supervisor?: string;
   staff: string[];
 }
 

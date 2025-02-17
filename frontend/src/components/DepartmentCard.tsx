@@ -5,6 +5,7 @@ type Props = {
   image?: string;
   id: string;
   superviour: string;
+  email: string;
   staff: number;
 };
 

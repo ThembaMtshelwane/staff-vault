@@ -19,12 +19,13 @@ const Departments = () => {
       ) : (
         <>
           <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
-            {departments?.data.slice(0, 20).map((department) => (
+            {departments?.data.map((department) => (
               <DepartmentCard
                 key={department._id}
                 name={department.name}
                 id={department._id}
-                superviour={department.email}
+                email={department.email}
+                superviour={department.supervisor || ""}
                 staff={department.staff.length}
               />
             ))}

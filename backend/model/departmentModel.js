@@ -8,6 +8,9 @@ const departmentSchema = mongoose.Schema(
       required: true,
       match: [/.+@.+\..+/, "Please enter a valid email"],
     },
+    supervisor: {
+      type: String,
+    },
     staff: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "User",
@@ -21,4 +24,4 @@ const departmentSchema = mongoose.Schema(
 
 const Department = mongoose.model("Department", departmentSchema);
 export default Department;
-export {departmentSchema}
+export { departmentSchema };
