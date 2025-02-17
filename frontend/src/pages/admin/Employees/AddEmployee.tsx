@@ -1,8 +1,7 @@
-import { IoArrowBack } from "react-icons/io5";
-import { Link } from "react-router";
 import { useAddUserMutation } from "../../../slices/userApiSlice";
 import { FormEvent } from "react";
 import { useNavigate } from "react-router";
+import ReturnIcon from "../../../components/ReturnIcon";
 
 const AddEmployee = () => {
   const [addUser] = useAddUserMutation();
@@ -31,12 +30,7 @@ const AddEmployee = () => {
   return (
     <>
       <div className="flex items-center gap-2">
-        <Link
-          to="/admin/employees"
-          className="bg-secondary w-fit p-2 rounded-lg"
-        >
-          <IoArrowBack className="text-4xl text-background" />
-        </Link>
+        <ReturnIcon />
         <h1 className="">Add New Employee.</h1>
       </div>
       <div className="bg-white  w-full h-[90%] p-4 flex flex-col gap-4 rounded-lg md:w-[90%] ">

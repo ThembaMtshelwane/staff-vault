@@ -9,6 +9,8 @@ import Employees from "./pages/admin/Employees/Employees";
 import Settings from "./pages/admin/Settings";
 import AddEmployee from "./pages/admin/Employees/AddEmployee";
 import Employee from "./pages/admin/Employees/Employee";
+import AddDepartment from "./pages/admin/Departments/AddDepartment";
+import Department from "./pages/admin/Departments/Department";
 
 function App() {
   return (
@@ -22,7 +24,12 @@ function App() {
           <Route path="add-employee" element={<AddEmployee />} />
           <Route path=":id" element={<Employee />} />
         </Route>
-        <Route path="departments" element={<Departments />} />
+        <Route path="departments">
+          <Route index element={<Departments />} />
+          <Route path="add-department" element={<AddDepartment />} />
+          <Route path=":id" element={<Department />} />
+          <Route index element={<Departments />} />
+        </Route>
         <Route path="profile" element={<Profile />} />
         <Route path="settings" element={<Settings />} />
       </Route>

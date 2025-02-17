@@ -1,5 +1,4 @@
-import { IoArrowBack } from "react-icons/io5";
-import { Link, useParams, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import {
   useDeleteUserMutation,
   useGetUserQuery,
@@ -8,6 +7,7 @@ import { GrFingerPrint } from "react-icons/gr";
 import { TbBriefcase2 } from "react-icons/tb";
 import { FaUserGraduate } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
+import ReturnIcon from "../../../components/ReturnIcon";
 
 const Employee = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,12 +34,7 @@ const Employee = () => {
   return (
     <>
       <div className="flex items-center gap-2">
-        <Link
-          to="/admin/employees"
-          className="bg-secondary w-fit p-2 rounded-lg"
-        >
-          <IoArrowBack className="text-4xl text-background" />
-        </Link>
+        <ReturnIcon />
         <h1 className="">Employee.</h1>
       </div>
       <div className="flex flex-col gap-4">
