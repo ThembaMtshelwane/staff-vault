@@ -46,7 +46,7 @@ const SideMenu = () => {
   }, [toggle]);
   return (
     <>
-      <section className="min-w-[15px]  bg-secondary text-background absolute left-0 h-full rounded-tr-2xl rounded-br-2xl">
+      <section className="min-w-[15px]  bg-secondary text-background fixed z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl">
         {toggle ? (
           <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
             <li onClick={() => setToggle(false)}>

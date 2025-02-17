@@ -9,6 +9,7 @@ import { CustomSpinner } from "../../../components/CustomSpinner";
 const Employees = () => {
   const { data: employees } = useGetUsersQuery();
   const { data: departments, isLoading } = useGetDepartmentsQuery();
+
   return (
     <>
       <h1>Manage Employees.</h1>
@@ -41,7 +42,7 @@ const Employees = () => {
 
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
-          <CustomSpinner isLoading={isLoading}/>
+          <CustomSpinner isLoading={isLoading} />
         </div>
       ) : (
         <>

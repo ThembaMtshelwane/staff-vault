@@ -33,7 +33,7 @@ const Employee = () => {
 
         <div className="">
           <p>Documents:</p>
-          <div className=" grid grid-cols-4 p-4 gap-4">
+          <div className=" grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
             <div
               className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
             "
