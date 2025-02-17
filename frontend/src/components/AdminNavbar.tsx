@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { useLogoutMutation } from "../slices/userApiSlice";
 import { useDispatch } from "react-redux";
 import { clearCredentials } from "../slices/authSlice";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -25,10 +26,10 @@ const Navbar = () => {
   return (
     <ul className="py-4 px-2 sm:p-4 md:p-8 w-full flex justify-between items-center bg-accent text-background">
       <li className=" hover:scale-102 cursor-pointer">
-        <a href="/" className="flex  items-center gap-2">
+        <Link to="/admin/dashboard" className="flex  items-center gap-2">
           <img src="/logo.svg" alt="StaffVault logo" className="size-[50px]" />
           <span className="text-xl font-bold">StaffVault</span>
-        </a>
+        </Link>
       </li>
       <li className="">
         <IoMdMenu
