@@ -10,7 +10,7 @@ const Employees = () => {
     <>
       <h1>Manage Employees.</h1>
 
-      <ContentControls addFunctionName={"Employees"} addLink={"add-user"} />
+      <ContentControls addFunctionName={"Employees"} addLink={"add-employee"} />
 
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
