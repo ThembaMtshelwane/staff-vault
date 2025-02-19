@@ -2,21 +2,45 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { GrGroup } from "react-icons/gr";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
+// import { FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 
+const menuItems = [
+  {
+    to: "/admin/dashboard",
+    icon: <MdOutlineDashboard className="sidebar-icons" />,
+    label: "Dashboard",
+  },
+  {
+    to: "/admin/employees",
+    icon: <GrGroup className="sidebar-icons" />,
+    label: "Employees",
+  },
+  {
+    to: "/admin/departments",
+    icon: <PiTreeStructureLight className="sidebar-icons rotate-90" />,
+    label: "Departments",
+  },
+  {
+    to: "/admin/profile",
+    icon: <FaRegUser className="sidebar-icons" />,
+    label: "Profile",
+  },
+  // {
+  //   to: "/admin/settings",
+  //   icon: <FiSettings className="sidebar-icons" />,
+  //   label: "Settings",
+  // },
+];
+
 const AdminLayout = () => {
   return (
-    <section className="bg-background h-screen relative text-general overflow-y-hidden ">
+    <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[1920px] mx-auto">
       <AdminNavbar />
       <SideMenu />
-      <section
-        className="border border-red-600 p-4  overflow-y-scroll relative
-       flex flex-col gap-4 md:w-[75%] h-[85%] md:h-[80%] ml-auto
-      "
-      >
+      <section className=" p-4 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[85%] md:h-[80%] ml-auto">
         <Outlet />
       </section>
     </section>
@@ -44,78 +68,60 @@ const SideMenu = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [toggle]);
+
   return (
     <>
-      <section className="min-w-[15px]  bg-secondary text-background fixed z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl">
-        {toggle ? (
-          <ul ref={menuRef} className="flex flex-col gap-4 py-4 px-2 ">
-            <li onClick={() => setToggle(false)}>
+      {/* Mobile Sidebar */}
+      <section
+        onClick={() => setToggle((prev) => !prev)}
+        className={`bg-secondary text-background fixed z-50 left-0 h-full cursor-pointer rounded-tr-2xl rounded-br-2xl transition-all ${
+          toggle ? "w-28" : "w-[15px] md:hidden"
+        }`}
+      >
+        <ul
+          ref={menuRef}
+          className={`flex-col gap-4 py-4 px-2 ${toggle ? "flex" : "hidden"}`}
+        >
+          {menuItems.map(({ to, icon }) => (
+            <li key={to}>
               <NavLink
-                to="/admin/dashboard"
+                to={to}
                 className={({ isActive }) =>
-                  isActive
-                    ? "icon-container-isActive"
-                    : "icon-container-notActive"
+                  `icon-container ${
+                    isActive
+                      ? "icon-container-active"
+                      : "icon-container-inactive"
+                  }`
                 }
               >
-                <MdOutlineDashboard className="sidebar-icons" />
+                {icon}
               </NavLink>
             </li>
-            <li onClick={() => setToggle(false)}>
+          ))}
+        </ul>
+      </section>
+
+      {/* Desktop Sidebar */}
+      <section className="hidden md:flex bg-secondary text-background py-4 lg:py-8 lg:px-2 absolute z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl md:w-[25%] lg:w-[25%]">
+        <ul className="flex-col gap-4 flex w-full">
+          {menuItems.map(({ to, icon, label }) => (
+            <li key={to} className="mx-auto w-full">
               <NavLink
-                to="/admin/employees"
+                to={to}
                 className={({ isActive }) =>
-                  isActive
-                    ? "icon-container-isActive"
-                    : "icon-container-notActive"
+                  `icon-container ${
+                    isActive
+                      ? "icon-container-active"
+                      : "icon-container-inactive"
+                  }`
                 }
               >
-                <GrGroup className="sidebar-icons" />
+                {icon}
+                <p className="text-xl lg:text-2xl">{label}</p>
               </NavLink>
             </li>
-            <li onClick={() => setToggle(false)}>
-              <NavLink
-                to="/admin/departments"
-                className={({ isActive }) =>
-                  isActive
-                    ? "icon-container-isActive"
-                    : "icon-container-notActive"
-                }
-              >
-                <PiTreeStructureLight className="sidebar-icons rotate-90 font-extrabold" />
-              </NavLink>
-            </li>
-            <li onClick={() => setToggle(false)}>
-              <NavLink
-                to="/admin/profile"
-                className={({ isActive }) =>
-                  isActive
-                    ? "icon-container-isActive"
-                    : "icon-container-notActive"
-                }
-              >
-                <FaRegUser className="sidebar-icons" />
-              </NavLink>
-            </li>
-            <li onClick={() => setToggle(false)}>
-              <NavLink
-                to="/admin/settings"
-                className={({ isActive }) =>
-                  isActive
-                    ? "icon-container-isActive"
-                    : "icon-container-notActive"
-                }
-              >
-                <FiSettings className="sidebar-icons" />
-              </NavLink>
-            </li>
-          </ul>
-        ) : (
-          <div
-            onClick={() => setToggle(true)}
-            className="h-full w-[15px]  cursor-pointer"
-          ></div>
-        )}
+          ))}
+        </ul>
       </section>
     </>
   );

@@ -24,7 +24,7 @@ const Profile = () => {
         <h3>Themba Mtshlwane.</h3>
         <p>admin@staffvault.com</p>
       </div>
-      <div className="lg:flex items-center justify-between lg:w-[90%]">
+      <div className="lg:flex items-center justify-between lg:w-[95%]">
         <h2>Tshimologong - Digital Innovation Precinct.</h2>
         <div className="flex  gap-4 justify-center my-2">
           <button onClick={() => setEdit(true)} className="button w-[150px]">
@@ -33,7 +33,7 @@ const Profile = () => {
           <button className="button w-[150px]">Delete</button>
         </div>
       </div>
-      <div className="w-full h-[90%] p-4 flex flex-col gap-4 rounded-lg lg:w-[90%]">
+      <div className="w-full h-[90%] p-4 flex flex-col gap-4 rounded-lg lg:w-[95%]">
         <p className="text-lg ">
           Fill in the form below to add a new employee to the system. Ensure all
           details are accurate before submitting.
