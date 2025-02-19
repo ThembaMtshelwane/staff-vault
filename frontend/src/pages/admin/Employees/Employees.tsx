@@ -31,7 +31,7 @@ const Employees = () => {
           </div>
           {employees?.data.length && (
             <div className="border w-full flex justify-center">
-              <p className=" md:px-4 MD:py-2 rounded-lg bg-white font-semibold">
+              <p className=" md:px-4 md:py-2 rounded-lg bg-white font-semibold">
                 20 out of {employees?.data.length}
               </p>
             </div>

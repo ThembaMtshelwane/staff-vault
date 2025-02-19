@@ -19,7 +19,7 @@ const DepartmentCard = ({
   return (
     <Link
       to={`${id}`}
-      className="h-[360px] max-w-[340px] w-full  rounded-lg bg-white justify-self-center hover:scale-[1.01]"
+      className="h-[360px] w-[280px] md:max-w-[340px] md:w-full rounded-lg bg-white justify-self-center hover:scale-[1.01]"
     >
       <img
         className="h-[60%] object-center object-cover w-full rounded-tl-lg rounded-tr-lg"
