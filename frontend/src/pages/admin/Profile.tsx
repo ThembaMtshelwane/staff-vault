@@ -44,10 +44,6 @@ const Profile = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log("Updated Profile id:", data?.data._id);
-    console.log("userInfo?.email: ", userInfo?.email);
-    console.log("data ", data);
     const res = await updateOrganization({
       id: data?.data._id || "",
       data: profile,
