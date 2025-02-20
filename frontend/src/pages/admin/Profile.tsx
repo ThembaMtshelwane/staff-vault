@@ -1,31 +1,83 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import {
+  useGetOrganizationByAdminQuery,
+  useUpdateOrganizationMutation,
+} from "../../slices/organizationSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const Profile = () => {
   const [edit, setEdit] = useState(false);
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { data } = useGetOrganizationByAdminQuery(userInfo?.email || "");
+  const [updateOrganization] = useUpdateOrganizationMutation();
+
+  const [profile, setProfile] = useState({
+    id: "",
+    name: "",
+    description: "",
+    email: "",
+    phone: "",
+    address: "",
+    reference: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCancel = () => {
+    setEdit(false);
+    setProfile({
+      id: data?.data._id || "",
+      name: data?.data.name || "",
+      description: data?.data.description || "",
+      email: data?.data.email || "",
+      phone: data?.data.phone || "",
+      address: data?.data.address || "",
+      reference: data?.data.registrationNumber || "",
+    });
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    console.log("Updated Profile id:", data?.data._id);
+    console.log("userInfo?.email: ", userInfo?.email);
+    console.log("data ", data);
+    const res = await updateOrganization({
+      id: data?.data._id || "",
+      data: profile,
+    });
 
-    const name = formData.get("name") as string;
-    const phone = formData.get("phone") as string;
-    const email = formData.get("email") as string;
-    const description = formData.get("description") as string;
-
-    const data = { name, phone, email, description };
-
-    console.log(data);
-    setEdit(false);
+    if (res.data?.success) {
+      setEdit(false);
+    }
   };
+
+  useEffect(() => {
+    setProfile({
+      id: data?.data._id || "",
+      name: data?.data.name || "",
+      description: data?.data.description || "",
+      email: data?.data.email || "",
+      phone: data?.data.phone || "",
+      address: data?.data.address || "",
+      reference: data?.data.registrationNumber || "",
+    });
+  }, [data]);
+
   return (
     <>
       <h1>Profile.</h1>
       <div>
-        <h3>Themba Mtshlwane.</h3>
-        <p>admin@staffvault.com</p>
+        <p>{userInfo?.email}</p>
       </div>
       <div className="lg:flex items-center justify-between lg:w-[95%]">
-        <h2>Tshimologong - Digital Innovation Precinct.</h2>
+        <h2>{profile.name}.</h2>
         <div className="flex  gap-4 justify-center my-2">
           <button onClick={() => setEdit(true)} className="button w-[150px]">
             Edit
@@ -48,8 +100,10 @@ const Profile = () => {
                 id="name"
                 required
                 disabled={!edit}
-                value="Tshimologong"
+                value={profile.name}
+                onChange={handleChange}
                 className={`${edit && "shadow-secondary shadow-lg"}`}
+                maxLength={100}
               />
             </label>
 
@@ -62,6 +116,8 @@ const Profile = () => {
                 id="email"
                 disabled={!edit}
                 className={`${edit && "shadow-secondary shadow-lg"}`}
+                value={profile.email}
+                onChange={handleChange}
               />
             </label>
             <label htmlFor="phone">
@@ -73,6 +129,11 @@ const Profile = () => {
                 id="phone"
                 disabled={!edit}
                 className={`${edit && "shadow-secondary shadow-lg"}`}
+                value={profile.phone}
+                onChange={handleChange}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={10}
               />
             </label>
             <label htmlFor="address">
@@ -84,6 +145,8 @@ const Profile = () => {
                 id="address"
                 disabled={!edit}
                 className={`${edit && "shadow-secondary shadow-lg"}`}
+                value={profile.address}
+                onChange={handleChange}
               />
             </label>
             <label htmlFor="description" className="flex flex-col ">
@@ -96,6 +159,9 @@ const Profile = () => {
                 name="description"
                 id="description"
                 disabled={!edit}
+                value={profile.description}
+                onChange={handleChange}
+                maxLength={550}
               />
             </label>
             <label htmlFor="refNumber">
@@ -106,7 +172,8 @@ const Profile = () => {
                 required
                 name="refNumber"
                 id="refNumber"
-                value="2024/123456/07"
+                value={profile.reference}
+                onChange={handleChange}
                 disabled
               />
             </label>
@@ -118,7 +185,7 @@ const Profile = () => {
                 Save
               </button>
               <button
-                onClick={() => setEdit(false)}
+                onClick={handleCancel}
                 type="submit"
                 className="button w-[150px]"
               >

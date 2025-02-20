@@ -26,3 +26,14 @@ export interface IDepartmentInput {
   name: string;
   email: string;
 }
+
+export interface IOrganization {
+  _id: string;
+  name: string;
+  description: string;
+  registrationNumber: string;
+  admin: string;
+  address: string;
+  phone: string;
+  email: string;
+}

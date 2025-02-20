@@ -8,11 +8,7 @@ import Organization from "../model/organizationModel.js";
  */
 
 const addOrganization = asyncHandler(async (req, res) => {
-  const {
-    name,
-    description,
-    registrationNumber,
-  } = req.body;
+  const { name, description, registrationNumber } = req.body;
 
   if (!name || !description || !registrationNumber) {
     res.status(400);
@@ -24,7 +20,6 @@ const addOrganization = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(`This organization already exists within our database.`);
   }
-
 
   const org = await Organization.create({
     name,
@@ -55,11 +50,41 @@ const getAllOrganizations = asyncHandler(async (req, res) => {
  *  @route GET /api/superAdmin/organizations/:id
  *  @access PRIVATE
  */
-const getOrganizationById = asyncHandler(async (req, res) => {
+const getOrganizationByAdmin = asyncHandler(async (req, res) => {
+  const { admin } = req.params;
+
+  const organizationExists = await Organization.findOne({ admin });
+
+  if (!organizationExists) {
+    throw new Error("No organization found with this admin");
+  }
   res.status(200).json({
     success: true,
-    message: "Retrieved a single organization",
-    data: {},
+    message: "Retrieved an organization",
+    data: organizationExists,
+  });
+});
+
+const updateOrganizationByAdmin = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const organization = await Organization.findById(id);
+
+  if (!organization) {
+    res.status(404);
+    throw new Error("No organization found with this admin");
+  }
+
+  organization.name = req.body.name || organization.name;
+  organization.email = req.body.email || organization.email;
+  organization.address = req.body.address || organization.address;
+  organization.description = req.body.description || organization.description;
+  organization.phone = req.body.phone || organization.phone;
+
+  const updatedOrganization = await organization.save();
+  res.status(200).json({
+    success: true,
+    message: "Organization updated",
+    data: updatedOrganization,
   });
 });
 
@@ -77,6 +102,7 @@ const deleteOrganization = asyncHandler(async (req, res) => {
 export {
   addOrganization,
   getAllOrganizations,
-  getOrganizationById,
+  getOrganizationByAdmin,
+  updateOrganizationByAdmin,
   deleteOrganization,
 };
