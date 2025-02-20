@@ -86,7 +86,7 @@ const Employee = () => {
           </div>
         </div>
 
-        <div className="border flex justify-center gap-4">
+        <div className=" flex justify-center gap-4">
           <button className="button w-[150px]">Edit</button>
           <button onClick={handleDeleteEmployee} className="button w-[150px]">
             Delete

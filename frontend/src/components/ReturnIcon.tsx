@@ -6,7 +6,7 @@ const ReturnIcon = () => {
   return (
     <div
       onClick={() => navigate(-1)}
-      className="bg-secondary w-fit p-2 rounded-lg"
+      className="bg-secondary w-fit p-2 rounded-lg cursor-pointer hover:scale-[1.02]"
     >
       <IoArrowBack className="text-4xl text-background" />
     </div>

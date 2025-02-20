@@ -41,7 +41,7 @@ const Department = () => {
           <p>Location: {location}</p>
           <p>Total staff: {staff?.length}</p>
         </div>
-        <div className="flex gap-4 justify-center border w-full  sm:w-[40%]">
+        <div className="flex gap-4 justify-center  w-full sm:w-[40%]">
           <button className="button w-[150px]">Edit</button>
           <button onClick={handleDeleteDepartment} className="button w-[150px]">
             Delete
@@ -66,8 +66,8 @@ const Department = () => {
             ))}
           </div>
           {employees?.data.length && (
-            <div className="border w-full flex justify-center">
-              <p className=" md:px-4 MD:py-2 rounded-lg bg-white font-semibold">
+            <div className=" w-full flex justify-center">
+              <p className=" md:px-4 md:py-2 rounded-lg bg-white font-semibold">
                 20 out of {employees?.data.length}
               </p>
             </div>

@@ -24,7 +24,7 @@ const Navbar = () => {
     }
   };
   return (
-    <ul className="py-4 px-2 sm:p-4 md:p-8 w-full flex justify-between items-center bg-accent text-background">
+    <ul className="py-4 px-2 sm:p-4 w-full flex justify-between items-center bg-accent text-background">
       <li className=" hover:scale-102 cursor-pointer">
         <Link to="/admin/dashboard" className="flex  items-center gap-2">
           <img src="/logo.svg" alt="StaffVault logo" className="size-[50px]" />
@@ -34,7 +34,7 @@ const Navbar = () => {
       <li className="">
         <IoMdMenu
           onClick={() => setToggle((prev) => !prev)}
-          className="text-2xl text-background md:hidden"
+          className="text-2xl text-background md:hidden cursor-pointer hover:scale-105 "
         />
       </li>
 
@@ -58,7 +58,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <ul className="hidden md:flex  border">
+      <ul className="hidden md:flex">
         <li
           onClick={handleLogout}
           className="hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg"

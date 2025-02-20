@@ -20,7 +20,9 @@ const menuItems = [
   },
   {
     to: "/admin/departments",
-    icon: <PiTreeStructureLight className="sidebar-icons rotate-90" />,
+    icon: (
+      <PiTreeStructureLight className="sidebar-icons rotate-90 scale-150" />
+    ),
     label: "Departments",
   },
   {
@@ -40,7 +42,7 @@ const AdminLayout = () => {
     <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[1920px] mx-auto">
       <AdminNavbar />
       <SideMenu />
-      <section className=" p-4 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[85%] md:h-[80%] ml-auto">
+      <section className="py-8 px-4 lg:py-10 lg:px-8 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[90%] md:h-[94%]  md:ml-auto ">
         <Outlet />
       </section>
     </section>
@@ -102,10 +104,10 @@ const SideMenu = () => {
       </section>
 
       {/* Desktop Sidebar */}
-      <section className="hidden md:flex bg-secondary text-background py-4 lg:py-8 lg:px-2 absolute z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl md:w-[25%] lg:w-[25%]">
+      <section className="hidden md:flex bg-secondary text-background  py-4 px-2 lg:py-8 lg:px-2 absolute z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl min-w-[210px] md:w-[25%] xl:w-[23%]">
         <ul className="flex-col gap-4 flex w-full">
           {menuItems.map(({ to, icon, label }) => (
-            <li key={to} className="mx-auto w-full">
+            <li key={to} className="mx-auto w-full xl:w-[90%]">
               <NavLink
                 to={to}
                 className={({ isActive }) =>

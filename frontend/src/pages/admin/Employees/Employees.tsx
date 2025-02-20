@@ -18,7 +18,7 @@ const Employees = () => {
         </div>
       ) : (
         <>
-          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
+          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative scroll">
             {employees?.data.slice(0, 20).map((employee) => (
               <EmployeeCard
                 key={employee._id}
@@ -30,7 +30,7 @@ const Employees = () => {
             ))}
           </div>
           {employees?.data.length && (
-            <div className="border w-full flex justify-center">
+            <div className=" w-full flex justify-center">
               <p className=" md:px-4 md:py-2 rounded-lg bg-white font-semibold">
                 20 out of {employees?.data.length}
               </p>
