@@ -82,16 +82,25 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+
     getUsers: builder.query<
-      { success: boolean; message: string; data: IUser[] },
-      void
+      {
+        success: boolean;
+        message: string;
+        data: IUser[];
+        pagination: {
+          totalUsers: number;
+          currentPage: number;
+          totalPages: number;
+          pageSize: number;
+        };
+      },
+      number
     >({
-      query: () => ({
-        url: `${USERS_URL}`,
-        method: "GET",
-      }),
-      providesTags: ["User"],
+      query: (page) => `${USERS_URL}?page=${page}`,
+      providesTags: ["User"]
     }),
+
     getUser: builder.query<
       { success: boolean; message: string; data: IUser },
       string

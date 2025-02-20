@@ -46,12 +46,12 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
   if (userExists) {
     throw new Error(`This email already exists within our database.`);
   }
-
+ 
   const user = await User.create({
     email,
     permissions: ["add_user", "suspend_user"],
     role: "admin",
-    password: "admin_st@f5Va_ul7",
+    password: import.meta.ENV.ADMIN_PASSWORD,
   });
   if (!user) {
     res.status(500);
@@ -122,12 +122,24 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
 });
 
 const fetchAllUsers = expressAsyncHandler(async (req, res) => {
-  const users = await User.find();
-  if (users) {
+  const page = Number(req.query.page) || 1;
+  const limit = 12;
+  const skip = (page - 1) * limit;
+
+  const totalUsers = await User.countDocuments();
+  const users = await User.find({}).skip(skip).limit(limit);
+
+  if (users.length > 0) {
     res.status(200).json({
       success: true,
       message: "Retrieved all users",
       data: users,
+      pagination: {
+        totalUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit),
+        pageSize: limit,
+      },
     });
   } else {
     res.status(500);
