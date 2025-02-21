@@ -8,13 +8,18 @@ import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
 const Departments = () => {
   const limit = 12;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data: departments, isLoading } = useGetDepartmentsQuery(currentPage);
+  const [search, setSearch] = useState<string>("");
+  const { data: departments, isLoading } = useGetDepartmentsQuery({
+    page: currentPage,
+    search,
+  });
   return (
     <>
       <h1>Manage Departments.</h1>
       <ContentControls
         addFunctionName={"Department"}
         addLink={"add-department"}
+        setSearch={setSearch}
       />
       {isLoading ? (
         <div className="flex justify-center items-center h-full">

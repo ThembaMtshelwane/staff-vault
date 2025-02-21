@@ -40,10 +40,10 @@ export const departmentApiSlice = apiSlice.injectEndpoints({
           pageSize: number;
         };
       },
-      number
+      { page: number; search: string }
     >({
-      query: (page) => ({
-        url: `${DEPARTMENTS_URL}?page=${page}`,
+      query: ({ page, search }) => ({
+        url: `${DEPARTMENTS_URL}?page=${page}&search=${search}`,
         method: "GET",
       }),
       providesTags: ["Department"],

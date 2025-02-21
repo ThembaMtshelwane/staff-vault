@@ -6,9 +6,10 @@ import { useGetDepartmentFilterQuery } from "../slices/departmentApiSlice";
 type Props = {
   addFunctionName: string;
   addLink: string;
+  setSearch: (search: string) => void;
 };
 
-const ContentControls = ({ addFunctionName, addLink }: Props) => {
+const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
   const { data: departments } = useGetDepartmentFilterQuery();
   console.log("departments ", departments);
 
@@ -27,6 +28,7 @@ const ContentControls = ({ addFunctionName, addLink }: Props) => {
             id="search"
             placeholder={`Search for ${addFunctionName}`}
             className="rounded-tr-none rounded-br-none w-[80%]"
+            onChange={(e) => setSearch(e.target.value)}
           />
           <div className="bg-secondary w-[20%] h-full text-background flex items-center justify-center rounded-tr-lg rounded-br-lg">
             <IoSearch className="text-2xl" />

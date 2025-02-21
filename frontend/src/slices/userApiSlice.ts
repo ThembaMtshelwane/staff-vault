@@ -95,15 +95,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
           pageSize: number;
         };
       },
-      number
+      { page: number; search: string }
     >({
-      query: (page) => ({
-        url: `${USERS_URL}?page=${page}`,
+      query: ({ page, search }) => ({
+        url: `${USERS_URL}?page=${page}&search=${search}`,
         method: "GET",
       }),
       providesTags: ["User"],
     }),
-    
 
     getUser: builder.query<
       { success: boolean; message: string; data: IUser },

@@ -44,11 +44,22 @@ const createAllDepartments = asyncHandler(async (req, res) => {
 
 const getDepartments = asyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
+  const search = req.query.search;
   const limit = 12;
   const skip = (page - 1) * limit;
+  let filter = {};
 
   const totalDepartments = await Department.countDocuments();
-  const departments = await Department.find({}).skip(skip).limit(limit);
+
+  if (search) {
+    filter.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { supervisor: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  const departments = await Department.find(filter).skip(skip).limit(limit);
 
   if (departments.length > 0) {
     res.status(200).json({

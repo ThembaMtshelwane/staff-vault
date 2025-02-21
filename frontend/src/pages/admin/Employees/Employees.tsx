@@ -8,13 +8,21 @@ import PaginationUI from "../../../components/PaginationUI";
 const Employees = () => {
   const limit = 12;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const { data: employees, isLoading } = useGetUsersQuery(currentPage);
+  const [search, setSearch] = useState<string>("");
+  const { data: employees, isLoading } = useGetUsersQuery({
+    page: currentPage,
+    search,
+  });
 
   return (
     <>
       <h1>Manage Employees.</h1>
 
-      <ContentControls addFunctionName={"Employees"} addLink={"add-employee"} />
+      <ContentControls
+        addFunctionName={"Employees"}
+        addLink={"add-employee"}
+        setSearch={setSearch}
+      />
 
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
@@ -22,7 +30,7 @@ const Employees = () => {
         </div>
       ) : (
         <>
-          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative scroll">
+          <div className="grid gap-4  justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative scroll border h-full">
             {employees?.data.map((employee) => (
               <EmployeeCard
                 key={employee._id}

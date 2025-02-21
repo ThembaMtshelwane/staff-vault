@@ -21,6 +21,7 @@ const Employee = () => {
   const department = employee?.data?.position || "Not Available";
   const supervisor = employee?.data?.position || "Not Available";
   const location = employee?.data?.position || "Not Available";
+  const email = employee?.data?.email || "Not Available";
 
   const handleDeleteEmployee = async () => {
     const res = await deleteUser(String(id));
@@ -47,6 +48,7 @@ const Employee = () => {
           </h3>
         </div>
 
+        <p>Email: {email}. </p>
         <p>Position: {position}. </p>
         <p>Dpeartment: {department}. </p>
         <p>Supervisor: {supervisor}. </p>
