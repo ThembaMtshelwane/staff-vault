@@ -51,7 +51,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
     email,
     permissions: ["add_user", "suspend_user"],
     role: "admin",
-    password: import.meta.ENV.ADMIN_PASSWORD,
+    password: process.env.ADMIN_PASSWORD,
   });
   if (!user) {
     res.status(500);
@@ -130,6 +130,8 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
 
   const totalUsers = await User.countDocuments();
 
+  console.log("search  ", search);
+
   if (search) {
     filter.$or = [
       { firstName: { $regex: search, $options: "i" } },
@@ -140,7 +142,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 
   const users = await User.find(filter).skip(skip).limit(limit);
-
+  
   if (users.length > 0) {
     res.status(200).json({
       success: true,

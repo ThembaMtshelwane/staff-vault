@@ -9,9 +9,12 @@ type Props = {
   setSearch: (search: string) => void;
 };
 
-const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
+const ContentControls = ({
+  addFunctionName,
+  addLink,
+  setSearch
+}: Props) => {
   const { data: departments } = useGetDepartmentFilterQuery();
-  console.log("departments ", departments);
 
   return (
     <div className="flex flex-col gap-2 md:flex-row justify-between">
@@ -34,7 +37,7 @@ const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
             <IoSearch className="text-2xl" />
           </div>
         </div>
-        <Filter filterOptions={departments?.data || []} />
+        <Filter filterOptions={departments?.data || []} setSearch={setSearch} />
       </div>
     </div>
   );
