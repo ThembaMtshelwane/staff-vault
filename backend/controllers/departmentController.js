@@ -68,6 +68,23 @@ const getDepartments = asyncHandler(async (req, res) => {
   }
 });
 
+const getDepartmentsFilter = asyncHandler(async (req, res) => {
+  const departments = await Department.find({});
+
+  // console.log("departments ", departments);
+
+  if (departments.length > 0) {
+    res.status(200).json({
+      success: true,
+      message: `Fetched all ${departments.length} departments`,
+      data: departments,
+    });
+  } else {
+    res.status(500);
+    throw new Error("Departments not found");
+  }
+});
+
 const getDepartmentById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -172,4 +189,5 @@ export {
   updateDepartment,
   deleteDepartment,
   addDepartment,
+  getDepartmentsFilter,
 };

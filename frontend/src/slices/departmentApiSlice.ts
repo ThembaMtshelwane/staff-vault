@@ -49,6 +49,17 @@ export const departmentApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Department"],
     }),
 
+    getDepartmentFilter: builder.query<
+      { success: boolean; message: string; data: IDepartment[] },
+      void
+    >({
+      query: () => ({
+        url: `${DEPARTMENTS_URL}/filter`,
+        method: "GET",
+      }),
+      providesTags: ["Department"],
+    }),
+
     getDepartment: builder.query<
       { success: boolean; message: string; data: IDepartment },
       string
@@ -90,4 +101,5 @@ export const {
   useGetDepartmentQuery,
   useGetDepartmentsQuery,
   useDeleteDepartmentMutation,
+  useGetDepartmentFilterQuery,
 } = departmentApiSlice;

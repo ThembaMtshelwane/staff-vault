@@ -1,7 +1,7 @@
 import { IoAddCircleOutline, IoSearch } from "react-icons/io5";
 import { Link } from "react-router";
 import Filter from "./Filter";
-import { useGetDepartmentsQuery } from "../slices/departmentApiSlice";
+import { useGetDepartmentFilterQuery } from "../slices/departmentApiSlice";
 
 type Props = {
   addFunctionName: string;
@@ -9,7 +9,9 @@ type Props = {
 };
 
 const ContentControls = ({ addFunctionName, addLink }: Props) => {
-  const { data: departments } = useGetDepartmentsQuery();
+  const { data: departments } = useGetDepartmentFilterQuery();
+  console.log("departments ", departments);
+
   return (
     <div className="flex flex-col gap-2 md:flex-row justify-between">
       <Link to={addLink} className="button w-fit flex items-center px-4 gap-2">
