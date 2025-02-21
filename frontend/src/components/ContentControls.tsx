@@ -9,11 +9,7 @@ type Props = {
   setSearch: (search: string) => void;
 };
 
-const ContentControls = ({
-  addFunctionName,
-  addLink,
-  setSearch
-}: Props) => {
+const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
   const { data: departments } = useGetDepartmentFilterQuery();
 
   return (
@@ -33,7 +29,7 @@ const ContentControls = ({
             className="rounded-tr-none rounded-br-none w-[80%]"
             onChange={(e) => setSearch(e.target.value)}
           />
-          <div className="bg-secondary w-[20%] h-full text-background flex items-center justify-center rounded-tr-lg rounded-br-lg">
+          <div className="bg-secondary w-[20%] h-full text-background flex items-center justify-center rounded-tr-lg rounded-br-lg hover:scale-102 cursor-pointer">
             <IoSearch className="text-2xl" />
           </div>
         </div>
