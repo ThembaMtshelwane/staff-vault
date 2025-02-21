@@ -46,7 +46,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
   if (userExists) {
     throw new Error(`This email already exists within our database.`);
   }
- 
+
   const user = await User.create({
     email,
     permissions: ["add_user", "suspend_user"],
@@ -132,7 +132,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   if (users.length > 0) {
     res.status(200).json({
       success: true,
-      message: "Retrieved all users",
+      message: `Found ${users.length} users`,
       data: users,
       pagination: {
         totalUsers,

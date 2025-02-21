@@ -43,16 +43,28 @@ const createAllDepartments = asyncHandler(async (req, res) => {
 });
 
 const getDepartments = asyncHandler(async (req, res) => {
-  const departments = await Department.find({});
-  if (departments) {
+  const page = Number(req.query.page) || 1;
+  const limit = 12;
+  const skip = (page - 1) * limit;
+
+  const totalDepartments = await Department.countDocuments();
+  const departments = await Department.find({}).skip(skip).limit(limit);
+
+  if (departments.length > 0) {
     res.status(200).json({
       success: true,
       message: `Found ${departments.length} departments`,
       data: departments,
+      pagination: {
+        totalDepartments,
+        currentPage: page,
+        totalPages: Math.ceil(totalDepartments / limit),
+        pageSize: limit,
+      },
     });
   } else {
-    res.status(404);
-    throw new Error("No departments found");
+    res.status(500);
+    throw new Error("Departments not found");
   }
 });
 

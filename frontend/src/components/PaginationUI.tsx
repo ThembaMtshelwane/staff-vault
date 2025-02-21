@@ -3,24 +3,25 @@ import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 type Props = {
   limit: number;
   currentPage: number;
-  totalUsers: number;
+  totalElements: number;
   totalPages: number;
-
   setCurrentPage: (page: number) => void;
 };
 
 const PaginationUI = ({
   limit,
   currentPage,
-  totalUsers,
+  totalElements,
   totalPages,
   setCurrentPage,
 }: Props) => {
   return (
     <div className=" w-full flex justify-center items-center flex-col">
       <p>
-        {limit * currentPage > totalUsers ? totalUsers : limit * currentPage}{" "}
-        out of {totalUsers} employees
+        {limit * currentPage > totalElements
+          ? totalElements
+          : limit * currentPage}{" "}
+        out of {totalElements} employees
       </p>
       <div className="flex items-center gap-4">
         <button

@@ -97,9 +97,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       },
       number
     >({
-      query: (page) => `${USERS_URL}?page=${page}`,
-      providesTags: ["User"]
+      query: (page) => ({
+        url: `${USERS_URL}?page=${page}`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
     }),
+    
 
     getUser: builder.query<
       { success: boolean; message: string; data: IUser },

@@ -27,16 +27,28 @@ export const departmentApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Department"],
     }),
+
     getDepartments: builder.query<
-      { success: boolean; message: string; data: IDepartment[] },
-      void
+      {
+        success: boolean;
+        message: string;
+        data: IDepartment[];
+        pagination: {
+          totalDepartments: number;
+          currentPage: number;
+          totalPages: number;
+          pageSize: number;
+        };
+      },
+      number
     >({
-      query: () => ({
-        url: `${DEPARTMENTS_URL}`,
+      query: (page) => ({
+        url: `${DEPARTMENTS_URL}?page=${page}`,
         method: "GET",
       }),
       providesTags: ["Department"],
     }),
+
     getDepartment: builder.query<
       { success: boolean; message: string; data: IDepartment },
       string

@@ -1,10 +1,14 @@
+import { useState } from "react";
 import ContentControls from "../../../components/ContentControls";
 import { CustomSpinner } from "../../../components/CustomSpinner";
 import DepartmentCard from "../../../components/DepartmentCard";
+import PaginationUI from "../../../components/PaginationUI";
 import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
 
 const Departments = () => {
-  const { data: departments, isLoading } = useGetDepartmentsQuery();
+  const limit = 12;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { data: departments, isLoading } = useGetDepartmentsQuery(currentPage);
   return (
     <>
       <h1>Manage Departments.</h1>
@@ -31,11 +35,13 @@ const Departments = () => {
             ))}
           </div>
           {departments?.data.length && (
-            <div className=" w-full flex justify-center">
-              <p className=" md:px-4 md:py-2 rounded-lg bg-white font-semibold">
-                20 out of {departments?.data.length}
-              </p>
-            </div>
+            <PaginationUI
+              limit={limit}
+              currentPage={currentPage}
+              totalElements={departments.pagination.totalDepartments}
+              totalPages={departments.pagination.totalPages}
+              setCurrentPage={setCurrentPage}
+            />
           )}
         </>
       )}
