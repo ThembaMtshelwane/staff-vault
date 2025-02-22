@@ -12,13 +12,14 @@ import Employee from './pages/admin/Employees/Employee'
 import AddDepartment from './pages/admin/Departments/AddDepartment'
 import Department from './pages/admin/Departments/Department'
 import PrivateRoutes from './components/PrivateRoutes'
+import Dashboard from './pages/users/Dashboard'
 
 function App() {
   return (
     <Routes>
       <Route index element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="" element={<PrivateRoutes />}>
+      <Route path="" element={<PrivateRoutes role={'admin'} />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="employees">
@@ -35,6 +36,9 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Settings />} />
         </Route>
+      </Route>
+      <Route path="" element={<PrivateRoutes role={'general'} />}>
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
     </Routes>
   )
