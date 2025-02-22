@@ -42,7 +42,7 @@ const AdminLayout = () => {
     <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[1920px] mx-auto">
       <AdminNavbar />
       <SideMenu />
-      <section className="py-8 px-4 lg:py-10 lg:px-8 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[90%] md:h-[94%]  md:ml-auto ">
+      <section className="py-4 px-8 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[85%] md:ml-auto ">
         <Outlet />
       </section>
     </section>

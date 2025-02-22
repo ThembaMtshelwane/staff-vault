@@ -38,7 +38,7 @@ const AdminDashboard = () => {
       <div className="flex flex-col gap-4 max-w-[640px]">
         <h3 className="font-bold">{profile.name}.</h3>
 
-        <div className="underline flex flex-col gap-2">
+        <div className="underline flex flex-col md:flex-row gap-2 md:gap-4">
           <p>{profile.email}</p>
           <p>{profile.phone} </p>
         </div>
