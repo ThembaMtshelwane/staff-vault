@@ -1,32 +1,36 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from 'react-router'
 import {
   useDeleteDepartmentMutation,
   useGetDepartmentQuery,
-} from "../../../slices/departmentApiSlice";
-import { CustomSpinner } from "../../../components/CustomSpinner";
-import { useGetUsersQuery } from "../../../slices/userApiSlice";
-import EmployeeCard from "../../../components/EmployeeCard";
-import ReturnIcon from "../../../components/ReturnIcon";
+} from '../../../slices/departmentApiSlice'
+import { CustomSpinner } from '../../../components/CustomSpinner'
+import { useGetUsersQuery } from '../../../slices/userApiSlice'
+import EmployeeCard from '../../../components/EmployeeCard'
+import ReturnIcon from '../../../components/ReturnIcon'
+import PaginationUI from '../../../components/PaginationUI'
 
 const Department = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data } = useGetDepartmentQuery(String(id));
-  const { data: employees, isLoading } = useGetUsersQuery();
-  const [deleteDepartment] = useDeleteDepartmentMutation();
-  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>()
+  const { data } = useGetDepartmentQuery(String(id))
+  const { data: employees, isLoading } = useGetUsersQuery({
+    page: 1,
+    search: '',
+  })
+  const [deleteDepartment] = useDeleteDepartmentMutation()
+  const navigate = useNavigate()
 
-  const name = data?.data.name || "Not Available";
-  const email = data?.data.email || "Not Available";
-  const staff = data?.data.staff;
-  const supervisor = data?.data.supervisor || "Not Available";
-  const location = "Not Available";
+  const name = data?.data.name || 'Not Available'
+  const email = data?.data.email || 'Not Available'
+  const staff = data?.data.staff
+  const supervisor = data?.data.supervisor || 'Not Available'
+  const location = 'Not Available'
 
   const handleDeleteDepartment = async () => {
-    const res = await deleteDepartment(String(id));
+    const res = await deleteDepartment(String(id))
     if (res.data?.success) {
-      navigate("/admin/departments");
+      navigate('/admin/departments')
     }
-  };
+  }
 
   return (
     <>
@@ -54,7 +58,7 @@ const Department = () => {
         </div>
       ) : (
         <>
-          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative">
+          <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  relative">
             {employees?.data.slice(0, 18).map((employee) => (
               <EmployeeCard
                 key={employee._id}
@@ -65,17 +69,13 @@ const Department = () => {
               />
             ))}
           </div>
-          {employees?.data.length && (
-            <div className=" w-full flex justify-center">
-              <p className=" md:px-4 md:py-2 rounded-lg bg-white font-semibold">
-                20 out of {employees?.data.length}
-              </p>
-            </div>
-          )}
+          {employees?.data.length && <PaginationUI limit={12} currentPage={1} totalElements={0} totalPages={0} setCurrentPage={function (page: number): void {
+              throw new Error('Function not implemented.')
+            } } />}
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Department;
+export default Department
