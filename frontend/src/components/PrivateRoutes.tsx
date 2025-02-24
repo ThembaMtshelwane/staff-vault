@@ -1,18 +1,21 @@
-import { useSelector } from 'react-redux'
-import { Navigate, Outlet } from 'react-router'
-import { RootState } from '../store'
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router";
+import { RootState } from "../store";
 
-const PrivateRoutes = ({ role }: { role: 'admin' | 'general' }) => {
-  const { userInfo } = useSelector((state: RootState) => state.auth)
+const PrivateRoutes = ({ role }: { role: "admin" | "general" }) => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   if (!userInfo) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   }
+
+  console.log("role ", role);
+  console.log("user role ", userInfo.role);
 
   if (role && userInfo.role !== role) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/" replace />;
   }
 
-  return <Outlet />
-}
+  return <Outlet />;
+};
 
-export default PrivateRoutes
+export default PrivateRoutes;

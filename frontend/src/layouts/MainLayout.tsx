@@ -4,10 +4,12 @@ import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 // import { FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { JSX, useEffect, useRef, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
-const menuItems = [
+const adminMenuItems = [
   {
     to: "/admin/dashboard",
     icon: <MdOutlineDashboard className="sidebar-icons" />,
@@ -36,12 +38,48 @@ const menuItems = [
   //   label: "Settings",
   // },
 ];
+const userMenuItems = [
+  {
+    to: "/dashboard",
+    icon: <MdOutlineDashboard className="sidebar-icons" />,
+    label: "Dashboard",
+  },
+  {
+    to: "/files",
+    icon: <GrGroup className="sidebar-icons" />,
+    label: "Files",
+  },
+  {
+    to: "/department",
+    icon: (
+      <PiTreeStructureLight className="sidebar-icons rotate-90 scale-150" />
+    ),
+    label: "Department",
+  },
+  {
+    to: "/profile",
+    icon: <FaRegUser className="sidebar-icons" />,
+    label: "Profile",
+  },
+  // {
+  //   to: "/admin/settings",
+  //   icon: <FiSettings className="sidebar-icons" />,
+  //   label: "Settings",
+  // },
+];
 
-const AdminLayout = () => {
+const MainLayout = () => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   return (
     <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[1920px] mx-auto">
       <AdminNavbar />
-      <SideMenu />
+      {userInfo?.role === "admin" ? (
+        <SideMenu menuList={adminMenuItems} />
+      ) : (
+        <SideMenu menuList={userMenuItems} />
+      )}
+
       <section className="py-4 px-8 overflow-y-scroll relative flex flex-col gap-4 md:w-[75%] h-[85%] md:ml-auto ">
         <Outlet />
       </section>
@@ -49,9 +87,17 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default MainLayout;
 
-const SideMenu = () => {
+const SideMenu = ({
+  menuList,
+}: {
+  menuList: {
+    to: string;
+    icon: JSX.Element;
+    label: string;
+  }[];
+}) => {
   const [toggle, setToggle] = useState(false);
   const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -84,7 +130,7 @@ const SideMenu = () => {
           ref={menuRef}
           className={`flex-col gap-4 py-4 px-2 ${toggle ? "flex" : "hidden"}`}
         >
-          {menuItems.map(({ to, icon }) => (
+          {menuList.map(({ to, icon }) => (
             <li key={to}>
               <NavLink
                 to={to}
@@ -106,7 +152,7 @@ const SideMenu = () => {
       {/* Desktop Sidebar */}
       <section className="hidden md:flex bg-secondary text-background  py-4 px-2 lg:py-8 lg:px-2 absolute z-50 left-0 h-full rounded-tr-2xl rounded-br-2xl min-w-[210px] md:w-[25%] xl:w-[23%]">
         <ul className="flex-col gap-4 flex w-full">
-          {menuItems.map(({ to, icon, label }) => (
+          {menuList.map(({ to, icon, label }) => (
             <li key={to} className="mx-auto w-full xl:w-[90%]">
               <NavLink
                 to={to}
