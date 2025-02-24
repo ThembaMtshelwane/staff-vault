@@ -29,8 +29,8 @@ const Employees = () => {
           <CustomSpinner isLoading={isLoading} />
         </div>
       ) : (
-        <>
-          <div className="grid gap-4  justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 overflow-y-scroll relative scroll  h-full">
+        <div >
+          <div className="grid gap-4  justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 relative scroll  h-full">
             {employees?.data.map((employee) => (
               <EmployeeCard
                 key={employee._id}
@@ -50,7 +50,7 @@ const Employees = () => {
               setCurrentPage={setCurrentPage}
             />
           )}
-        </>
+        </div>
       )}
     </>
   );
