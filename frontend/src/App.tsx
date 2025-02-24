@@ -13,6 +13,9 @@ import AddDepartment from "./pages/admin/Departments/AddDepartment";
 import Department from "./pages/admin/Departments/Department";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Dashboard from "./pages/users/Dashboard";
+import Files from "./pages/users/Files";
+import UDepartment from "./pages/users/UDepartment";
+import UProfile from "./pages/users/UProfile";
 
 function App() {
   return (
@@ -42,6 +45,9 @@ function App() {
         {/* General User Private Routes */}
         <Route element={<PrivateRoutes role={"general"} />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="files" element={<Files />} />
+          <Route path="department" element={<UDepartment />} />
+          <Route path="Profile" element={<UProfile />} />
         </Route>
       </Route>
     </Routes>

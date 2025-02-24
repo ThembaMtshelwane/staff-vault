@@ -7,10 +7,6 @@ const PrivateRoutes = ({ role }: { role: "admin" | "general" }) => {
   if (!userInfo) {
     return <Navigate to="/login" replace />;
   }
-
-  console.log("role ", role);
-  console.log("user role ", userInfo.role);
-
   if (role && userInfo.role !== role) {
     return <Navigate to="/" replace />;
   }
