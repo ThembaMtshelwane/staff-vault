@@ -19,7 +19,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
         user = await User.create({
           email,
           permissions: ["modify_files", "modify_data"],
-          password: "user_st@f5Va_ul7",
+          password: process.env.USER_PASSWORD,
         });
       }
       return user;
