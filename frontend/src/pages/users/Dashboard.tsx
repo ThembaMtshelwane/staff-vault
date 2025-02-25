@@ -4,6 +4,8 @@ import { FaUserGraduate } from "react-icons/fa";
 import { GrFingerPrint } from "react-icons/gr";
 import { IoIosMore } from "react-icons/io";
 import { TbBriefcase2 } from "react-icons/tb";
+import { Link } from "react-router";
+import Icon from "../../components/Icon";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
@@ -26,13 +28,12 @@ const Dashboard = () => {
       <div className="">
         <p>Documents:</p>
         <div className=" grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
-          <div
-            className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
-            "
-          >
-            <GrFingerPrint className="sidebar-icons text-secondary" />
-            <p>Certified ID Copy.</p>
-          </div>
+          <Link to="/files/CV">
+            <Icon
+              label={"Certified I.D Copy"}
+              icon={<GrFingerPrint className="sidebar-icons text-secondary" />}
+            />
+          </Link>
           <div
             className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
             "

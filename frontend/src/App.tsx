@@ -13,7 +13,7 @@ import AddDepartment from "./pages/admin/Departments/AddDepartment";
 import Department from "./pages/admin/Departments/Department";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Dashboard from "./pages/users/Dashboard";
-import Files from "./pages/users/Files";
+import Files from "./pages/users/Files/Files";
 import UDepartment from "./pages/users/UDepartment";
 import UProfile from "./pages/users/UProfile";
 
