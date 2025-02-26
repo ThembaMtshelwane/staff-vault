@@ -16,6 +16,7 @@ import Dashboard from "./pages/users/Dashboard";
 import Files from "./pages/users/Files/Files";
 import UDepartment from "./pages/users/UDepartment";
 import UProfile from "./pages/users/UProfile";
+import UpdateFile from "./components/UpdateFile";
 
 function App() {
   return (
@@ -45,7 +46,19 @@ function App() {
         {/* General User Private Routes */}
         <Route element={<PrivateRoutes role={"general"} />}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="files" element={<Files />} />
+          <Route path="files">
+            <Route index element={<Files />} />
+            <Route
+              path="certified-id"
+              element={<UpdateFile type="Certified ID copy" />}
+            />
+            <Route path="cv" element={<UpdateFile type="cv" />} />
+            <Route
+              path="qualifications"
+              element={<UpdateFile type="qualifications" />}
+            />
+            <Route path="others" element={<UpdateFile type="other" />} />
+          </Route>
           <Route path="department" element={<UDepartment />} />
           <Route path="Profile" element={<UProfile />} />
         </Route>
