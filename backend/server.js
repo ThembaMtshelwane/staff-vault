@@ -10,6 +10,7 @@ import { protect } from "./middleware/authMiddleware.js";
 import organizationRoutes from "./routes/organizationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
+import fileRoutes from "./routes/fileRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use("/api/organization", organizationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/departments", protect, departmentRoutes);
+app.use("/api/files", fileRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
