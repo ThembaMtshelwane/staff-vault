@@ -54,7 +54,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
-    update: builder.mutation<
+    updateUser: builder.mutation<
       {
         success: boolean;
         message: string;
@@ -95,7 +95,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           pageSize: number;
         };
       },
-      { page: number; search: string;}
+      { page: number; search: string }
     >({
       query: ({ page, search }) => ({
         url: `${USERS_URL}?page=${page}&search=${search}`,
@@ -114,7 +114,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    getUserProfile: builder.query<IUser, void>({
+    getUserProfile: builder.query<
+      { success: boolean; message: string; data: IUser },
+      { id: string }
+    >({
       query: () => ({
         url: `${USERS_URL}/profile`,
         method: "GET",
@@ -140,7 +143,7 @@ export const {
   useRegisterUserMutation,
   useMultiRegisterMutation,
   useRegisterAdminMutation,
-  useUpdateMutation,
+  useUpdateUserMutation,
   useDeleteUserMutation,
   useGetUsersQuery,
   useGetUserQuery,

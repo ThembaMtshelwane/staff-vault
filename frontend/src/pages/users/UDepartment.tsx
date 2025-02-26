@@ -18,6 +18,7 @@ const uDepartment = () => {
 
       <div className="flex flex-col gap-2">
         <h3>Supervisor: Katlego Molala.</h3>
+        <p>Email: katlegomolala@tshimologong.joburg</p>
         <p>Location: 2nd Floor.</p>
         <p>19 Members.</p>
       </div>

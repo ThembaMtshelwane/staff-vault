@@ -6,21 +6,27 @@ import { IoIosMore } from "react-icons/io";
 import { TbBriefcase2 } from "react-icons/tb";
 import { Link } from "react-router";
 import Icon from "../../components/Icon";
+import { useGetUserProfileQuery } from "../../slices/userApiSlice";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const firstName = userInfo?.firstName || "N/A";
-  const lastName = userInfo?.lastName || "N/A";
-  const postiton = userInfo?.position || "N/A";
-  const supervisor = "N/A";
-  const location = "N/A";
+  const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
+
+  const firstName = data?.data.firstName || "";
+  const lastName = data?.data.lastName || "";
+  const email = data?.data.email || "";
+  const position = data?.data.position || "";
+
   return (
     <>
       <h1>Dashboard Overview.</h1>
 
       <div className="flex flex-col gap-2">
-        <h3>Themba Mtshelwane.</h3>
-        <p>Software Developer Intern.</p>
+        <h2>
+          {firstName} {lastName}.
+        </h2>
+        <h3>{position}.</h3>
+        <p>{email}.</p>
         <p>Department: Software Development Academy.</p>
         <p>Supervisor: Katlego Molala.</p>
         <p>Location: 2nd Floor.</p>
