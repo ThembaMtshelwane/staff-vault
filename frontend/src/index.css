@@ -26,7 +26,8 @@ html {
     @apply text-xl;
   }
   input,
-  textarea {
+  textarea,
+  select {
     @apply border-2 border-secondary rounded-lg w-full p-2 bg-white;
   }
 }

@@ -12,14 +12,14 @@ export interface IUser {
   role: string;
   permissions: string[];
   files: IFiles;
+  department?: string;
 }
 
 export interface IDepartment {
   _id: string;
   name: string;
-  email: string;
-  supervisor?: string;
-  staff: string[];
+  positions: string[];
+  supervisor?: { name: string; email: string; staff: string[] };
 }
 
 export interface IDepartmentInput {

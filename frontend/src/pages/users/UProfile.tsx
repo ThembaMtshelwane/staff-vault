@@ -6,12 +6,15 @@ import {
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
 import { IUser } from "../../definitions";
+import { useGetDepartmentFilterQuery } from "../../slices/departmentApiSlice";
 
 const UProfile = () => {
   const [edit, setEdit] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [updateUser] = useUpdateUserMutation();
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
+  const { data: departments } = useGetDepartmentFilterQuery();
+  const [departmentSupervisor, setDepartmentSupervisor] = useState<string>("");
 
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: data?.data._id || "",
@@ -19,14 +22,57 @@ const UProfile = () => {
     lastName: data?.data.lastName || "",
     email: data?.data.email || "",
     position: data?.data.position || "",
+    department: data?.data.department,
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
+
+
+  const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedDepartmentId = e.target.value;
+    const selectedDepartment = departments?.data.find(
+      (department) => department._id === selectedDepartmentId
+    );
+
+    if (selectedDepartment) {
+      setProfile((prev) => ({
+        ...prev,
+        department: selectedDepartmentId,
+        position: "",
+      }));
+      setDepartmentSupervisor(
+        selectedDepartment.supervisor?.name || "Not Available."
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (data?.data) {
+      setProfile({
+        _id: data?.data._id || "",
+        firstName: data?.data.firstName || "",
+        lastName: data?.data.lastName || "",
+        email: data?.data.email || "",
+        position: data?.data.position || "",
+        department: data?.data.department,
+      });
+    }
+  }, [data]);
+
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await updateUser({ id: profile._id || "", data: profile });
+    if (res.data?.success) {
+      setEdit(false);
+    }
+  };
+
 
   const handleCancel = () => {
     setEdit(false);
@@ -36,43 +82,26 @@ const UProfile = () => {
       lastName: data?.data.lastName || "",
       email: data?.data.email || "",
       position: data?.data.position || "",
+      department: data?.data.department,
     });
   };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const res = await updateUser({ id: profile._id || "", data: profile });
-
-    if (res.data?.success) {
-      setEdit(false);
-    }
-  };
-
-  useEffect(() => {
-    setProfile({
-      _id: data?.data._id || "",
-      firstName: data?.data.firstName || "",
-      lastName: data?.data.lastName || "",
-      email: data?.data.email || "",
-      position: data?.data.position || "",
-    });
-  }, [data]);
 
   return (
     <>
-      <h1>Profile.</h1>
+      <h1>Profile</h1>
       <div className="lg:flex items-center justify-between lg:w-[95%]">
-        <div className="flex  gap-4 justify-center my-2">
+        <div className="flex gap-4 justify-center my-2">
           <button onClick={() => setEdit(true)} className="button w-[150px]">
             Edit
           </button>
         </div>
       </div>
+
       <div className="w-full h-[90%] my-4 flex flex-col gap-4 rounded-lg lg:w-[95%]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <label htmlFor="firstName">
-              First name:
+              First Name:
               <input
                 type="text"
                 name="firstName"
@@ -85,8 +114,9 @@ const UProfile = () => {
                 maxLength={100}
               />
             </label>
+
             <label htmlFor="lastName">
-              Last name:
+              Last Name:
               <input
                 type="text"
                 name="lastName"
@@ -113,29 +143,71 @@ const UProfile = () => {
                 onChange={handleChange}
               />
             </label>
+
+            <label htmlFor="department">
+              Departments:
+              <select
+                name="department"
+                id="department"
+                className={`${edit && "shadow-secondary shadow-lg"}`}
+                onChange={handleDepartmentChange}
+                disabled={!edit}
+                value={profile.department}
+              >
+                <option value="" disabled>
+                  Select a department
+                </option>
+                {departments?.data.map((department) => (
+                  <option key={department._id} value={department._id}>
+                    {department.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
             <label htmlFor="position">
               Position:
-              <input
-                type="text"
-                required
+              <select
                 name="position"
                 id="position"
-                disabled={!edit}
                 className={`${edit && "shadow-secondary shadow-lg"}`}
+                disabled={!edit}
                 value={profile.position}
                 onChange={handleChange}
+              >
+                <option value="" disabled>
+                  Select a position
+                </option>
+                {departments?.data
+                  .find((dept) => dept._id === profile.department)
+                  ?.positions.map((position) => (
+                    <option key={position} value={position}>
+                      {position}
+                    </option>
+                  ))}
+              </select>
+            </label>
+
+            <label htmlFor="supervisor">
+              Supervisor:
+              <input
+                type="text"
+                name="supervisor"
+                id="supervisor"
+                value={departmentSupervisor}
+                disabled
               />
             </label>
           </div>
 
           {edit && (
             <div className="mx-auto flex flex-col sm:flex-row gap-4">
-              <button type="submit" className="button w-[150px] ">
+              <button type="submit" className="button w-[150px]">
                 Save
               </button>
               <button
                 onClick={handleCancel}
-                type="submit"
+                type="button"
                 className="button w-[150px]"
               >
                 Cancel

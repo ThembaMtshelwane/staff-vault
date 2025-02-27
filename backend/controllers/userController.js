@@ -66,7 +66,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 
 const addUser = expressAsyncHandler(async (req, res) => {
   const data = req.body;
-  const { firstName, lastName, email, position } = data.data;
+  const { firstName, lastName, email, position, department } = data.data;
 
   const userExists = await User.findOne({ email });
 
@@ -79,6 +79,7 @@ const addUser = expressAsyncHandler(async (req, res) => {
     lastName,
     email,
     position,
+    department,
   });
 
   if (user) {
@@ -142,7 +143,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 
   const users = await User.find(filter).skip(skip).limit(limit);
-  
+
   if (users.length > 0) {
     res.status(200).json({
       success: true,
@@ -247,6 +248,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     role: req.user.role,
     permissions: req.user.permissions,
     files: req.user.files || [],
+    department: req.user.department,
   };
   res.status(200).json({
     success: true,

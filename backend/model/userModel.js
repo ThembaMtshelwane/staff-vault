@@ -14,10 +14,9 @@ const userSchema = mongoose.Schema(
     position: { type: String, default: "" },
     department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
     email: { type: String, required: true },
-    password: { type: String, default: "st@f5Va_ul7" },
+    password: { type: String, default: process.env.USER_PASSWORD },
     role: {
       type: String,
-      // enum: ["admin", "super_admin", "general"],
       default: "general",
     },
     permissions: {
