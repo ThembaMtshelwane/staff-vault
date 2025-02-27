@@ -11,6 +11,7 @@ const uDepartment = () => {
     page: currentPage,
     search,
   });
+
   return (
     <>
       <h1>Department.</h1>

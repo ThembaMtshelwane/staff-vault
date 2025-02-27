@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   useGetUserProfileQuery,
@@ -7,6 +7,7 @@ import {
 } from "../../slices/userApiSlice";
 import { IUser } from "../../definitions";
 import { useGetDepartmentFilterQuery } from "../../slices/departmentApiSlice";
+import { setCredentials } from "../../slices/authSlice";
 
 const UProfile = () => {
   const [edit, setEdit] = useState(false);
@@ -15,7 +16,6 @@ const UProfile = () => {
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
   const { data: departments } = useGetDepartmentFilterQuery();
   const [departmentSupervisor, setDepartmentSupervisor] = useState<string>("");
-
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: data?.data._id || "",
     firstName: data?.data.firstName || "",
@@ -24,6 +24,7 @@ const UProfile = () => {
     position: data?.data.position || "",
     department: data?.data.department,
   });
+  const dispatch = useDispatch();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -31,7 +32,6 @@ const UProfile = () => {
     const { name, value } = e.target;
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDepartmentId = e.target.value;
@@ -64,15 +64,16 @@ const UProfile = () => {
     }
   }, [data]);
 
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await updateUser({ id: profile._id || "", data: profile });
+    console.log("res  ", res);
+
     if (res.data?.success) {
       setEdit(false);
     }
+    dispatch(setCredentials({ ...(res.data?.data as IUser) }));
   };
-
 
   const handleCancel = () => {
     setEdit(false);
