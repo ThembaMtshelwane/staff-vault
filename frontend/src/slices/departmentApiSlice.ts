@@ -62,9 +62,9 @@ export const departmentApiSlice = apiSlice.injectEndpoints({
 
     getDepartment: builder.query<
       { success: boolean; message: string; data: IDepartment },
-      string
+      { id: string }
     >({
-      query: (id) => ({
+      query: ({id}) => ({
         url: `${DEPARTMENTS_URL}/${id}`,
         method: "GET",
       }),

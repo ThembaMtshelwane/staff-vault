@@ -7,15 +7,22 @@ import { TbBriefcase2 } from "react-icons/tb";
 import { Link } from "react-router";
 import Icon from "../../components/Icon";
 import { useGetUserProfileQuery } from "../../slices/userApiSlice";
+import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
+  const { data: department } = useGetDepartmentQuery({
+    id: data?.data.department || "",
+  });
+
+  console.log("department  ", department);
 
   const firstName = data?.data.firstName || "";
   const lastName = data?.data.lastName || "";
   const email = data?.data.email || "";
   const position = data?.data.position || "";
+  const supervisor = department?.data.supervisor?.name || "Not Available";
 
   return (
     <>
@@ -27,9 +34,8 @@ const Dashboard = () => {
         </h2>
         <h3>{position}.</h3>
         <p>{email}.</p>
-        <p>Department: Software Development Academy.</p>
-        <p>Supervisor: Katlego Molala.</p>
-        <p>Location: 2nd Floor.</p>
+        <p>Department: {department?.data.name}.</p>
+        <p>Supervisor: {supervisor}.</p>
       </div>
       <div className="">
         <p>Documents:</p>
