@@ -52,12 +52,12 @@ function App() {
               path="certified-id"
               element={<UpdateFile type="Certified ID copy" />}
             />
-            <Route path="cv" element={<UpdateFile type="cv" />} />
+            <Route path="cv" element={<UpdateFile type="CV" />} />
             <Route
               path="qualifications"
-              element={<UpdateFile type="qualifications" />}
+              element={<UpdateFile type="Qualifications" />}
             />
-            <Route path="others" element={<UpdateFile type="other" />} />
+            <Route path="oThers" element={<UpdateFile type="Others" />} />
           </Route>
           <Route path="department" element={<UDepartment />} />
           <Route path="Profile" element={<UProfile />} />

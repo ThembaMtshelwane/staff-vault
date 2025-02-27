@@ -25,9 +25,12 @@ const UpdateFile = ({ type }: Props) => {
   };
 
   return (
-    <div className="w-full max-w-[850px] mx-auto">
+    <div className="w-full">
       <ReturnHeader header={`Update Files: ${type}`} />
-      <form onSubmit={handleUpload} className="my-5 flex flex-col gap-4">
+      <form
+        onSubmit={handleUpload}
+        className="my-5 flex flex-col gap-4 max-w-[850px] mx-auto"
+      >
         <label
           htmlFor="file-upload"
           className="h-[50vh] w-full flex flex-col  items-center justify-center rounded-lg border-dashed border-2 border-secondary cursor-pointer hover:scale-[1.02] hover:bg-gray-200 transition-transform duration-200 ease-in-out"
@@ -52,6 +55,17 @@ const UpdateFile = ({ type }: Props) => {
           </button>
         )}
       </form>
+
+      <ul className="rounded-lg max-w-[850px] mx-auto">
+        <li className="flex justify-between items-center sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white">
+          <div className="flex flex-wrap gap-2 w-[80%] sm:w-[60%] justify-between">
+            <p>ThembaMtshelwane.pdf</p>
+            <p>3 months ago</p>
+          </div>
+
+          <button className="button">X</button>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -72,7 +72,7 @@ const MainLayout = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
 
   return (
-    <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[1920px] mx-auto">
+    <section className="bg-background h-screen relative text-general overflow-y-hidden max-w-[3072px] mx-auto">
       <AdminNavbar />
       {userInfo?.role === "admin" ? (
         <SideMenu menuList={adminMenuItems} />
