@@ -1,7 +1,12 @@
 import { useState } from "react";
 import EmployeeCard from "../../components/EmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
-import { useGetUsersQuery } from "../../slices/userApiSlice";
+import {
+  useGetUsersQuery,
+} from "../../slices/userApiSlice";
+import { RootState } from "@reduxjs/toolkit/query";
+import { useSelector } from "react-redux";
+import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
 
 const uDepartment = () => {
   const limit = 12;
@@ -11,17 +16,21 @@ const uDepartment = () => {
     page: currentPage,
     search,
   });
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { data: department } = useGetDepartmentQuery({
+    id: userInfo.department || "",
+  });
 
   return (
     <>
       <h1>Department.</h1>
-      <h2>Software Development Academy.</h2>
+      <h2>{department?.data.name || "Not Available"}.</h2>
 
       <div className="flex flex-col gap-2">
-        <h3>Supervisor: Katlego Molala.</h3>
-        <p>Email: katlegomolala@tshimologong.joburg</p>
-        <p>Location: 2nd Floor.</p>
-        <p>19 Members.</p>
+        <h3>
+          Supervisor: {department?.data.supervisor?.name || "Not Available"}.
+        </h3>
+        <p>Email: {department?.data.supervisor?.email || "Not Available"}</p>
       </div>
 
       <div>

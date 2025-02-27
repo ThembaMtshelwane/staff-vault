@@ -16,8 +16,6 @@ const Dashboard = () => {
     id: data?.data.department || "",
   });
 
-  console.log("department  ", department);
-
   const firstName = data?.data.firstName || "";
   const lastName = data?.data.lastName || "";
   const email = data?.data.email || "";
