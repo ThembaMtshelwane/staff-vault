@@ -1,25 +1,26 @@
-import { useState } from 'react'
-import ContentControls from '../../../components/ContentControls'
-import { CustomSpinner } from '../../../components/CustomSpinner'
-import DepartmentCard from '../../../components/DepartmentCard'
-import PaginationUI from '../../../components/PaginationUI'
-import { useGetDepartmentsQuery } from '../../../slices/departmentApiSlice'
+import { useState } from "react";
+import ContentControls from "../../../components/ContentControls";
+import { CustomSpinner } from "../../../components/CustomSpinner";
+import DepartmentCard from "../../../components/DepartmentCard";
+import PaginationUI from "../../../components/PaginationUI";
+import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
 
 const Departments = () => {
-  const limit = 12
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
+  const limit = 12;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
   const { data: departments, isLoading } = useGetDepartmentsQuery({
     page: currentPage,
     search,
-  })
+  });
   return (
     <>
       <h1>Manage Departments.</h1>
       <ContentControls
-        addFunctionName={'Department'}
-        addLink={'add-department'}
+        addFunctionName={"Department"}
+        addLink={"add-department"}
         setSearch={setSearch}
+        setDepartment={function (): void {}}
       />
       {isLoading ? (
         <div className="flex justify-center items-center h-full">
@@ -33,9 +34,9 @@ const Departments = () => {
                 key={department._id}
                 name={department.name}
                 id={department._id}
-                email={department.email}
-                superviour={department.supervisor || ''}
-                staff={department.staff.length}
+                email={department.supervisor?.email || ""}
+                superviour={department.supervisor?.name || ""}
+                staff={department.supervisor?.staff.length || 0}
               />
             ))}
           </div>
@@ -51,7 +52,7 @@ const Departments = () => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Departments
+export default Departments;

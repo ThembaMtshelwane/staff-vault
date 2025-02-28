@@ -1,36 +1,39 @@
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from "react-router";
 import {
   useDeleteDepartmentMutation,
   useGetDepartmentQuery,
-} from '../../../slices/departmentApiSlice'
-import { CustomSpinner } from '../../../components/CustomSpinner'
-import { useGetUsersQuery } from '../../../slices/userApiSlice'
-import EmployeeCard from '../../../components/EmployeeCard'
-import ReturnIcon from '../../../components/ReturnIcon'
-import PaginationUI from '../../../components/PaginationUI'
+} from "../../../slices/departmentApiSlice";
+import { CustomSpinner } from "../../../components/CustomSpinner";
+import { useGetUsersQuery } from "../../../slices/userApiSlice";
+import EmployeeCard from "../../../components/EmployeeCard";
+import ReturnIcon from "../../../components/ReturnIcon";
+import PaginationUI from "../../../components/PaginationUI";
+import { useState } from "react";
 
 const Department = () => {
-  const { id } = useParams<{ id: string }>()
-  const { data } = useGetDepartmentQuery(String(id))
+  const { id } = useParams<{ id: string }>();
+  const { data } = useGetDepartmentQuery({ id: String(id) });
   const { data: employees, isLoading } = useGetUsersQuery({
     page: 1,
-    search: '',
-  })
-  const [deleteDepartment] = useDeleteDepartmentMutation()
-  const navigate = useNavigate()
+    search: "",
+    department: String(id),
+  });
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [deleteDepartment] = useDeleteDepartmentMutation();
+  const navigate = useNavigate();
 
-  const name = data?.data.name || 'Not Available'
-  const email = data?.data.email || 'Not Available'
-  const staff = data?.data.staff
-  const supervisor = data?.data.supervisor || 'Not Available'
-  const location = 'Not Available'
+  const name = data?.data.name || "Not Available";
+  const email = data?.data.supervisor?.email || "Not Available";
+  const staff = employees?.pagination.totalUsers;
+  const supervisor = data?.data.supervisor?.name || "Not Available";
+  const location = "Not Available";
 
   const handleDeleteDepartment = async () => {
-    const res = await deleteDepartment(String(id))
+    const res = await deleteDepartment(String(id));
     if (res.data?.success) {
-      navigate('/admin/departments')
+      navigate("/admin/departments");
     }
-  }
+  };
 
   return (
     <>
@@ -43,7 +46,7 @@ const Department = () => {
           <h3>Supervisor: {supervisor}.</h3>
           <p>Contact: {email}</p>
           <p>Location: {location}</p>
-          <p>Total staff: {staff?.length}</p>
+          <p>Total staff: {staff}</p>
         </div>
         <div className="flex gap-4 justify-center  w-full sm:w-[40%]">
           <button className="button w-[150px]">Edit</button>
@@ -69,13 +72,19 @@ const Department = () => {
               />
             ))}
           </div>
-          {employees?.data.length && <PaginationUI limit={12} currentPage={1} totalElements={0} totalPages={0} setCurrentPage={function (page: number): void {
-              throw new Error('Function not implemented.')
-            } } />}
+          {employees?.data.length && (
+            <PaginationUI
+              limit={12}
+              currentPage={currentPage}
+              totalElements={employees.pagination.totalUsers}
+              totalPages={employees.pagination.totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Department
+export default Department;
