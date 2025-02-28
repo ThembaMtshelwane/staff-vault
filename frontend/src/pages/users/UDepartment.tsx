@@ -56,7 +56,7 @@ const uDepartment = () => {
           </div>
           {departmentEmployees?.data.length && (
             <PaginationUI
-              limit={12}
+              limit={limit}
               currentPage={currentPage}
               totalElements={departmentEmployees.pagination.totalUsers}
               totalPages={departmentEmployees.pagination.totalPages}

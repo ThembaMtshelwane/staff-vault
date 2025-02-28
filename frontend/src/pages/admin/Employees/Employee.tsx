@@ -8,19 +8,22 @@ import { TbBriefcase2 } from "react-icons/tb";
 import { FaUserGraduate } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 import ReturnIcon from "../../../components/ReturnIcon";
+import { useGetDepartmentQuery } from "../../../slices/departmentApiSlice";
 
 const Employee = () => {
   const { id } = useParams<{ id: string }>();
   const { data: employee } = useGetUserQuery(String(id));
+  const { data: departmentData } = useGetDepartmentQuery({
+    id: employee?.data.department || "",
+  });
   const [deleteUser] = useDeleteUserMutation();
   const navigate = useNavigate();
 
   const firstName = employee?.data?.firstName || "N/A";
   const lastName = employee?.data?.lastName || "N/A";
   const position = employee?.data?.position || "Not Available";
-  const department = employee?.data?.position || "Not Available";
-  const supervisor = employee?.data?.position || "Not Available";
-  const location = employee?.data?.position || "Not Available";
+  const department = departmentData?.data?.name || "Not Available";
+  const supervisor = departmentData?.data.supervisor?.name || "Not Available";
   const email = employee?.data?.email || "Not Available";
 
   const handleDeleteEmployee = async () => {
@@ -52,7 +55,6 @@ const Employee = () => {
         <p>Position: {position}. </p>
         <p>Dpeartment: {department}. </p>
         <p>Supervisor: {supervisor}. </p>
-        <p>Location: {location}.</p>
 
         <div className="">
           <p>Documents:</p>
