@@ -56,10 +56,10 @@ Create a .env file in both backend and frontend directories with the necessary c
 
   ## Development
   1. Backend
--      The backend follows the MVC (Model-View-Controller) architecture to maintain a clean and scalable codebase.
--      Controllers handle the logic for CRUD operations and interact with the models.
--      Routes define the API endpoints for staff management and authentication.
--      The backend uses JWT tokens for authentication and role-based access control.
+-    The backend follows the MVC (Model-View-Controller) architecture to maintain a clean and scalable codebase.
+-    Controllers handle the logic for CRUD operations and interact with the models.
+-    Routes define the API endpoints for staff management and authentication.
+-    The backend uses JWT tokens for authentication and role-based access control.
 
 2. Frontend
 -      The frontend is built with React and TypeScript, with Redux Toolkit used to manage application state.
