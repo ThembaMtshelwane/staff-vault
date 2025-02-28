@@ -13,7 +13,11 @@ import { useState } from "react";
 const Department = () => {
   const { id } = useParams<{ id: string }>();
   const { data } = useGetDepartmentQuery({ id: String(id) });
-  const { data: employees, isLoading } = useGetUsersQuery({
+  const {
+    data: employees,
+    isLoading,
+    isError,
+  } = useGetUsersQuery({
     page: 1,
     search: "",
     department: String(id),
@@ -82,6 +86,11 @@ const Department = () => {
             />
           )}
         </>
+      )}
+      {isError && (
+        <div className=" h-full flex justify-center">
+          <h2>No users found.</h2>
+        </div>
       )}
     </>
   );
