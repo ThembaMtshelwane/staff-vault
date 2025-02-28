@@ -45,9 +45,6 @@ const UProfile = () => {
         department: selectedDepartmentId,
         position: "",
       }));
-      // setDepartmentSupervisor(
-      //   selectedDepartment.supervisor?.name || "Not Available."
-      // );
     }
   };
 
