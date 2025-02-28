@@ -62,13 +62,13 @@ Create a .env file in both backend and frontend directories with the necessary c
 -    The backend uses JWT tokens for authentication and role-based access control.
 
 2. Frontend
--      The frontend is built with React and TypeScript, with Redux Toolkit used to manage application state.
--      Tailwind CSS is used for building the UI with a focus on responsiveness.
--      Role-based access is implemented by conditionally rendering components based on the user's role.
+-    The frontend is built with React and TypeScript, with Redux Toolkit used to manage application state.
+-    Tailwind CSS is used for building the UI with a focus on responsiveness.
+-    Role-based access is implemented by conditionally rendering components based on the user's role.
 
 
 ## Learning Highlights
-    1. Redux Toolkit: I gained hands-on experience with Redux Toolkit for efficient state management and asynchronous actions.
-    2. Role-Based Access Control: Learned how to implement and manage different access levels within the application.
-    3. File Management: Implemented the functionality to upload, store, and associate files with staff members.    
-    4. MVC Architecture: Used the MVC pattern to structure the backend, improving scalability and code organization.
+   1. Redux Toolkit: I gained hands-on experience with Redux Toolkit for efficient state management and asynchronous actions.
+   2. Role-Based Access Control: Learned how to implement and manage different access levels within the application.
+   3. File Management: Implemented the functionality to upload, store, and associate files with staff members.    
+   4. MVC Architecture: Used the MVC pattern to structure the backend, improving scalability and code organization.
