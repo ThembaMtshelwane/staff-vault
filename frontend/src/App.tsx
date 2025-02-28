@@ -57,7 +57,7 @@ function App() {
               path="qualifications"
               element={<UpdateFile type="Qualifications" />}
             />
-            <Route path="other" element={<UpdateFile type="Other" />} />
+            <Route path="others" element={<UpdateFile type="Other" />} />
           </Route>
           <Route path="department" element={<UDepartment />} />
           <Route path="Profile" element={<UProfile />} />

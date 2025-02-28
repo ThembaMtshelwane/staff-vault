@@ -54,7 +54,7 @@ const Dashboard = () => {
               icon={<FaUserGraduate className="sidebar-icons text-secondary" />}
             />
           </Link>
-          <Link to="/files/other">
+          <Link to="/files/others">
             <Icon
               label={"Certified I.D Copy"}
               icon={<IoIosMore className="sidebar-icons text-secondary" />}
