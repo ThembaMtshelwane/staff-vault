@@ -1,5 +1,5 @@
 import { useState } from "react";
-import EmployeeCard from "../../components/EmployeeCard";
+import UEmployeeCard from "../../components/uEmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
 import { useGetUsersQuery } from "../../slices/userApiSlice";
 import { RootState } from "../../store";
@@ -45,7 +45,7 @@ const uDepartment = () => {
         <>
           <div className="grid gap-4 items-center justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  relative">
             {departmentEmployees?.data.slice(0, 18).map((employee) => (
-              <EmployeeCard
+              <UEmployeeCard
                 key={employee._id}
                 firstName={employee.firstName}
                 lastName={employee.lastName}
