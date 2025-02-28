@@ -5,10 +5,18 @@ import { useGetOrganizationByAdminQuery } from "../../slices/organizationSlice";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useGetUsersQuery } from "../../slices/userApiSlice";
+import { useGetDepartmentFilterQuery } from "../../slices/departmentApiSlice";
 
 const AdminDashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { data } = useGetOrganizationByAdminQuery(userInfo?.email || "");
+  const { data: departments } = useGetDepartmentFilterQuery();
+  const { data: employees } = useGetUsersQuery({
+    page: 1,
+    search: "",
+    department: "",
+  });
 
   const [profile, setProfile] = useState({
     id: "",
@@ -49,13 +57,13 @@ const AdminDashboard = () => {
       <div className=" flex flex-col gap-4 sm:flex-row ">
         <TagAndStat
           name={"Total Employees"}
-          stat={320}
+          stat={employees?.pagination.totalUsers || 0}
           icon={<GrGroup className="sidebar-icons" />}
           link={"/admin/employees"}
         />
         <TagAndStat
           name={"Total Departments"}
-          stat={8}
+          stat={departments?.data.length || 0}
           icon={
             <PiTreeStructureLight className="sidebar-icons rotate-90 font-extrabold" />
           }

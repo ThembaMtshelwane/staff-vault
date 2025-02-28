@@ -7,9 +7,15 @@ type Props = {
   addFunctionName: string;
   addLink: string;
   setSearch: (search: string) => void;
+  setDepartment: (search: string) => void;
 };
 
-const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
+const ContentControls = ({
+  addFunctionName,
+  addLink,
+  setSearch,
+  setDepartment,
+}: Props) => {
   const { data: departments } = useGetDepartmentFilterQuery();
 
   return (
@@ -33,7 +39,10 @@ const ContentControls = ({ addFunctionName, addLink, setSearch }: Props) => {
             <IoSearch className="text-2xl" />
           </div>
         </div>
-        <Filter filterOptions={departments?.data || []} setSearch={setSearch} />
+        <Filter
+          filterOptions={departments?.data || []}
+          setDepartment={setDepartment}
+        />
       </div>
     </div>
   );
