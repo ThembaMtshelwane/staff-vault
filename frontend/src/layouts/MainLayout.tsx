@@ -1,5 +1,5 @@
 import { MdOutlineDashboard } from "react-icons/md";
-import { GrGroup } from "react-icons/gr";
+import { GrGroup, GrStorage } from "react-icons/gr";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
 // import { FiSettings } from "react-icons/fi";
@@ -46,7 +46,7 @@ const userMenuItems = [
   },
   {
     to: "/files",
-    icon: <GrGroup className="sidebar-icons" />,
+    icon: <GrStorage className="sidebar-icons" />,
     label: "Files",
   },
   {

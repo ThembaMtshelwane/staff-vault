@@ -53,7 +53,7 @@ const Department = () => {
           <p>Total staff: {staff}</p>
         </div>
         <div className="flex gap-4 justify-center  w-full sm:w-[40%]">
-          <button className="button w-[150px]">Edit</button>
+          {/* <button className="button w-[150px]">Edit</button> */}
           <button onClick={handleDeleteDepartment} className="button w-[150px]">
             Delete
           </button>

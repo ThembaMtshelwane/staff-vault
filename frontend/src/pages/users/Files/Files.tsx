@@ -40,7 +40,7 @@ const Files = () => {
         </div>
 
         <div className="hidden sm:flex flex-col  gap-4 max-w-[850px]">
-          <div className="border grid grid-cols-3 items-center">
+          <div className=" grid grid-cols-3 items-center shadow-lg rounded-lg p-4">
             <Link to="certified-id">
               <Icon
                 label={"Certified I.D Copy"}
@@ -49,8 +49,8 @@ const Files = () => {
                 }
               />
             </Link>
-            <p className="border text-center">Updated 3 months ago</p>
-            <div className=" border flex justify-around">
+            <p className=" text-center">Updated 3 months ago</p>
+            <div className="  flex justify-around">
               <Link to="certified-id" className="button">
                 Update
               </Link>
@@ -58,22 +58,22 @@ const Files = () => {
             </div>
           </div>
 
-          <div className="border grid grid-cols-3 items-center">
+          <div className=" grid grid-cols-3 items-center shadow-lg rounded-lg p-4">
             <Link to="CV">
               <Icon
                 label={"C.V"}
                 icon={<TbBriefcase2 className="sidebar-icons text-secondary" />}
               />
             </Link>
-            <p className="border text-center">Updated 3 months ago</p>
-            <div className=" border flex justify-around">
+            <p className=" text-center">Updated 3 months ago</p>
+            <div className="  flex justify-around">
               <Link to="CV" className="button">
                 Update
               </Link>
               <button className="button">Delete</button>
             </div>
           </div>
-          <div className="border grid grid-cols-3 items-center">
+          <div className=" grid grid-cols-3 items-center shadow-lg rounded-lg p-4">
             <Link to="qualifications">
               <Icon
                 label={"Qualifications"}
@@ -82,22 +82,22 @@ const Files = () => {
                 }
               />
             </Link>
-            <p className="border text-center">Updated 3 months ago</p>
-            <div className=" border flex justify-around">
+            <p className=" text-center">Updated 3 months ago</p>
+            <div className="  flex justify-around">
               <Link to="qualifications" className="button">
                 Update
               </Link>
             </div>
           </div>
-          <div className="border grid grid-cols-3 items-center">
+          <div className=" grid grid-cols-3 items-center shadow-lg rounded-lg p-4">
             <Link to="others">
               <Icon
                 label={"Others"}
                 icon={<IoIosMore className="sidebar-icons text-secondary" />}
               />
             </Link>
-            <p className="border text-center">Updated 3 months ago</p>
-            <div className=" border flex justify-around">
+            <p className=" text-center">Updated 3 months ago</p>
+            <div className="  flex justify-around">
               <Link to="other" className="button">
                 Update
               </Link>
