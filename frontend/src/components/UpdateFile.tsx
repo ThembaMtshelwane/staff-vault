@@ -57,7 +57,7 @@ const UpdateFile = ({ type }: Props) => {
       </form>
 
       <ul className="rounded-lg max-w-[850px] mx-auto">
-        <li className="flex justify-between items-center sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white">
+        <li className="flex justify-between items-center py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white">
           <div className="flex flex-wrap gap-2 w-[80%] sm:w-[60%] justify-between">
             <p>ThembaMtshelwane.pdf</p>
             <p>3 months ago</p>

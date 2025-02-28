@@ -6,20 +6,18 @@ import { IoIosMore } from "react-icons/io";
 import { TbBriefcase2 } from "react-icons/tb";
 import { Link } from "react-router";
 import Icon from "../../components/Icon";
-import { useGetUserProfileQuery } from "../../slices/userApiSlice";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
   const { data: department } = useGetDepartmentQuery({
-    id: data?.data.department || "",
+    id: userInfo?.department || "",
   });
 
-  const firstName = data?.data.firstName || "";
-  const lastName = data?.data.lastName || "";
-  const email = data?.data.email || "";
-  const position = data?.data.position || "";
+  const firstName = userInfo?.firstName || "";
+  const lastName = userInfo?.lastName || "";
+  const email = userInfo?.email || "";
+  const position = userInfo?.position || "";
   const supervisor = department?.data.supervisor?.name || "Not Available";
 
   return (
@@ -38,33 +36,30 @@ const Dashboard = () => {
       <div className="">
         <p>Documents:</p>
         <div className=" grid sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
-          <Link to="/files/CV">
+          <Link to="/files/certified-id">
             <Icon
               label={"Certified I.D Copy"}
               icon={<GrFingerPrint className="sidebar-icons text-secondary" />}
             />
           </Link>
-          <div
-            className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
-            "
-          >
-            <TbBriefcase2 className="sidebar-icons text-secondary" />
-            <p>C.V.</p>
-          </div>
-          <div
-            className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
-            "
-          >
-            <FaUserGraduate className="sidebar-icons text-secondary" />
-            <p>Qualifications</p>
-          </div>
-          <div
-            className="border border-secondary flex flex-col items-center justify-center px-4 py-8 rounded-lg gap-4 cursor-pointer hover:scale-102
-            "
-          >
-            <IoIosMore className="sidebar-icons text-secondary" />
-            <p>Others.</p>
-          </div>
+          <Link to="/files/cv">
+            <Icon
+              label={"CV"}
+              icon={<TbBriefcase2 className="sidebar-icons text-secondary" />}
+            />
+          </Link>
+          <Link to="/files/qualifications">
+            <Icon
+              label={"Qualifications"}
+              icon={<FaUserGraduate className="sidebar-icons text-secondary" />}
+            />
+          </Link>
+          <Link to="/files/other">
+            <Icon
+              label={"Certified I.D Copy"}
+              icon={<IoIosMore className="sidebar-icons text-secondary" />}
+            />
+          </Link>
         </div>
       </div>
     </>

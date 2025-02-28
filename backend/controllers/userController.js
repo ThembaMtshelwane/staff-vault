@@ -125,13 +125,14 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
 const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
   const search = req.query.search;
+  const department = req.query.department;
   const limit = 12;
   const skip = (page - 1) * limit;
   let filter = {};
 
-  const totalUsers = await User.countDocuments();
-
-  console.log("search  ", search);
+  if (department) {
+    filter.department = department;
+  }
 
   if (search) {
     filter.$or = [
@@ -143,6 +144,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 
   const users = await User.find(filter).skip(skip).limit(limit);
+  const totalUsers = users.length;
 
   if (users.length > 0) {
     res.status(200).json({

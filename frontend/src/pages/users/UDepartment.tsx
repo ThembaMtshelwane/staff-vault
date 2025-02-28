@@ -1,25 +1,28 @@
 import { useState } from "react";
 import EmployeeCard from "../../components/EmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
-import {
-  useGetUsersQuery,
-} from "../../slices/userApiSlice";
-import { RootState } from "@reduxjs/toolkit/query";
+import { useGetUsersQuery } from "../../slices/userApiSlice";
+import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
 
 const uDepartment = () => {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
   const limit = 12;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
-  const { data: employees, isLoading } = useGetUsersQuery({
+
+  const { data: department } = useGetDepartmentQuery({
+    id: userInfo?.department || "",
+  });
+
+  const { data: departmentEmployees } = useGetUsersQuery({
     page: currentPage,
     search,
+    department: userInfo?.department || "",
   });
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { data: department } = useGetDepartmentQuery({
-    id: userInfo.department || "",
-  });
+
+  console.log("departmentEmployees ", departmentEmployees);
 
   return (
     <>
@@ -35,7 +38,7 @@ const uDepartment = () => {
 
       <div>
         <div className="grid gap-4  justify-center auto-cols-max sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 relative scroll  h-full">
-          {employees?.data.map((employee) => (
+          {departmentEmployees?.data?.map((employee) => (
             <EmployeeCard
               key={employee._id}
               firstName={employee.firstName}
@@ -45,12 +48,12 @@ const uDepartment = () => {
             />
           ))}
         </div>
-        {employees?.data.length && (
+        {departmentEmployees?.data?.length && (
           <PaginationUI
             limit={limit}
             currentPage={currentPage}
-            totalElements={employees.pagination.totalUsers}
-            totalPages={employees.pagination.totalPages}
+            totalElements={departmentEmployees.pagination.totalUsers}
+            totalPages={departmentEmployees.pagination.totalPages}
             setCurrentPage={setCurrentPage}
           />
         )}

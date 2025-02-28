@@ -15,7 +15,7 @@ const UProfile = () => {
   const [updateUser] = useUpdateUserMutation();
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
   const { data: departments } = useGetDepartmentFilterQuery();
-  const [departmentSupervisor, setDepartmentSupervisor] = useState<string>("");
+  // const [departmentSupervisor, setDepartmentSupervisor] = useState<string>("");
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: data?.data._id || "",
     firstName: data?.data.firstName || "",
@@ -45,9 +45,9 @@ const UProfile = () => {
         department: selectedDepartmentId,
         position: "",
       }));
-      setDepartmentSupervisor(
-        selectedDepartment.supervisor?.name || "Not Available."
-      );
+      // setDepartmentSupervisor(
+      //   selectedDepartment.supervisor?.name || "Not Available."
+      // );
     }
   };
 
@@ -189,7 +189,7 @@ const UProfile = () => {
               </select>
             </label>
 
-            <label htmlFor="supervisor">
+            {/* <label htmlFor="supervisor">
               Supervisor:
               <input
                 type="text"
@@ -198,7 +198,7 @@ const UProfile = () => {
                 value={departmentSupervisor}
                 disabled
               />
-            </label>
+            </label> */}
           </div>
 
           {edit && (

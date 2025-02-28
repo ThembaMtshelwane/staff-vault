@@ -95,10 +95,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
           pageSize: number;
         };
       },
-      { page: number; search: string }
+      { page: number; search: string; department: string }
     >({
-      query: ({ page, search }) => ({
-        url: `${USERS_URL}?page=${page}&search=${search}`,
+      query: ({ page, search, department }) => ({
+        url: `${USERS_URL}?page=${page}&search=${search}&department=${department}`,
         method: "GET",
       }),
       providesTags: ["User"],
