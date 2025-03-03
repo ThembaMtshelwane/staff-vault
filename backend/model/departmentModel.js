@@ -4,16 +4,8 @@ const departmentSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     supervisor: {
-      name: { type: String },
-      email: {
-        type: String,
-        match: [/.+@.+\..+/, "Please enter a valid email"],
-      },
-      staff: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "User",
-        default: [],
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     positions: { type: [String], default: [] },
   },
