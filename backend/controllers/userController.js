@@ -207,6 +207,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   user.password = req.body.password || user.password;
   user.position = req.body.position || user.position;
   user.department = req.body.department || user.department;
+  user.headOf = req.body.headOf || user.headOf;
 
   const updatedUser = await user.save();
   res.status(200).json({
@@ -255,6 +256,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     permissions: req.user.permissions,
     files: req.user.files || [],
     department: req.user.department,
+    headOf: req.user.headOf,
   };
   res.status(200).json({
     success: true,

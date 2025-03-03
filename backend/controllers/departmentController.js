@@ -128,12 +128,15 @@ const updateDepartment = asyncHandler(async (req, res) => {
     throw new Error("Invalid id");
   }
   const department = await Department.findById(id);
-  const { name, email, staff } = req.body;
+  const { name, positions, supervisor } = req.body;
 
   if (department) {
     department.name = name || department.name;
-    department.email = email || department.email;
-    department.staff = staff || department.staff;
+    department.positions = positions || department.positions;
+    department.supervisor = supervisor || {
+      name: supervisor.name,
+      email: supervisor.email,
+    };
 
     const updatedDepartment = await department.save();
     res.status(200).json({

@@ -74,7 +74,7 @@ export const downloadFile = async (req, res) => {
  */
 export const getAllFiles = async (req, res) => {
   try {
-    const files = await File.find().exec();
+    const files = await File.find({});
     res.status(200).json({
       results: files.length,
       data: files,

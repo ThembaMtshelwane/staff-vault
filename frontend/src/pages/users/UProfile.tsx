@@ -6,16 +6,21 @@ import {
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
 import { IUser } from "../../definitions";
-import { useGetDepartmentFilterQuery } from "../../slices/departmentApiSlice";
+import {
+  useGetDepartmentFilterQuery,
+  useUpdateDepartmentMutation,
+} from "../../slices/departmentApiSlice";
 import { setCredentials } from "../../slices/authSlice";
 
 const UProfile = () => {
   const [edit, setEdit] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [updateUser] = useUpdateUserMutation();
+  const [updateDepartment] = useUpdateDepartmentMutation();
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
   const { data: departments } = useGetDepartmentFilterQuery();
-  // const [departmentSupervisor, setDepartmentSupervisor] = useState<string>("");
+  const [departmentID, setDepartmentID] = useState("");
+
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: data?.data._id || "",
     firstName: data?.data.firstName || "",
@@ -23,6 +28,7 @@ const UProfile = () => {
     email: data?.data.email || "",
     position: data?.data.position || "",
     department: data?.data.department,
+    headOf: data?.data.headOf || "",
   });
   const dispatch = useDispatch();
 
@@ -48,6 +54,25 @@ const UProfile = () => {
     }
   };
 
+  const handleHeadOfDepartmentChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedDepartmentId = e.target.value;
+    const selectedDepartment = departments?.data.find(
+      (department) => department._id === selectedDepartmentId
+    );
+    setDepartmentID(selectedDepartment?.name || "");
+
+    console.log("departmentID ", departmentID);
+
+    if (selectedDepartment) {
+      setProfile((prev) => ({
+        ...prev,
+        headOf: selectedDepartmentId,
+      }));
+    }
+  };
+
   useEffect(() => {
     if (data?.data) {
       setProfile({
@@ -57,6 +82,7 @@ const UProfile = () => {
         email: data?.data.email || "",
         position: data?.data.position || "",
         department: data?.data.department,
+        headOf: data?.data.headOf,
       });
     }
   }, [data]);
@@ -64,9 +90,18 @@ const UProfile = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await updateUser({ id: profile._id || "", data: profile });
-    console.log("res  ", res);
+    const res2 = await updateDepartment({
+      id: profile.headOf || "",
+      data: {
+        supervisor: {
+          name: `${userInfo?.firstName || ""} ${userInfo?.lastName || ""}`,
+          email: userInfo?.email || "",
+          staff: [],
+        },
+      },
+    });
 
-    if (res.data?.success) {
+    if (res.data?.success && res2.data?.success) {
       setEdit(false);
     }
     dispatch(setCredentials({ ...(res.data?.data as IUser) }));
@@ -81,6 +116,7 @@ const UProfile = () => {
       email: data?.data.email || "",
       position: data?.data.position || "",
       department: data?.data.department,
+      headOf: data?.data.headOf,
     });
   };
 
@@ -143,7 +179,7 @@ const UProfile = () => {
             </label>
 
             <label htmlFor="department">
-              Departments:
+              Department:
               <select
                 name="department"
                 id="department"
@@ -186,16 +222,32 @@ const UProfile = () => {
               </select>
             </label>
 
-            {/* <label htmlFor="supervisor">
-              Supervisor:
-              <input
-                type="text"
-                name="supervisor"
-                id="supervisor"
-                value={departmentSupervisor}
-                disabled
-              />
-            </label> */}
+            {userInfo?.permissions.filter(
+              (permission) => permission === "supervisor"
+            ).length ? (
+              <label htmlFor="department">
+                Head of:
+                <select
+                  name="department"
+                  id="department"
+                  className={`${edit && "shadow-secondary shadow-lg"}`}
+                  onChange={handleHeadOfDepartmentChange}
+                  disabled={!edit}
+                  value={profile.headOf}
+                >
+                  <option value="" disabled>
+                    Select a department
+                  </option>
+                  {departments?.data.map((department) => (
+                    <option key={department._id} value={department._id}>
+                      {department.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : (
+              ""
+            )}
           </div>
 
           {edit && (

@@ -13,6 +13,7 @@ export interface IUser {
   permissions: string[];
   files: IFiles;
   department?: string;
+  headOf: string;
 }
 
 export interface IDepartment {
