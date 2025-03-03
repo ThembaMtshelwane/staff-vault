@@ -1,5 +1,6 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
 import connectDB from "./config/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -12,7 +13,6 @@ import userRoutes from "./routes/userRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import fileRoutes from "./routes/fileRoutes.js";
 
-dotenv.config();
 connectDB();
 
 const app = express();
@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use("/api/organization", organizationRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/departments", protect, departmentRoutes);
-app.use("/api/files", fileRoutes);
+app.use("/api/files", fileRoutes);  // I commented this out because the controlleres are not working
 
 app.use(notFound);
 app.use(errorHandler);
