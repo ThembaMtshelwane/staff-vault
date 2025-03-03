@@ -90,18 +90,20 @@ const UProfile = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await updateUser({ id: profile._id || "", data: profile });
-    const res2 = await updateDepartment({
-      id: profile.headOf || "",
-      data: {
-        supervisor: {
-          name: `${userInfo?.firstName || ""} ${userInfo?.lastName || ""}`,
-          email: userInfo?.email || "",
-          staff: [],
-        },
-      },
-    });
 
-    if (res.data?.success && res2.data?.success) {
+    if (userInfo?.headOf) {
+      await updateDepartment({
+        id: profile.headOf || "",
+        data: {
+          supervisor: {
+            name: `${userInfo?.firstName || ""} ${userInfo?.lastName || ""}`,
+            email: userInfo?.email || "",
+            staff: [],
+          },
+        },
+      });
+    }
+    if (res.data?.success) {
       setEdit(false);
     }
     dispatch(setCredentials({ ...(res.data?.data as IUser) }));
