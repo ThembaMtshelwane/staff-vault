@@ -104,6 +104,21 @@ export const userApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
     }),
 
+    getUsersFilter: builder.query<
+      {
+        success: boolean;
+        message: string;
+        data: IUser[];
+      },
+      void
+    >({
+      query: () => ({
+        url: `${USERS_URL}/filter`,
+        method: "GET",
+      }),
+      providesTags: ["User"],
+    }),
+
     getUser: builder.query<
       { success: boolean; message: string; data: IUser },
       string
@@ -146,6 +161,7 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useGetUsersQuery,
+  useGetUsersFilterQuery,
   useGetUserQuery,
   useGetUserProfileQuery,
   useLogoutMutation,

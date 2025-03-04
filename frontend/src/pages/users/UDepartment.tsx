@@ -1,7 +1,7 @@
 import { useState } from "react";
 import UEmployeeCard from "../../components/uEmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
-import { useGetUsersQuery } from "../../slices/userApiSlice";
+import { useGetUserQuery, useGetUsersQuery } from "../../slices/userApiSlice";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
@@ -27,15 +27,23 @@ const uDepartment = () => {
     department: userInfo?.department || "",
   });
 
+  const { data: supervisor } = useGetUserQuery(
+    department?.data.supervisor || ""
+  );
   return (
     <>
       <h1>Department.</h1>
       <h2>{department?.data.name || "Not Available"}.</h2>
       <div className="flex flex-col gap-2">
         <h3>
-          Supervisor: {department?.data.supervisor?.name || "Not Available"}.
+          Supervisor:{" "}
+          {supervisor?.data.firstName && supervisor?.data.lastName
+            ? `${supervisor?.data.firstName} ${supervisor?.data.lastName}`
+            : "Not Available"}
+          .
         </h3>
-        <p>Email: {department?.data.supervisor?.email || "Not Available"}</p>
+        <p>Email: {supervisor?.data.email || "Not Available"}</p>
+        <p>Email: {departmentEmployees?.data.length || 0}</p>
       </div>
       {isLoading ? (
         <div className="flex justify-center items-center h-full">

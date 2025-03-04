@@ -15,24 +15,37 @@ import { setCredentials } from "../../slices/authSlice";
 const UProfile = () => {
   const [edit, setEdit] = useState(false);
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [updateUser] = useUpdateUserMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
   const { data: supervisor } = useGetUserQuery(userInfo?.supervisor || "");
   const { data: departments } = useGetDepartmentFilterQuery();
-  const [departmentID, setDepartmentID] = useState("");
+  const [departmentID, setDepartmentID] = useState(userInfo?.department || "");
+  const [supervisorID, setSupervisorID] = useState(userInfo?.supervisor || "");
 
   const [profile, setProfile] = useState<Partial<IUser>>({
-    _id: userInfo?._id || "",
-    firstName: userInfo?.firstName || "",
-    lastName: userInfo?.lastName || "",
-    email: userInfo?.email || "",
-    position: userInfo?.position || "",
-    department: userInfo?.department,
-    supervisor: userInfo?.supervisor || "",
+    _id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    position: "",
+    department: "",
+    supervisor: "",
   });
-  const dispatch = useDispatch();
 
-
+  useEffect(() => {
+    if (userInfo) {
+      setProfile({
+        _id: userInfo._id,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        email: userInfo.email,
+        position: userInfo.position,
+        department: userInfo.department,
+        supervisor: userInfo.supervisor,
+      });
+    }
+  }, [userInfo]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -43,68 +56,43 @@ const UProfile = () => {
 
   const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDepartmentId = e.target.value;
+    setDepartmentID(selectedDepartmentId);
+
     const selectedDepartment = departments?.data.find(
       (department) => department._id === selectedDepartmentId
     );
 
-    if (selectedDepartment) {
+    if (selectedDepartment?.supervisor) {
+      console.log("selectedDepartment ", selectedDepartment);
       setProfile((prev) => ({
         ...prev,
         department: selectedDepartmentId,
         position: "",
+        supervisor: selectedDepartment?.supervisor,
       }));
     }
   };
-
-  const handleSusupervisorDepartmentChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedDepartmentId = e.target.value;
-    const selectedDepartment = departments?.data.find(
-      (department) => department._id === selectedDepartmentId
-    );
-    setDepartmentID(selectedDepartment?.name || "");
-
-    console.log("departmentID ", departmentID);
-
-    if (selectedDepartment) {
-      setProfile((prev) => ({
-        ...prev,
-        supervisor: selectedDepartmentId,
-      }));
-    }
-  };
-
-  useEffect(() => {
-    if (userInfo) {
-      setProfile({
-        _id: userInfo?._id || "",
-        firstName: userInfo?.firstName || "",
-        lastName: userInfo?.lastName || "",
-        email: userInfo?.email || "",
-        position: userInfo?.position || "",
-        department: userInfo?.department,
-        supervisor: userInfo?.supervisor,
-      });
-    }
-  }, [userInfo]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const res = await updateUser({ id: profile._id || "", data: profile });
 
-    if (userInfo?.supervisor) {
+    if (profile.supervisor && profile.supervisor !== userInfo?.supervisor) {
       await updateDepartment({
-        id: profile.supervisor || "",
+        id: profile.department || "",
         data: {
-          supervisor: "",
+          supervisor: profile.supervisor,
         },
       });
     }
+
+    console.log("profile  ", profile);
+
     if (res.data?.success) {
       setEdit(false);
+      dispatch(setCredentials(res.data.data as IUser));
     }
-    dispatch(setCredentials({ ...(res.data?.data as IUser) }));
   };
 
   const handleCancel = () => {
@@ -115,8 +103,8 @@ const UProfile = () => {
       lastName: userInfo?.lastName || "",
       email: userInfo?.email || "",
       position: userInfo?.position || "",
-      department: userInfo?.department,
-      supervisor: userInfo?.supervisor,
+      department: userInfo?.department || "",
+      supervisor: userInfo?.supervisor || "",
     });
   };
 
@@ -144,7 +132,7 @@ const UProfile = () => {
                 disabled={!edit}
                 value={profile.firstName}
                 onChange={handleChange}
-                className={`${edit && "shadow-secondary shadow-lg"}`}
+                className={edit ? "shadow-secondary shadow-lg" : ""}
                 maxLength={100}
               />
             </label>
@@ -159,7 +147,7 @@ const UProfile = () => {
                 disabled={!edit}
                 value={profile.lastName}
                 onChange={handleChange}
-                className={`${edit && "shadow-secondary shadow-lg"}`}
+                className={edit ? "shadow-secondary shadow-lg" : ""}
                 maxLength={100}
               />
             </label>
@@ -172,7 +160,7 @@ const UProfile = () => {
                 name="email"
                 id="email"
                 disabled={!edit}
-                className={`${edit && "shadow-secondary shadow-lg"}`}
+                className={edit ? "shadow-secondary shadow-lg" : ""}
                 value={profile.email}
                 onChange={handleChange}
               />
@@ -183,10 +171,10 @@ const UProfile = () => {
               <select
                 name="department"
                 id="department"
-                className={`${edit && "shadow-secondary shadow-lg"}`}
+                className={edit ? "shadow-secondary shadow-lg" : ""}
                 onChange={handleDepartmentChange}
                 disabled={!edit}
-                value={profile.department}
+                value={departmentID}
               >
                 <option value="" disabled>
                   Select a department
@@ -204,7 +192,7 @@ const UProfile = () => {
               <select
                 name="position"
                 id="position"
-                className={`${edit && "shadow-secondary shadow-lg"}`}
+                className={edit ? "shadow-secondary shadow-lg" : ""}
                 disabled={!edit}
                 value={profile.position}
                 onChange={handleChange}
@@ -213,7 +201,7 @@ const UProfile = () => {
                   Select a position
                 </option>
                 {departments?.data
-                  .find((dept) => dept._id === profile.department)
+                  .find((dept) => dept._id === departmentID)
                   ?.positions.map((position) => (
                     <option key={position} value={position}>
                       {position}
@@ -222,43 +210,16 @@ const UProfile = () => {
               </select>
             </label>
 
-            {userInfo?.permissions.filter(
-              (permission) => permission === "supervisor"
-            ).length ? (
-              <label htmlFor="department">
-                Head of:
-                <select
-                  name="department"
-                  id="department"
-                  className={`${edit && "shadow-secondary shadow-lg"}`}
-                  onChange={handleSusupervisorDepartmentChange}
-                  disabled={!edit}
-                  value={profile.supervisor}
-                >
-                  <option value="" disabled>
-                    Select a department
-                  </option>
-                  {departments?.data.map((department) => (
-                    <option key={department._id} value={department._id}>
-                      {department.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : (
-              ""
-            )}
-
-            <label htmlFor="lastName">
+            <label htmlFor="supervisor">
               Supervisor:
               <input
                 type="text"
-                name="lastName"
-                id="lastName"
+                name="supervisor"
+                id="supervisor"
                 disabled
                 value={
-                  supervisor?.data.firstName && supervisor?.data.lastName
-                    ? `supervisor?.data.firstName && supervisor?.data.lastName`
+                  supervisor?.data?.firstName && supervisor?.data?.lastName
+                    ? `${supervisor.data.firstName} ${supervisor.data.lastName}`
                     : "Not Available"
                 }
                 className="cursor-not-allowed"

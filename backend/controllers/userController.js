@@ -168,6 +168,25 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 });
 
+const fetchAllUsersFilter = expressAsyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  if (!users) {
+    res.status(500);
+    throw new Error("Internal Server error");
+  }
+
+  if (users.length > 0) {
+    res.status(200).json({
+      success: true,
+      message: `Found ${users.length} users`,
+      data: users,
+    });
+  } else {
+    res.status(404).json({ success: false, message: "No users found" });
+  }
+});
+
 const fetchUserById = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -207,7 +226,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   user.password = req.body.password || user.password;
   user.position = req.body.position || user.position;
   user.department = req.body.department || user.department;
-  user.headOf = req.body.headOf || user.headOf;
+  user.supervisor = req.body.supervisor || user.supervisor;
 
   const updatedUser = await user.save();
   res.status(200).json({
@@ -270,6 +289,7 @@ export {
   createAdminUser,
   loginUser,
   fetchAllUsers,
+  fetchAllUsersFilter,
   fetchUserById,
   deleteUser,
   updateUser,

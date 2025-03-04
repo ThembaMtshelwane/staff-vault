@@ -17,6 +17,7 @@ import Files from "./pages/users/Files/Files";
 import UDepartment from "./pages/users/UDepartment";
 import UProfile from "./pages/users/UProfile";
 import UpdateFile from "./components/UpdateFile";
+import EditDepartment from "./pages/admin/Departments/EditDepartment";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route index element={<Departments />} />
               <Route path="add-department" element={<AddDepartment />} />
               <Route path=":id" element={<Department />} />
+              <Route path="edit/:id" element={<EditDepartment />} />
             </Route>
             <Route path="profile" element={<Profile />} />
             <Route path="settings" element={<Settings />} />

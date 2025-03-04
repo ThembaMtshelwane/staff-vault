@@ -34,9 +34,7 @@ const Departments = () => {
                 key={department._id}
                 name={department.name}
                 id={department._id}
-                email={department.supervisor?.email || ""}
-                superviour={department.supervisor?.name || ""}
-                staff={department.supervisor?.staff.length || 0}
+                superviour={department.supervisor || ""}
               />
             ))}
           </div>

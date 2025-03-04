@@ -10,12 +10,14 @@ import {
   logoutUser,
   getUserProfile,
   updateUser,
+  fetchAllUsersFilter,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.route("/").post(protect, registerAllUsers).get(protect, fetchAllUsers);
+router.get("/filter", fetchAllUsersFilter);
 router.post("/admin", createAdminUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
