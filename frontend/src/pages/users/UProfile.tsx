@@ -2,7 +2,6 @@ import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
-  useGetUserProfileQuery,
   useGetUserQuery,
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
@@ -18,23 +17,22 @@ const UProfile = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [updateUser] = useUpdateUserMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
-  const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
-  const { data: supervisor } = useGetUserQuery(data?.data.supervisor || "");
+  const { data: supervisor } = useGetUserQuery(userInfo?.supervisor || "");
   const { data: departments } = useGetDepartmentFilterQuery();
   const [departmentID, setDepartmentID] = useState("");
 
   const [profile, setProfile] = useState<Partial<IUser>>({
-    _id: data?.data._id || "",
-    firstName: data?.data.firstName || "",
-    lastName: data?.data.lastName || "",
-    email: data?.data.email || "",
-    position: data?.data.position || "",
-    department: data?.data.department,
-    supervisor: data?.data.supervisor || "",
+    _id: userInfo?._id || "",
+    firstName: userInfo?.firstName || "",
+    lastName: userInfo?.lastName || "",
+    email: userInfo?.email || "",
+    position: userInfo?.position || "",
+    department: userInfo?.department,
+    supervisor: userInfo?.supervisor || "",
   });
   const dispatch = useDispatch();
 
-  console.log("data  ", data);
+
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -78,18 +76,18 @@ const UProfile = () => {
   };
 
   useEffect(() => {
-    if (data?.data) {
+    if (userInfo) {
       setProfile({
-        _id: data?.data._id || "",
-        firstName: data?.data.firstName || "",
-        lastName: data?.data.lastName || "",
-        email: data?.data.email || "",
-        position: data?.data.position || "",
-        department: data?.data.department,
-        supervisor: data?.data.supervisor,
+        _id: userInfo?._id || "",
+        firstName: userInfo?.firstName || "",
+        lastName: userInfo?.lastName || "",
+        email: userInfo?.email || "",
+        position: userInfo?.position || "",
+        department: userInfo?.department,
+        supervisor: userInfo?.supervisor,
       });
     }
-  }, [data]);
+  }, [userInfo]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -112,13 +110,13 @@ const UProfile = () => {
   const handleCancel = () => {
     setEdit(false);
     setProfile({
-      _id: data?.data._id || "",
-      firstName: data?.data.firstName || "",
-      lastName: data?.data.lastName || "",
-      email: data?.data.email || "",
-      position: data?.data.position || "",
-      department: data?.data.department,
-      supervisor: data?.data.supervisor,
+      _id: userInfo?._id || "",
+      firstName: userInfo?.firstName || "",
+      lastName: userInfo?.lastName || "",
+      email: userInfo?.email || "",
+      position: userInfo?.position || "",
+      department: userInfo?.department,
+      supervisor: userInfo?.supervisor,
     });
   };
 
