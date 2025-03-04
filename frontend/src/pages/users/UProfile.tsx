@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   useGetUserProfileQuery,
+  useGetUserQuery,
   useUpdateUserMutation,
 } from "../../slices/userApiSlice";
 import { IUser } from "../../definitions";
@@ -18,6 +19,7 @@ const UProfile = () => {
   const [updateUser] = useUpdateUserMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
   const { data } = useGetUserProfileQuery({ id: userInfo?._id || "" });
+  const { data: supervisor } = useGetUserQuery(data?.data.supervisor || "");
   const { data: departments } = useGetDepartmentFilterQuery();
   const [departmentID, setDepartmentID] = useState("");
 
@@ -28,9 +30,11 @@ const UProfile = () => {
     email: data?.data.email || "",
     position: data?.data.position || "",
     department: data?.data.department,
-    headOf: data?.data.headOf || "",
+    supervisor: data?.data.supervisor || "",
   });
   const dispatch = useDispatch();
+
+  console.log("data  ", data);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -54,7 +58,7 @@ const UProfile = () => {
     }
   };
 
-  const handleHeadOfDepartmentChange = (
+  const handleSusupervisorDepartmentChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selectedDepartmentId = e.target.value;
@@ -68,7 +72,7 @@ const UProfile = () => {
     if (selectedDepartment) {
       setProfile((prev) => ({
         ...prev,
-        headOf: selectedDepartmentId,
+        supervisor: selectedDepartmentId,
       }));
     }
   };
@@ -82,7 +86,7 @@ const UProfile = () => {
         email: data?.data.email || "",
         position: data?.data.position || "",
         department: data?.data.department,
-        headOf: data?.data.headOf,
+        supervisor: data?.data.supervisor,
       });
     }
   }, [data]);
@@ -91,15 +95,11 @@ const UProfile = () => {
     e.preventDefault();
     const res = await updateUser({ id: profile._id || "", data: profile });
 
-    if (userInfo?.headOf) {
+    if (userInfo?.supervisor) {
       await updateDepartment({
-        id: profile.headOf || "",
+        id: profile.supervisor || "",
         data: {
-          supervisor: {
-            name: `${userInfo?.firstName || ""} ${userInfo?.lastName || ""}`,
-            email: userInfo?.email || "",
-            staff: [],
-          },
+          supervisor: "",
         },
       });
     }
@@ -118,7 +118,7 @@ const UProfile = () => {
       email: data?.data.email || "",
       position: data?.data.position || "",
       department: data?.data.department,
-      headOf: data?.data.headOf,
+      supervisor: data?.data.supervisor,
     });
   };
 
@@ -233,9 +233,9 @@ const UProfile = () => {
                   name="department"
                   id="department"
                   className={`${edit && "shadow-secondary shadow-lg"}`}
-                  onChange={handleHeadOfDepartmentChange}
+                  onChange={handleSusupervisorDepartmentChange}
                   disabled={!edit}
-                  value={profile.headOf}
+                  value={profile.supervisor}
                 >
                   <option value="" disabled>
                     Select a department
@@ -250,6 +250,22 @@ const UProfile = () => {
             ) : (
               ""
             )}
+
+            <label htmlFor="lastName">
+              Supervisor:
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                disabled
+                value={
+                  supervisor?.data.firstName && supervisor?.data.lastName
+                    ? `supervisor?.data.firstName && supervisor?.data.lastName`
+                    : "Not Available"
+                }
+                className="cursor-not-allowed"
+              />
+            </label>
           </div>
 
           {edit && (

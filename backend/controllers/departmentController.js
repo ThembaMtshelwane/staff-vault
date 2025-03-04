@@ -15,9 +15,9 @@ const createAllDepartments = asyncHandler(async (req, res) => {
     departmentsList.map(async (departmentInfo) => {
       const { name, email, positions, supervisor } = departmentInfo;
 
-      if (!name || !positions || !supervisor.email) {
+      if (!name || !positions) {
         res.status(400);
-        throw new Error("Each department must have both an email and a name");
+        throw new Error("Each department must have both a name and positions");
       }
 
       let department = await Department.findOne({ name });
@@ -25,11 +25,6 @@ const createAllDepartments = asyncHandler(async (req, res) => {
         department = await Department.create({
           name,
           positions,
-          supervisor: {
-            name: "",
-            email,
-            staff: [],
-          },
         });
       }
       return department;

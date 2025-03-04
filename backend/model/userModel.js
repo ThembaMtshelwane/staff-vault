@@ -12,8 +12,16 @@ const userSchema = mongoose.Schema(
       default: "",
     },
     position: { type: String, default: "" },
-    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
-    supervisor: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      default: null,
+    },
+    supervisor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
     email: { type: String, required: true },
     password: { type: String, default: process.env.USER_PASSWORD },
     role: {

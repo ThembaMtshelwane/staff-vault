@@ -6,6 +6,7 @@ const departmentSchema = mongoose.Schema(
     supervisor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      default: null,
     },
     positions: { type: [String], default: [] },
   },
