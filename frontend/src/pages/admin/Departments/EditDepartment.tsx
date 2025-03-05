@@ -6,7 +6,9 @@ import {
 } from "../../../slices/departmentApiSlice";
 import { FormEvent, useEffect, useState } from "react";
 import { IDepartment } from "../../../definitions";
-import { useGetUsersFilterQuery } from "../../../slices/userApiSlice";
+import {
+  useGetUsersFilterQuery,
+} from "../../../slices/userApiSlice";
 
 const EditDepartment = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,19 +43,20 @@ const EditDepartment = () => {
     setDepartment((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSupervisorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSupervisorChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const selectedSupervisorId = e.target.value;
     const selectedSupervisor = employees?.data.find(
       (employee) => employee._id === selectedSupervisorId
     );
-
-    console.log("supervisor selected name", selectedSupervisor?.firstName);
 
     if (selectedSupervisor) {
       setDepartment((prev) => ({
         ...prev,
         supervisor: selectedSupervisorId,
       }));
+
     }
   };
   const handleCancel = () => {
@@ -69,9 +72,6 @@ const EditDepartment = () => {
 
     try {
       const res = await updateDepartment({ id: String(id), data: department });
-
-      console.log("updated department ", res);
-
       if (res?.data?.success) {
         setEdit(false);
         navigate("/admin/departments");
