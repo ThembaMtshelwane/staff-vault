@@ -12,7 +12,6 @@ import EmployeeCard from "../../../components/EmployeeCard";
 import ReturnIcon from "../../../components/ReturnIcon";
 import PaginationUI from "../../../components/PaginationUI";
 import { useState } from "react";
-import e from "express";
 
 const Department = () => {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +56,6 @@ const Department = () => {
         <div>
           <h3>Supervisor: {supervisor}.</h3>
           <p>Contact: {employee?.data.email}</p>
-          {/* <p>Location: {location}</p> */}
           <p>Total staff: {staff}</p>
         </div>
         <div className="flex gap-4 justify-center  w-full sm:w-[40%]">

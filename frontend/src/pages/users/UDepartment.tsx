@@ -43,7 +43,7 @@ const uDepartment = () => {
           .
         </h3>
         <p>Email: {supervisor?.data.email || "Not Available"}</p>
-        <p>Email: {departmentEmployees?.data.length || 0}</p>
+        <p>Memmbers: {departmentEmployees?.data.length || 0}</p>
       </div>
       {isLoading ? (
         <div className="flex justify-center items-center h-full">

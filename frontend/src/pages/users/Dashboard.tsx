@@ -7,18 +7,23 @@ import { TbBriefcase2 } from "react-icons/tb";
 import { Link } from "react-router";
 import Icon from "../../components/Icon";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
+import { useGetUserQuery } from "../../slices/userApiSlice";
 
 const Dashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { data: department } = useGetDepartmentQuery({
     id: userInfo?.department || "",
   });
+  const { data: supervisor } = useGetUserQuery(userInfo?.supervisor || "");
 
   const firstName = userInfo?.firstName || "";
   const lastName = userInfo?.lastName || "";
   const email = userInfo?.email || "";
   const position = userInfo?.position || "";
-  const supervisor = department?.data.supervisor?.name || "Not Available";
+  const supervisorFirstName = supervisor?.data.firstName;
+  const supervisorLastName = supervisor?.data.lastName;
+
+  console.log("supervisor  ", userInfo?.supervisor);
 
   return (
     <>
@@ -30,8 +35,14 @@ const Dashboard = () => {
         </h2>
         <h3>{position}.</h3>
         <p>{email}.</p>
-        <p>Department: {department?.data.name}.</p>
-        <p>Supervisor: {supervisor}.</p>
+        <p>Department: {department?.data.name || "Not Available"}.</p>
+        <p>
+          Supervisor:{" "}
+          {supervisor?.success
+            ? `${supervisorFirstName} ${supervisorLastName}`
+            : "Not Available"}
+          .
+        </p>
       </div>
       <div className="">
         <p>Documents:</p>
