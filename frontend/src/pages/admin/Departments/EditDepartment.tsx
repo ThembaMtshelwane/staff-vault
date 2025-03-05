@@ -47,6 +47,8 @@ const EditDepartment = () => {
       (employee) => employee._id === selectedSupervisorId
     );
 
+    console.log("supervisor selected name", selectedSupervisor?.firstName);
+
     if (selectedSupervisor) {
       setDepartment((prev) => ({
         ...prev,
@@ -68,7 +70,7 @@ const EditDepartment = () => {
     try {
       const res = await updateDepartment({ id: String(id), data: department });
 
-      console.log(res);
+      console.log("updated department ", res);
 
       if (res?.data?.success) {
         setEdit(false);
@@ -117,11 +119,13 @@ const EditDepartment = () => {
                 <option value="" disabled>
                   Select supervisor
                 </option>
-                {employees?.data.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.firstName} {employee.lastName}
-                  </option>
-                ))}
+                {[...(employees?.data || [])]
+                  .sort((a, b) => a.firstName.localeCompare(b.firstName))
+                  .map((employee) => (
+                    <option key={employee._id} value={employee._id}>
+                      {employee.firstName} {employee.lastName}
+                    </option>
+                  ))}
               </select>
             </label>
           </div>

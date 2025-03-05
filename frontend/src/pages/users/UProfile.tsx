@@ -21,8 +21,6 @@ const UProfile = () => {
   const { data: supervisor } = useGetUserQuery(userInfo?.supervisor || "");
   const { data: departments } = useGetDepartmentFilterQuery();
   const [departmentID, setDepartmentID] = useState(userInfo?.department || "");
-  const [supervisorID, setSupervisorID] = useState(userInfo?.supervisor || "");
-
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: "",
     firstName: "",
@@ -31,6 +29,11 @@ const UProfile = () => {
     position: "",
     department: "",
     supervisor: "",
+  });
+
+  const [supervisorDetails, setSupervisorDetails] = useState<Partial<IUser>>({
+    firstName: "",
+    lastName: "",
   });
 
   useEffect(() => {
@@ -44,8 +47,15 @@ const UProfile = () => {
         department: userInfo.department,
         supervisor: userInfo.supervisor,
       });
+
+      if (userInfo.supervisor) {
+        setSupervisorDetails({
+          firstName: supervisor?.data.firstName,
+          lastName: supervisor?.data.lastName,
+        });
+      }
     }
-  }, [userInfo]);
+  }, [supervisor, userInfo]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -62,8 +72,12 @@ const UProfile = () => {
       (department) => department._id === selectedDepartmentId
     );
 
-    if (selectedDepartment?.supervisor) {
-      console.log("selectedDepartment ", selectedDepartment);
+    if (selectedDepartment) {
+      setSupervisorDetails({
+        firstName: supervisor?.data.firstName,
+        lastName: supervisor?.data.lastName,
+      });
+
       setProfile((prev) => ({
         ...prev,
         department: selectedDepartmentId,
@@ -86,8 +100,6 @@ const UProfile = () => {
         },
       });
     }
-
-    console.log("profile  ", profile);
 
     if (res.data?.success) {
       setEdit(false);
@@ -217,9 +229,10 @@ const UProfile = () => {
                 name="supervisor"
                 id="supervisor"
                 disabled
+                onChange={handleChange}
                 value={
-                  supervisor?.data?.firstName && supervisor?.data?.lastName
-                    ? `${supervisor.data.firstName} ${supervisor.data.lastName}`
+                  supervisorDetails.firstName && supervisorDetails.lastName
+                    ? `${supervisorDetails.firstName} ${supervisorDetails.lastName}`
                     : "Not Available"
                 }
                 className="cursor-not-allowed"
