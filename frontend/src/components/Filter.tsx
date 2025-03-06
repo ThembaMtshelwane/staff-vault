@@ -5,9 +5,10 @@ import { useState, useRef, useEffect } from "react";
 type Props = {
   filterOptions: IDepartment[];
   setDepartment: (option: string) => void;
+  setSearch: (option: string) => void;
 };
 
-const Filter = ({ filterOptions, setDepartment }: Props) => {
+const Filter = ({ filterOptions, setDepartment, setSearch }: Props) => {
   const [toggle, setToggle] = useState(false);
   const menuRef = useRef<HTMLUListElement | null>(null);
   useEffect(() => {
@@ -45,6 +46,7 @@ const Filter = ({ filterOptions, setDepartment }: Props) => {
               onClick={() => {
                 setDepartment(option._id);
                 setToggle(false);
+                setSearch("");
               }}
               className="text-secondary border px-2 py-4 hover:bg-secondary hover:text-background rounded-lg hover:scale-102 cursor-pointer"
             >

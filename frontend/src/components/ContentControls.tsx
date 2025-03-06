@@ -33,7 +33,10 @@ const ContentControls = ({
             id="search"
             placeholder={`Search for ${addFunctionName}`}
             className="rounded-tr-none rounded-br-none w-[80%]"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setDepartment("");
+            }}
           />
           <div className="bg-secondary w-[20%] h-full text-background flex items-center justify-center rounded-tr-lg rounded-br-lg hover:scale-102 cursor-pointer">
             <IoSearch className="text-2xl" />
@@ -42,6 +45,7 @@ const ContentControls = ({
         <Filter
           filterOptions={departments?.data || []}
           setDepartment={setDepartment}
+          setSearch={setSearch}
         />
       </div>
     </div>
