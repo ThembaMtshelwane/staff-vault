@@ -23,8 +23,6 @@ const Dashboard = () => {
   const supervisorFirstName = supervisor?.data.firstName;
   const supervisorLastName = supervisor?.data.lastName;
 
-  console.log("supervisor  ", userInfo?.supervisor);
-
   return (
     <>
       <h1>Dashboard Overview.</h1>
@@ -38,7 +36,7 @@ const Dashboard = () => {
         <p>Department: {department?.data.name || "Not Available"}.</p>
         <p>
           Supervisor:{" "}
-          {supervisor?.success
+          {userInfo?.supervisor
             ? `${supervisorFirstName} ${supervisorLastName}`
             : "Not Available"}
           .

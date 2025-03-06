@@ -1,15 +1,20 @@
 import { Link } from "react-router";
+import { useGetDepartmentQuery } from "../slices/departmentApiSlice";
+import { useGetUserQuery } from "../slices/userApiSlice";
 
 type Props = {
   firstName: string;
   lastName: string;
   position: string;
   image?: string;
-  department?: string;
   id: string;
 };
 
 const EmployeeCard = ({ firstName, lastName, position, id }: Props) => {
+  const { data: employee } = useGetUserQuery(id);
+  const { data: department } = useGetDepartmentQuery({
+    id: String(employee?.data.department),
+  });
   return (
     <Link
       to={`/admin/employees/${id}`}
@@ -28,7 +33,7 @@ const EmployeeCard = ({ firstName, lastName, position, id }: Props) => {
           .
         </h3>
         <p>{position ? position : "No positon provided"}</p>
-        <p>Software Development Academy.</p>
+        <p>{department?.success ? department.data.name : "Not Available"}.</p>
       </div>
     </Link>
   );

@@ -37,7 +37,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
 });
 
 const createAdminUser = expressAsyncHandler(async (req, res) => {
-  const { email } = req.body;
+  const { email, firstName, lastName } = req.body;
 
   if (!email) {
     throw new Error("Please enter an email address for the admin");
@@ -49,6 +49,8 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
+    firstName,
+    lastName,
     email,
     permissions: ["add_user", "suspend_user"],
     role: "admin",

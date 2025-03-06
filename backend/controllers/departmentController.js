@@ -164,11 +164,11 @@ const deleteDepartment = asyncHandler(async (req, res) => {
 });
 
 const addDepartment = asyncHandler(async (req, res) => {
-  const { name, email, staff, supervisor } = req.body;
+  const { name, supervisor } = req.body;
 
-  if (!name || !email || !supervisor) {
+  if (!name || !supervisor) {
     res.status(400);
-    throw new Error("Department must have both an email and a name");
+    throw new Error("Department must have both an email and a supervisor");
   }
 
   const departmentExists = await Department.findOne({ name });
@@ -180,8 +180,6 @@ const addDepartment = asyncHandler(async (req, res) => {
 
   const department = await Department.create({
     name,
-    email,
-    staff,
     supervisor,
   });
   if (department) {

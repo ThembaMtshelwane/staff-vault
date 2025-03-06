@@ -13,17 +13,24 @@ import { useGetDepartmentQuery } from "../../../slices/departmentApiSlice";
 const Employee = () => {
   const { id } = useParams<{ id: string }>();
   const { data: employee } = useGetUserQuery(String(id));
+  const { data: supervisor } = useGetUserQuery(
+    String(employee?.data.supervisor)
+  );
   const { data: departmentData } = useGetDepartmentQuery({
     id: employee?.data.department || "",
   });
   const [deleteUser] = useDeleteUserMutation();
   const navigate = useNavigate();
 
+  console.log('id    ',id);
+  
+
   const firstName = employee?.data?.firstName || "N/A";
   const lastName = employee?.data?.lastName || "N/A";
   const position = employee?.data?.position || "Not Available";
   const department = departmentData?.data?.name || "Not Available";
-  const supervisor = departmentData?.data.supervisor?.name || "Not Available";
+  const supervisorFirstName = supervisor?.data.firstName || "Not Available";
+  const supervisorLastName = supervisor?.data.lastName || "Not Available";
   const email = employee?.data?.email || "Not Available";
 
   const handleDeleteEmployee = async () => {
@@ -54,7 +61,13 @@ const Employee = () => {
         <p>Email: {email}. </p>
         <p>Position: {position}. </p>
         <p>Dpeartment: {department}. </p>
-        <p>Supervisor: {supervisor}. </p>
+        <p>
+          Supervisor:{" "}
+          {supervisor?.data
+            ? `${supervisorFirstName} ${supervisorLastName}`
+            : "Not Available"}
+          .{" "}
+        </p>
 
         <div className="">
           <p>Documents:</p>
