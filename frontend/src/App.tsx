@@ -16,7 +16,7 @@ import Dashboard from "./pages/users/Dashboard";
 import Files from "./pages/users/Files/Files";
 import UDepartment from "./pages/users/UDepartment";
 import UProfile from "./pages/users/UProfile";
-import UpdateFile from "./components/UpdateFile";
+import UpdateFile from "./pages/users/Files/UpdateFile";
 import EditDepartment from "./pages/admin/Departments/EditDepartment";
 
 function App() {

@@ -6,6 +6,16 @@ const fileSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    employee: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    documentType: {
+      type: String,
+      default: "Other",
+      required: true,
+    },
     mimetype: {
       type: String,
       required: true,

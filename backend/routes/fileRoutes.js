@@ -4,6 +4,7 @@ import {
   uploadFile,
   downloadFile,
   getAllFiles,
+  getFilteredFiles,
 } from "../controllers/fileController.js";
 import dotenv from "dotenv";
 import { upload } from "../config/db.js";
@@ -13,6 +14,9 @@ const fileRoutes = express.Router();
 
 // Upload endpoint
 fileRoutes.post("/upload", upload.single("file"), uploadFile);
+
+// Get file endpoint
+fileRoutes.get("/filter", getFilteredFiles);
 
 // Download endpoint
 fileRoutes.get("/:filename", downloadFile);

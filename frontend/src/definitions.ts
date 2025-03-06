@@ -3,6 +3,15 @@ export interface IFiles {
   docs: string[];
 }
 
+export interface IFile {
+  documentType: string;
+  employee: string;
+  mimetype: string;
+  name: string;
+  path: string;
+  updatedAt: Date;
+}
+
 export interface IUser {
   _id: string;
   firstName: string;
@@ -38,3 +47,10 @@ export interface IOrganization {
   phone: string;
   email: string;
 }
+
+export const documentTypes = [
+  "Certified ID copy",
+  "CV",
+  "Qualifications",
+  "Other",
+];

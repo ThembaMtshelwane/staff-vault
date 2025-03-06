@@ -27,6 +27,8 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
     name: req.file.originalname,
     mimetype: req.file.mimetype,
     path: relativePath,
+    employee: req.body.employee,
+    documentType: req.body.documentType,
   });
 
   await newFile.save();
@@ -47,6 +49,7 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
  */
 export const downloadFile = expressAsyncHandler(async (req, res) => {
   const filename = req.params.filename;
+
   const file = await File.findOne({ name: filename });
 
   if (!file) {
@@ -64,6 +67,7 @@ export const downloadFile = expressAsyncHandler(async (req, res) => {
 export const getAllFiles = expressAsyncHandler(async (req, res) => {
   try {
     const files = await File.find().exec();
+
     res.status(200).json({
       results: files.length,
       data: files,
@@ -71,4 +75,20 @@ export const getAllFiles = expressAsyncHandler(async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Error fetching files" });
   }
+});
+
+export const getFilteredFiles = expressAsyncHandler(async (req, res) => {
+  const documentType = req.query.documentType;
+
+  const files = await File.find({ documentType }).exec();
+
+  if (!files) {
+    res.status(500);
+    throw new Error("Error fetching file");
+  }
+  res.status(200).json({
+    success: true,
+    message: `${documentType} files returned`,
+    data: files,
+  });
 });
