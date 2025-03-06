@@ -89,7 +89,7 @@ const UpdateFile = ({ type }: Props) => {
       <ul className="rounded-lg max-w-[850px] mx-auto flex flex-col gap-4">
         {docs?.data.map((doc) => (
           <li className="flex justify-between items-center py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white">
-            <div className="flex flex-wrap gap-2 w-[80%] sm:w-[70%] justify-between border max-w-[450px]">
+            <div className="flex flex-wrap gap-2 w-[80%] sm:w-[70%] justify-between max-w-[450px]">
               <p>{doc.name}</p>
               <p>{new Date(doc.updatedAt).toDateString()}</p>
             </div>
