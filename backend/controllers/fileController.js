@@ -15,7 +15,10 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
     throw new Error("No file uploaded");
   }
 
-  const fileExists = await File.findOne({ name: req.file.originalname });
+  const fileExists = await File.findOne({
+    name: req.file.originalname,
+    documentType: req.body.documentType,
+  });
 
   if (fileExists) {
     await File.findByIdAndDelete(fileExists._id);
