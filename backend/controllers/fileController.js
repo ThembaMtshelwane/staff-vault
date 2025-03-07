@@ -95,3 +95,24 @@ export const getFilteredFiles = expressAsyncHandler(async (req, res) => {
     data: files,
   });
 });
+
+export const deleteFile = expressAsyncHandler(async (req, res) => {
+  const { filename, documentType } = req.params;
+
+  const fileExists = await File.findOne({
+    name: filename,
+    documentType,
+  });
+
+  if (!fileExists) {
+    res.status(404);
+    throw new Error("No file found");
+  }
+
+  const file = await File.findByIdAndDelete(fileExists._id);
+  res.status(200).json({
+    success:true,
+    message:"File deleted successfully",
+    data:file
+  })
+});

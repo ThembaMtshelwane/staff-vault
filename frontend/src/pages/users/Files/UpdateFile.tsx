@@ -2,11 +2,14 @@ import { useState } from "react";
 import ReturnHeader from "../../../components/ReturnHeader";
 import { TbCloudUpload } from "react-icons/tb";
 import {
+  useDeleteFileMutation,
   useGetFileQuery,
   useUploadFileMutation,
 } from "../../../slices/fileApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { FaArrowDown } from "react-icons/fa";
+import { GrClose } from "react-icons/gr";
 
 type Props = {
   type: string;
@@ -17,8 +20,7 @@ const UpdateFile = ({ type }: Props) => {
   const [uploadFile] = useUploadFileMutation();
   const { data: docs } = useGetFileQuery({ documentType: type });
   const { userInfo } = useSelector((state: RootState) => state.auth);
-
-  console.log("docs  ", docs);
+  const [deleteFile] = useDeleteFileMutation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -49,6 +51,7 @@ const UpdateFile = ({ type }: Props) => {
       }
 
       console.log("File uploaded successfully:", res.data);
+      setFile(null);
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -77,7 +80,7 @@ const UpdateFile = ({ type }: Props) => {
           <p className="mt-2 text-lg font-medium">
             {file ? `Selected: ${file.name}` : "Select a PDF file"}
           </p>
-          <p className="text-gray-600">Or drag and drop it here</p>
+          {/* <p className="text-gray-600">Or drag and drop it here</p> */}
         </label>
         {file && (
           <button type="submit" className="button w-[150px] mx-auto">
@@ -88,13 +91,33 @@ const UpdateFile = ({ type }: Props) => {
 
       <ul className="rounded-lg max-w-[850px] mx-auto flex flex-col gap-4">
         {docs?.data.map((doc) => (
-          <li className="flex justify-between items-center py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white">
+          <li
+            className="flex justify-between items-center py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white"
+            key={doc.name}
+          >
             <div className="flex flex-wrap gap-2 w-[80%] sm:w-[70%] justify-between max-w-[450px]">
               <p>{doc.name}</p>
               <p>{new Date(doc.updatedAt).toDateString()}</p>
             </div>
 
-            <button className="button">X</button>
+            <div className="flex gap-4">
+              <button className="button">
+                <FaArrowDown />
+              </button>
+              <button
+                className="button"
+                onClick={async () => {
+                  console.log("delete file");
+
+                  await deleteFile({
+                    documentType: doc.documentType,
+                    filename: doc.name,
+                  });
+                }}
+              >
+                <GrClose className="text-xl" />
+              </button>
+            </div>
           </li>
         ))}
       </ul>

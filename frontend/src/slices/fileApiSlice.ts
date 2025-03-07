@@ -15,6 +15,7 @@ export const fileApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["File"],
     }),
+
     getFile: builder.query<
       { success: boolean; message: string; data: IFile[] },
       { documentType: string }
@@ -25,7 +26,19 @@ export const fileApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["File"],
     }),
+
+    deleteFile: builder.mutation<
+      { success: boolean; message: string; data: IFile[] },
+      { documentType: string; filename: string }
+    >({
+      query: ({ filename, documentType }) => ({
+        url: `${FILES_URL}/${filename}/${documentType}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["File"],
+    }),
   }),
 });
 
-export const { useUploadFileMutation, useGetFileQuery } = fileApiSlice;
+export const { useUploadFileMutation, useGetFileQuery, useDeleteFileMutation } =
+  fileApiSlice;
