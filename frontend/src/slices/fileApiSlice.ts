@@ -37,8 +37,29 @@ export const fileApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["File"],
     }),
+
+    downloadFile: builder.mutation<Blob, string>({
+      query: (filename) => ({
+        url: `/api/files/download/${filename}`,
+        method: "GET",
+        responseHandler: async (response) => {
+          if (!response.ok) {
+            throw new Error("File not found");
+          }
+          return response.blob();
+        },
+      }),
+      extraOptions: {
+        // Prevent Redux from trying to serialize Blob
+        serializeQueryArgs: false,
+      },
+    }),
   }),
 });
 
-export const { useUploadFileMutation, useGetFileQuery, useDeleteFileMutation } =
-  fileApiSlice;
+export const {
+  useUploadFileMutation,
+  useGetFileQuery,
+  useDeleteFileMutation,
+  useDownloadFileMutation,
+} = fileApiSlice;

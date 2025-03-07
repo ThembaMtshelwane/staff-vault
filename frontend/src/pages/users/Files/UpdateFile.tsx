@@ -3,6 +3,7 @@ import ReturnHeader from "../../../components/ReturnHeader";
 import { TbCloudUpload } from "react-icons/tb";
 import {
   useDeleteFileMutation,
+  useDownloadFileMutation,
   useGetFileQuery,
   useUploadFileMutation,
 } from "../../../slices/fileApiSlice";
@@ -21,10 +22,32 @@ const UpdateFile = ({ type }: Props) => {
   const { data: docs } = useGetFileQuery({ documentType: type });
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [deleteFile] = useDeleteFileMutation();
+  const [downloadFile] = useDownloadFileMutation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("pick file");
+
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
+    }
+  };
+
+  const handleDownload = async (filename: string) => {
+    try {
+      const response = await downloadFile(filename).unwrap();
+      if (response) {
+        const blob = new Blob([response], { type: response.type });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      alert("File not found or could not be downloaded.");
     }
   };
 
@@ -34,9 +57,6 @@ const UpdateFile = ({ type }: Props) => {
       alert("Please select a file before uploading.");
       return;
     }
-
-    console.log("userInfo ", userInfo?._id);
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append("employee", userInfo?._id || "");
@@ -49,9 +69,13 @@ const UpdateFile = ({ type }: Props) => {
         console.error("Error uploading file:", res.message);
         return;
       }
-
-      console.log("File uploaded successfully:", res.data);
       setFile(null);
+      const fileInput = document.getElementById(
+        "file-upload"
+      ) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -90,18 +114,21 @@ const UpdateFile = ({ type }: Props) => {
       </form>
 
       <ul className="rounded-lg max-w-[850px] mx-auto flex flex-col gap-4">
-        {docs?.data.map((doc) => (
+        {docs?.data.map((doc, index) => (
           <li
-            className="flex justify-between items-center py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white"
-            key={doc.name}
+            className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white"
+            key={doc.name + index}
           >
-            <div className="flex flex-wrap gap-2 w-[80%] sm:w-[70%] justify-between max-w-[450px]">
-              <p>{doc.name}</p>
+            <div className="flex flex-wrap gap-2 w-full sm:w-[70%] justify-between max-w-[550px] ">
+              <p className="w-[250px]">{doc.name}</p>
               <p>{new Date(doc.updatedAt).toDateString()}</p>
             </div>
 
             <div className="flex gap-4">
-              <button className="button">
+              <button
+                className="button"
+                onClick={() => handleDownload(doc.name)}
+              >
                 <FaArrowDown />
               </button>
               <button

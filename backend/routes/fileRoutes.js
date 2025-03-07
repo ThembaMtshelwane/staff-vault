@@ -20,7 +20,7 @@ fileRoutes.post("/upload", upload.single("file"), uploadFile);
 fileRoutes.get("/filter", getFilteredFiles);
 
 // Download endpoint
-fileRoutes.get("/:filename", downloadFile);
+fileRoutes.get("/download/:filename", downloadFile);
 
 //Delete file
 fileRoutes.delete("/:filename/:documentType", deleteFile);

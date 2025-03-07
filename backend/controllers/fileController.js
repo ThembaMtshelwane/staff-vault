@@ -14,16 +14,6 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("No file uploaded");
   }
-
-  const fileExists = await File.findOne({
-    name: req.file.originalname,
-    documentType: req.body.documentType,
-  });
-
-  if (fileExists) {
-    await File.findByIdAndDelete(fileExists._id);
-  }
-
   const relativePath = path.relative(process.cwd(), req.file.path);
 
   const newFile = new File({
@@ -34,13 +24,15 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
     documentType: req.body.documentType,
   });
 
-  await newFile.save();
+  const uploaded = await newFile.save();
+
+  if (!uploaded) {
+    throw new Error("Failed to upload file");
+  }
 
   res.status(201).json({
     success: true,
-    message: fileExists
-      ? "File Replaced Successfully "
-      : "File Uploaded Successfully",
+    message: "File Uploaded Successfully",
     data: req.file,
   });
 });
@@ -51,13 +43,14 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
  * @param {Object} res - Express response object.
  */
 export const downloadFile = expressAsyncHandler(async (req, res) => {
-  const filename = req.params.filename;
-
+  const { filename } = req.params;
   const file = await File.findOne({ name: filename });
 
   if (!file) {
+    res.status(404);
     throw new Error("File not found");
   }
+
   const fullPath = path.join(process.cwd(), file.path);
   res.download(fullPath, filename);
 });
@@ -111,8 +104,8 @@ export const deleteFile = expressAsyncHandler(async (req, res) => {
 
   const file = await File.findByIdAndDelete(fileExists._id);
   res.status(200).json({
-    success:true,
-    message:"File deleted successfully",
-    data:file
-  })
+    success: true,
+    message: "File deleted successfully",
+    data: file,
+  });
 });
