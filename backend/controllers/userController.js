@@ -68,8 +68,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 });
 
 const addUser = expressAsyncHandler(async (req, res) => {
-  const data = req.body;
-  const { firstName, lastName, email, position, department } = data.data;
+  const { firstName, lastName, email, position, department } = req.body;
 
   const userExists = await User.findOne({ email });
 

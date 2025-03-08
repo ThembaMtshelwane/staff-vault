@@ -18,6 +18,7 @@ import {
   validateRegisterAdmin,
   validateLogin,
 } from "../middleware/validators/authValidator.js";
+import { validateAddUser } from "../middleware/validators/userValidator.js";
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.get("/filter", fetchAllUsersFilter);
 router.post("/admin", validateRegisterAdmin, createAdminUser);
 router.post("/login", validateLogin, loginUser);
 router.post("/logout", logoutUser);
-router.post("/add-user", protect, addUser);
+router.post("/add-user", protect, validateAddUser, addUser);
 router.get("/profile", protect, getUserProfile);
 router
   .route("/:id")
