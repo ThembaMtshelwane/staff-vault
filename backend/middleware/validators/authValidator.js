@@ -27,6 +27,7 @@ export const validateRegisterAdmin = expressAsyncHandler(
       res.status(400);
       throw new Error(result.error.message);
     }
+    req.body = result.data;
     next();
   }
 );
@@ -38,5 +39,6 @@ export const validateLogin = expressAsyncHandler(async (req, res, next) => {
     res.status(400);
     throw new Error(result.error.message);
   }
+  req.body = result.data;
   next();
 });
