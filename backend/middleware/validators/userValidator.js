@@ -36,17 +36,15 @@ export const validateFetchAllUsers = expressAsyncHandler(
   }
 );
 
-export const validateFetchUserById = expressAsyncHandler(
-  async (req, res, next) => {
-    const parsedParams = userIdSchema.safeParse(req.params);
+export const validateId = expressAsyncHandler(async (req, res, next) => {
+  const parsedParams = userIdSchema.safeParse(req.params);
 
-    if (!parsedParams.success) {
-      return res.status(400).json({
-        success: false,
-        errors: parsedParams.error.format(),
-      });
-    }
-    req.params = parsedParams.data;
-    next();
+  if (!parsedParams.success) {
+    return res.status(400).json({
+      success: false,
+      errors: parsedParams.error.format(),
+    });
   }
-);
+  req.params = parsedParams.data;
+  next();
+});

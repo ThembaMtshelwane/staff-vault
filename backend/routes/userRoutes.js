@@ -20,7 +20,7 @@ import {
 } from "../middleware/validators/authValidator.js";
 import {
   validateAddUser,
-  validateFetchUserById,
+  validateId,
 } from "../middleware/validators/userValidator.js";
 
 const router = express.Router();
@@ -36,8 +36,8 @@ router.post("/logout", logoutUser);
 router.post("/add-user", protect, validateAddUser, addUser);
 router.get("/profile", protect, getUserProfile);
 router
-  .route("/:id")
-  .get(validateFetchUserById, protect, fetchUserById)
+  .route("/:id", validateId)
+  .get(protect, fetchUserById)
   .delete(protect, deleteUser)
   .put(protect, updateUser);
 
