@@ -20,6 +20,7 @@ import {
 } from "../middleware/validators/authValidator.js";
 import {
   validateAddUser,
+  validateGetUserProfile,
   validateId,
 } from "../middleware/validators/userValidator.js";
 
@@ -34,11 +35,11 @@ router.post("/admin", validateRegisterAdmin, createAdminUser);
 router.post("/login", validateLogin, loginUser);
 router.post("/logout", logoutUser);
 router.post("/add-user", protect, validateAddUser, addUser);
-router.get("/profile", protect, getUserProfile);
+router.get("/profile", protect, validateGetUserProfile, getUserProfile);
 router
-  .route("/:id", validateId)
-  .get(protect, fetchUserById)
-  .delete(protect, deleteUser)
-  .put(protect, updateUser);
+  .route("/:id", protect, validateId)
+  .get(fetchUserById)
+  .delete(deleteUser)
+  .put(updateUser);
 
 export default router;

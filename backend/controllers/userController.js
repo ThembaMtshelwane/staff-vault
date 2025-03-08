@@ -276,7 +276,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     permissions: req.user.permissions,
     files: req.user.files || [],
     department: req.user.department,
-    headOf: req.user.headOf,
+    supervisor: req.user.supervisor,
   };
   res.status(200).json({
     success: true,

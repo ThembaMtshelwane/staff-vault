@@ -1,5 +1,9 @@
 import expressAsyncHandler from "express-async-handler";
-import { addUserSchema, userIdSchema } from "../../schemas/userSchema.js";
+import {
+  addUserSchema,
+  userIdSchema,
+  userProfileSchema,
+} from "../../schemas/userSchema.js";
 
 export const validateAddUser = expressAsyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, position, department } = req.body;
@@ -48,3 +52,24 @@ export const validateId = expressAsyncHandler(async (req, res, next) => {
   req.params = parsedParams.data;
   next();
 });
+
+export const validateGetUserProfile = expressAsyncHandler(
+  async (req, res, next) => {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Not authorized, user not found");
+    }
+
+    const parsedUser = userProfileSchema.safeParse(req.user);
+
+    if (!parsedUser.success) {
+      return res.status(400).json({
+        success: false,
+        errors: parsedUser.error.format(),
+      });
+    }
+
+    req.user = parsedUser.data;
+    next();
+  }
+);
