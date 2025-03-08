@@ -1,5 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
-import { addUserSchema } from "../../schemas/userSchema.js";
+import { addUserSchema, userIdSchema } from "../../schemas/userSchema.js";
 
 export const validateAddUser = expressAsyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, position, department } = req.body;
@@ -32,6 +32,21 @@ export const validateFetchAllUsers = expressAsyncHandler(
     }
 
     req.query = parsedQuery.data;
+    next();
+  }
+);
+
+export const validateFetchUserById = expressAsyncHandler(
+  async (req, res, next) => {
+    const parsedParams = userIdSchema.safeParse(req.params);
+
+    if (!parsedParams.success) {
+      return res.status(400).json({
+        success: false,
+        errors: parsedParams.error.format(),
+      });
+    }
+    req.params = parsedParams.data;
     next();
   }
 );

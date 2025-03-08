@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { z } from "zod";
 
 export const addUserSchema = z.object({
@@ -21,3 +22,11 @@ export const fetchUsersSchema = z.object({
       message: "Invalid department ID",
     }),
 });
+
+export const userIdSchema = z.object({
+    id: z
+      .string()
+      .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+        message: "Invalid user ID",
+      }),
+  });
