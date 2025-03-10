@@ -1,5 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import {
+  departmentIdSchema,
   departmentQuerySchema,
   departmentsListSchema,
 } from "../../schemas/departmentSchemas.js";
@@ -27,10 +28,26 @@ export const validateFetchAllDepartments = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error("Invalid search querries");
+      throw new Error(result.error.message);
     }
 
     req.query = result.data;
+    next();
+  }
+);
+
+export const validateDepartmentID = expressAsyncHandler(
+  async (req, res, next) => {
+    const { id } = req.params;
+
+    const result = departmentIdSchema.safeParse(id);
+
+    if (!result.success) {
+      res.status(400);
+      throw new Error(result.error.message);
+    }
+
+    req.params.id = result.data;
     next();
   }
 );

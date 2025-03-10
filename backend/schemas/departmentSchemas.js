@@ -19,5 +19,11 @@ export const departmentQuerySchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? Number(val) : 1)),
-  search: z.string().optional().default("")
+  search: z.string().optional().default(""),
 });
+
+export const departmentIdSchema = z
+  .string()
+  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    message: "Invalid user ID",
+  });

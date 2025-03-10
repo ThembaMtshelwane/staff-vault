@@ -11,6 +11,7 @@ import {
 import {
   validateCreateAllDepartments,
   validateFetchAllDepartments,
+  validateDepartmentID,
 } from "../middleware/validators/departmentValidator.js";
 
 const router = express.Router();
@@ -23,8 +24,8 @@ router.get("/filter", getDepartmentsFilter);
 router.route("/add").post(addDepartment);
 router
   .route("/:id")
-  .get(getDepartmentById)
-  .put(updateDepartment)
-  .delete(deleteDepartment);
+  .get(validateDepartmentID, getDepartmentById)
+  .put(validateDepartmentID, updateDepartment)
+  .delete(validateDepartmentID, deleteDepartment);
 
 export default router;
