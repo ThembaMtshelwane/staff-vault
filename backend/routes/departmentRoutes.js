@@ -8,14 +8,17 @@ import {
   deleteDepartment,
   getDepartmentsFilter,
 } from "../controllers/departmentController.js";
-import { validateCreateAllDepartments } from "../middleware/validators/departmentValidator.js";
+import {
+  validateCreateAllDepartments,
+  validateFetchAllDepartments,
+} from "../middleware/validators/departmentValidator.js";
 
 const router = express.Router();
 
 router
   .route("/")
   .post(validateCreateAllDepartments, createAllDepartments)
-  .get(getDepartments);
+  .get(validateFetchAllDepartments, getDepartments);
 router.get("/filter", getDepartmentsFilter);
 router.route("/add").post(addDepartment);
 router

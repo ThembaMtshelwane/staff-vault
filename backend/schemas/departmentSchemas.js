@@ -13,3 +13,11 @@ export const departmentSchema = z.object({
 });
 
 export const departmentsListSchema = z.array(departmentSchema);
+
+export const departmentQuerySchema = z.object({
+  page: z
+    .string()
+    .optional()
+    .transform((val) => (val ? Number(val) : 1)),
+  search: z.string().optional().default("")
+});
