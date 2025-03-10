@@ -53,23 +53,16 @@ export const validateId = expressAsyncHandler(async (req, res, next) => {
   next();
 });
 
-export const validateGetUserProfile = expressAsyncHandler(
-  async (req, res, next) => {
-    if (!req.user) {
-      res.status(401);
-      throw new Error("Not authorized, user not found");
-    }
-
-    const parsedUser = userProfileSchema.safeParse(req.user);
-
+export const validateGetUserProfile = expressAsyncHandler(async (req, res, next) => {
+    const parsedUser = userProfileSchema.safeParse({
+      ...req.user,
+      _id: req.user._id.toString(), 
+    });
+  
     if (!parsedUser.success) {
-      return res.status(400).json({
-        success: false,
-        errors: parsedUser.error.format(),
-      });
+      res.status(400);
+      throw new Error(JSON.stringify(parsedUser.error.format(), null, 2));
     }
-
-    req.user = parsedUser.data;
+  
     next();
-  }
-);
+  });

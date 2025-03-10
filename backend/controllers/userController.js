@@ -267,17 +267,19 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
       .json({ success: false, message: "Not authorized, user not found" });
   }
   const user = {
-    _id: req.user._id,
+    _id: req.user._id.toString(),
     firstName: req.user.firstName,
     lastName: req.user.lastName,
     email: req.user.email,
-    position: req.user.position,
+    position: req.user.position || "",
     role: req.user.role,
-    permissions: req.user.permissions,
-    files: req.user.files || [],
-    department: req.user.department,
-    supervisor: req.user.supervisor,
+    permissions: req.user.permissions || [],
+    department: req.user.department ? req.user.department.toString() : null,
+    supervisor: req.user.supervisor ? req.user.supervisor.toString() : null,
+    // createdAt: req.user.createdAt,
+    // updatedAt: req.user.updatedAt,
   };
+
   res.status(200).json({
     success: true,
     message: "Logged in user data returned",
