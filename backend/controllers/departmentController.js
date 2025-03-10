@@ -134,10 +134,7 @@ const updateDepartment = asyncHandler(async (req, res) => {
   if (department) {
     department.name = name || department.name;
     department.positions = positions || department.positions;
-    department.supervisor = supervisor || {
-      name: supervisor.name,
-      email: supervisor.email,
-    };
+    department.supervisor = supervisor || department.supervisor;
 
     const updatedDepartment = await department.save();
     res.status(200).json({

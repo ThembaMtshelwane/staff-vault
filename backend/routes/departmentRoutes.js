@@ -12,6 +12,7 @@ import {
   validateCreateAllDepartments,
   validateFetchAllDepartments,
   validateDepartmentID,
+  validateUpdateDepartment,
 } from "../middleware/validators/departmentValidator.js";
 
 const router = express.Router();
@@ -25,7 +26,7 @@ router.route("/add").post(addDepartment);
 router
   .route("/:id")
   .get(validateDepartmentID, getDepartmentById)
-  .put(validateDepartmentID, updateDepartment)
+  .put(validateDepartmentID, validateUpdateDepartment, updateDepartment)
   .delete(validateDepartmentID, deleteDepartment);
 
 export default router;

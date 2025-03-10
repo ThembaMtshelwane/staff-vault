@@ -27,3 +27,17 @@ export const departmentIdSchema = z
   .refine((val) => mongoose.Types.ObjectId.isValid(val), {
     message: "Invalid user ID",
   });
+
+export const updateDepartmentSchema = z.object({
+  id: departmentIdSchema,
+  name: z.string().optional(),
+  positions: z.string().array().optional().default([]),
+  supervisor: z
+    .string()
+    .nullable()
+    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid user ID",
+    })
+    .optional()
+    .default(null),
+});

@@ -3,6 +3,7 @@ import {
   departmentIdSchema,
   departmentQuerySchema,
   departmentsListSchema,
+  updateDepartmentSchema,
 } from "../../schemas/departmentSchemas.js";
 
 export const validateCreateAllDepartments = expressAsyncHandler(
@@ -48,6 +49,32 @@ export const validateDepartmentID = expressAsyncHandler(
     }
 
     req.params.id = result.data;
+    next();
+  }
+);
+
+export const validateUpdateDepartment = expressAsyncHandler(
+  async (req, res, next) => {
+    const { id } = req.params;
+    const { name, positions, supervisor } = req.body;
+
+    const result = updateDepartmentSchema.safeParse({
+      id,
+      name,
+      positions,
+      supervisor,
+    });
+    if (!result.success) {
+      res.status(400);
+      throw new Error(result.error.message);
+    }
+
+    console.log("result ", result);
+    req.params.id = result.data.id;
+    req.body.name = result.data.name;
+    req.body.positions = result.data.positions;
+    req.body.supervisor = result.data.supervisor;
+
     next();
   }
 );
