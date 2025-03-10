@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Department from "../model/departmentModel.js";
+import mongoose from "mongoose";
 
 /**
  *  @description Create all of the organization's department
@@ -59,9 +60,8 @@ const getDepartments = asyncHandler(async (req, res) => {
   if (search) {
     filter.$or = [
       { name: { $regex: search, $options: "i" } },
-      { supervisor: { $regex: search, $options: "i" } },
-      { email: { $regex: search, $options: "i" } },
-    ];
+      mongoose.Types.ObjectId.isValid(search) ? { supervisor: search } : null,
+    ].filter(Boolean);
   }
 
   const departments = await Department.find(filter).skip(skip).limit(limit);
@@ -171,7 +171,9 @@ const addDepartment = asyncHandler(async (req, res) => {
 
   if (!name || !supervisor || !positions) {
     res.status(400);
-    throw new Error("Department must have an email, a supervisor, and positions");
+    throw new Error(
+      "Department must have an email, a supervisor, and positions"
+    );
   }
 
   const departmentExists = await Department.findOne({ name });
