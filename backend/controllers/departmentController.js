@@ -9,11 +9,14 @@ import Department from "../model/departmentModel.js";
 const createAllDepartments = asyncHandler(async (req, res) => {
   const { departmentsList } = req.body;
 
-  if (!departmentsList) throw new Error("Please enter a list of departments");
+  if (!departmentsList) {
+    res.statusCode(400);
+    throw new Error("Please enter a list of departments");
+  }
 
   const data = await Promise.all(
     departmentsList.map(async (departmentInfo) => {
-      const { name, email, positions, supervisor } = departmentInfo;
+      const { name, positions } = departmentInfo;
 
       if (!name || !positions) {
         res.status(400);
@@ -26,6 +29,9 @@ const createAllDepartments = asyncHandler(async (req, res) => {
           name,
           positions,
         });
+      } else {
+        res.status(400);
+        throw new Error(`Department ${name} already exisits`);
       }
       return department;
     })
