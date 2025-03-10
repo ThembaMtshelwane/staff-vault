@@ -13,6 +13,7 @@ import {
   validateFetchAllDepartments,
   validateDepartmentID,
   validateUpdateDepartment,
+  validateAddDepartment,
 } from "../middleware/validators/departmentValidator.js";
 
 const router = express.Router();
@@ -22,7 +23,7 @@ router
   .post(validateCreateAllDepartments, createAllDepartments)
   .get(validateFetchAllDepartments, getDepartments);
 router.get("/filter", getDepartmentsFilter);
-router.route("/add").post(addDepartment);
+router.post("/add", validateAddDepartment, addDepartment);
 router
   .route("/:id")
   .get(validateDepartmentID, getDepartmentById)

@@ -41,3 +41,9 @@ export const updateDepartmentSchema = z.object({
     .optional()
     .default(null),
 });
+
+export const addDepartmentSchema = z.object({
+  name: z.string().min(1, { message: "Department must have a name" }),
+  supervisor: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val)),
+  positions: z.string().array().nonempty(),
+});

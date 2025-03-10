@@ -1,5 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import {
+  addDepartmentSchema,
   departmentIdSchema,
   departmentQuerySchema,
   departmentsListSchema,
@@ -68,13 +69,30 @@ export const validateUpdateDepartment = expressAsyncHandler(
       res.status(400);
       throw new Error(result.error.message);
     }
-
-    console.log("result ", result);
     req.params.id = result.data.id;
     req.body.name = result.data.name;
     req.body.positions = result.data.positions;
     req.body.supervisor = result.data.supervisor;
 
+    next();
+  }
+);
+
+export const validateAddDepartment = expressAsyncHandler(
+  async (req, res, next) => {
+    const { name, supervisor, positions } = req.body;
+
+    const result = addDepartmentSchema.safeParse({
+      name,
+      supervisor,
+      positions,
+    });
+    if (!result.success) {
+      res.status(400);
+      throw new Error(result.error.message);
+    }
+
+    req.body = { name, supervisor, positions };
     next();
   }
 );
