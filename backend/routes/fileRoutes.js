@@ -9,12 +9,18 @@ import {
 } from "../controllers/fileController.js";
 import dotenv from "dotenv";
 import { upload } from "../config/db.js";
+import { uploadFileValidator } from "../middleware/validators/fileValidator.js";
 
 dotenv.config();
 const fileRoutes = express.Router();
 
 // Upload endpoint
-fileRoutes.post("/upload", upload.single("file"), uploadFile);
+fileRoutes.post(
+  "/upload",
+  upload.single("file"),
+  uploadFileValidator,
+  uploadFile
+);
 
 // Get file endpoint
 fileRoutes.get("/filter", getFilteredFiles);

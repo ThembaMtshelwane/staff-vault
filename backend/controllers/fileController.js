@@ -14,6 +14,7 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("No file uploaded");
   }
+
   const relativePath = path.relative(process.cwd(), req.file.path);
 
   const newFile = new File({
