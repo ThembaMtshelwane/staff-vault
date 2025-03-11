@@ -9,7 +9,10 @@ import {
 } from "../controllers/fileController.js";
 import dotenv from "dotenv";
 import { upload } from "../config/db.js";
-import { uploadFileValidator } from "../middleware/validators/fileValidator.js";
+import {
+  downloadValidator,
+  uploadFileValidator,
+} from "../middleware/validators/fileValidator.js";
 
 dotenv.config();
 const fileRoutes = express.Router();
@@ -26,7 +29,7 @@ fileRoutes.post(
 fileRoutes.get("/filter", getFilteredFiles);
 
 // Download endpoint
-fileRoutes.get("/download/:filename", downloadFile);
+fileRoutes.get("/download/:filename", downloadValidator, downloadFile);
 
 //Delete file
 fileRoutes.delete("/:filename/:documentType", deleteFile);

@@ -45,6 +45,8 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
  */
 export const downloadFile = expressAsyncHandler(async (req, res) => {
   const { filename } = req.params;
+  console.log("filename ", filename);
+
   const file = await File.findOne({ name: filename });
 
   if (!file) {
