@@ -10,6 +10,7 @@ import {
 import dotenv from "dotenv";
 import { upload } from "../config/db.js";
 import {
+  deleteFileValidator,
   downloadValidator,
   uploadFileValidator,
 } from "../middleware/validators/fileValidator.js";
@@ -32,7 +33,7 @@ fileRoutes.get("/filter", getFilteredFiles);
 fileRoutes.get("/download/:filename", downloadValidator, downloadFile);
 
 //Delete file
-fileRoutes.delete("/:filename/:documentType", deleteFile);
+fileRoutes.delete("/:filename/:documentType", deleteFileValidator, deleteFile);
 
 // Get all files endpoint
 fileRoutes.get("/", getAllFiles);
