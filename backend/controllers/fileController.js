@@ -3,6 +3,12 @@ import mongoose from "mongoose";
 import File from "../model/fileUploadModel.js";
 import expressAsyncHandler from "express-async-handler";
 import path from "path";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} from "../constants/http.codes.js";
+import HTTP_Error from "../utils/httpError.js";
 
 /**
  * Uploads a file to GridFS and stores its metadata.
@@ -11,8 +17,7 @@ import path from "path";
  */
 export const uploadFile = expressAsyncHandler(async (req, res) => {
   if (!req.file) {
-    res.status(400);
-    throw new Error("No file uploaded");
+    throw new HTTP_Error("No file selected", BAD_REQUEST);
   }
 
   const relativePath = path.relative(process.cwd(), req.file.path);
@@ -28,7 +33,7 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
   const uploaded = await newFile.save();
 
   if (!uploaded) {
-    throw new Error("Failed to upload file");
+    throw new HTTP_Error("Failed to upload file", INTERNAL_SERVER_ERROR);
   }
 
   res.status(201).json({
@@ -45,13 +50,10 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
  */
 export const downloadFile = expressAsyncHandler(async (req, res) => {
   const { filename } = req.params;
-  console.log("filename ", filename);
-
   const file = await File.findOne({ name: filename });
 
   if (!file) {
-    res.status(404);
-    throw new Error("File not found");
+    throw new HTTP_Error("File not found", NOT_FOUND);
   }
 
   const fullPath = path.join(process.cwd(), file.path);
@@ -64,16 +66,16 @@ export const downloadFile = expressAsyncHandler(async (req, res) => {
  * @param {Object} res - Express response object.
  */
 export const getAllFiles = expressAsyncHandler(async (req, res) => {
-  try {
-    const files = await File.find().exec();
+  const files = await File.find().exec();
 
-    res.status(200).json({
-      results: files.length,
-      data: files,
-    });
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching files" });
+  if (!files) {
+    throw new HTTP_Error("Error fetching files ", INTERNAL_SERVER_ERROR);
   }
+
+  res.status(200).json({
+    results: files.length,
+    data: files,
+  });
 });
 
 export const getFilteredFiles = expressAsyncHandler(async (req, res) => {
@@ -82,8 +84,7 @@ export const getFilteredFiles = expressAsyncHandler(async (req, res) => {
   const files = await File.find({ documentType }).exec();
 
   if (!files) {
-    res.status(500);
-    throw new Error("Error fetching file");
+    throw new HTTP_Error("HTTP_Error fetching file", INTERNAL_SERVER_ERROR);
   }
   res.status(200).json({
     success: true,
@@ -101,8 +102,7 @@ export const deleteFile = expressAsyncHandler(async (req, res) => {
   });
 
   if (!fileExists) {
-    res.status(404);
-    throw new Error("No file found");
+    throw new HTTP_Error("No file found", NOT_FOUND);
   }
 
   const file = await File.findByIdAndDelete(fileExists._id);
