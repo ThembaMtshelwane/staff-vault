@@ -1,6 +1,11 @@
 import asyncHandler from "express-async-handler";
 import Department from "../model/departmentModel.js";
 import mongoose from "mongoose";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} from "../constants/http.codes.js";
 
 /**
  *  @description Create all of the organization's department
@@ -11,8 +16,7 @@ const createAllDepartments = asyncHandler(async (req, res) => {
   const { departmentsList } = req.body;
 
   if (!departmentsList) {
-    res.statusCode(400);
-    throw new Error("Please enter a list of departments");
+    throw new HTTP_Error("Please enter a list of departments", BAD_REQUEST);
   }
 
   const data = await Promise.all(
@@ -20,8 +24,10 @@ const createAllDepartments = asyncHandler(async (req, res) => {
       const { name, positions } = departmentInfo;
 
       if (!name || !positions) {
-        res.status(400);
-        throw new Error("Each department must have both a name and positions");
+        throw new HTTP_Error(
+          "Each department must have both a name and positions",
+          BAD_REQUEST
+        );
       }
 
       let department = await Department.findOne({ name });
@@ -31,8 +37,7 @@ const createAllDepartments = asyncHandler(async (req, res) => {
           positions,
         });
       } else {
-        res.status(400);
-        throw new Error(`Department ${name} already exisits`);
+        throw new HTTP_Error(`Department ${name} already exisits`, BAD_REQUEST);
       }
       return department;
     })
@@ -43,8 +48,10 @@ const createAllDepartments = asyncHandler(async (req, res) => {
       message: `Uploaded ${data.length} departments to the database`,
     });
   } else {
-    res.status(500);
-    throw new Error("Failed to creat all departments");
+    throw new HTTP_Error(
+      "Failed to creat all departments",
+      INTERNAL_SERVER_ERROR
+    );
   }
 });
 
@@ -79,15 +86,12 @@ const getDepartments = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    res.status(500);
-    throw new Error("Departments not found");
+    throw new HTTP_Error("Departments not found", INTERNAL_SERVER_ERROR);
   }
 });
 
 const getDepartmentsFilter = asyncHandler(async (req, res) => {
   const departments = await Department.find({});
-
-  // console.log("departments ", departments);
 
   if (departments.length > 0) {
     res.status(200).json({
@@ -96,8 +100,7 @@ const getDepartmentsFilter = asyncHandler(async (req, res) => {
       data: departments,
     });
   } else {
-    res.status(500);
-    throw new Error("Departments not found");
+    throw new HTTP_Error("Departments not found");
   }
 });
 
@@ -105,8 +108,7 @@ const getDepartmentById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
 
   const department = await Department.findById(id);
@@ -117,16 +119,14 @@ const getDepartmentById = asyncHandler(async (req, res) => {
       data: department,
     });
   } else {
-    res.status(404);
-    throw new Error("Department not found");
+    throw (new HTTP_Error("Department not found"), NOT_FOUND);
   }
 });
 
 const updateDepartment = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!id) {
-    res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
   const department = await Department.findById(id);
   const { name, positions, supervisor } = req.body;
@@ -143,16 +143,14 @@ const updateDepartment = asyncHandler(async (req, res) => {
       data: updatedDepartment,
     });
   } else {
-    res.status(404);
-    throw new Error("Department not found");
+    throw new HTTP_Error("Department not found", NOT_FOUND);
   }
 });
 
 const deleteDepartment = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!id) {
-    res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
   const department = await Department.findByIdAndDelete(id);
   if (department) {
@@ -161,8 +159,7 @@ const deleteDepartment = asyncHandler(async (req, res) => {
       message: `${department.name} Department deleted`,
     });
   } else {
-    res.status(404);
-    throw new Error("Department not found");
+    throw (new HTTP_Error("Department not found"), NOT_FOUND);
   }
 });
 
@@ -170,17 +167,16 @@ const addDepartment = asyncHandler(async (req, res) => {
   const { name, supervisor, positions } = req.body;
 
   if (!name || !supervisor || !positions) {
-    res.status(400);
-    throw new Error(
-      "Department must have an email, a supervisor, and positions"
+    throw new HTTP_Error(
+      "Department must have an email, a supervisor, and positions",
+      BAD_REQUEST
     );
   }
 
   const departmentExists = await Department.findOne({ name });
 
   if (departmentExists) {
-    res.status(400);
-    throw new Error("Department already exists");
+    throw new HTTP_Error("Department already exists", BAD_REQUEST);
   }
 
   const department = await Department.create({
@@ -194,8 +190,7 @@ const addDepartment = asyncHandler(async (req, res) => {
       message: `${name} Department created successfully`,
     });
   } else {
-    res.status(400);
-    throw new Error("Department not created");
+    throw new HTTP_Error("Department not created", INTERNAL_SERVER_ERROR);
   }
 });
 

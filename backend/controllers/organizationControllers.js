@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Organization from "../model/organizationModel.js";
+import HTTP_Error from "../utils/httpError.js";
+import { BAD_REQUEST, NOT_FOUND } from "../constants/http.codes.js";
 
 /**
  *  @description create an organization
@@ -11,14 +13,15 @@ const addOrganization = asyncHandler(async (req, res) => {
   const { name, description, registrationNumber } = req.body;
 
   if (!name || !description || !registrationNumber) {
-    res.status(400);
-    throw new Error("All fields are required.");
+    throw new HTTP_Error("All fields are required.", BAD_REQUEST);
   }
 
   const organizationExists = await Organization.findOne({ registrationNumber });
   if (organizationExists) {
-    res.status(400);
-    throw new Error(`This organization already exists within our database.`);
+    throw new HTTP_Error(
+      `This organization already exists within our database.`,
+      BAD_REQUEST
+    );
   }
 
   const org = await Organization.create({
@@ -56,7 +59,7 @@ const getOrganizationByAdmin = asyncHandler(async (req, res) => {
   const organizationExists = await Organization.findOne({ admin });
 
   if (!organizationExists) {
-    throw new Error("No organization found with this admin");
+    throw new HTTP_Error("No organization found with this admin", BAD_REQUEST);
   }
   res.status(200).json({
     success: true,
@@ -71,7 +74,7 @@ const updateOrganizationByAdmin = asyncHandler(async (req, res) => {
 
   if (!organization) {
     res.status(404);
-    throw new Error("No organization found with this admin");
+    throw new HTTP_Error("No organization found with this admin", NOT_FOUND);
   }
 
   organization.name = req.body.name || organization.name;
