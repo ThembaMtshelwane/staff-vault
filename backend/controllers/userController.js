@@ -2,6 +2,13 @@ import expressAsyncHandler from "express-async-handler";
 import User from "../model/userModel.js";
 import generateToken from "../utils/generateToken.js";
 import mongoose from "mongoose";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  UNAUTHORIZED,
+} from "../constants/http.codes.js";
+import HTTP_Error from "../utils/httpError.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -11,7 +18,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
   const { staffEmails } = req.body;
 
   if (!staffEmails) {
-    throw new Error("Please enter a list of staff emails");
+    throw new HTTP_Error("Please enter a list of staff emails", BAD_REQUEST);
   }
   const data = await Promise.all(
     staffEmails.map(async (email) => {
@@ -28,7 +35,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
   );
 
   if (!data) {
-    throw new Error("Failed to register all staff");
+    throw new HTTP_Error("Failed to register all staff", INTERNAL_SERVER_ERROR);
   }
   res.status(201).json({
     success: true,
@@ -40,12 +47,18 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
   const { email, firstName, lastName } = req.body;
 
   if (!email) {
-    throw new Error("Please enter an email address for the admin");
+    throw new HTTP_Error(
+      "Please enter an email address for the admin",
+      BAD_REQUEST
+    );
   }
 
   const userExists = await User.findOne({ email });
   if (userExists) {
-    throw new Error(`This email already exists within our database.`);
+    throw new HTTP_Error(
+      "This email already exists within our database.",
+      BAD_REQUEST
+    );
   }
 
   const user = await User.create({
@@ -57,8 +70,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
     password: process.env.ADMIN_PASSWORD,
   });
   if (!user) {
-    res.status(500);
-    throw new Error(`Failed to create admin`);
+    throw new HTTP_Error("Failed to create admin", INTERNAL_SERVER_ERROR);
   }
   res.status(201).json({
     success: true,
@@ -73,8 +85,10 @@ const addUser = expressAsyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    res.status(400);
-    throw new Error(`This email already exists within our database.`);
+    throw new HTTP_Error(
+      `This email already exists within our database.`,
+      BAD_REQUEST
+    );
   }
   const user = await User.create({
     firstName,
@@ -108,8 +122,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
       data: user,
     });
   } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
+    throw new HTTP_Error("Invalid email or password", UNAUTHORIZED);
   }
 });
 
@@ -134,8 +147,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
 
   if (department) {
     if (!mongoose.Types.ObjectId.isValid(department)) {
-      res.status(400);
-      throw new Error("Invalid department id");
+      throw new HTTP_Error("Invalid department id", BAD_REQUEST);
     }
     filter.department = new mongoose.Types.ObjectId(department);
   }
@@ -165,7 +177,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
       },
     });
   } else {
-    res.status(404).json({ success: false, message: "No users found" });
+    throw new HTTP_Error("No users found", NOT_FOUND);
   }
 });
 
@@ -173,8 +185,7 @@ const fetchAllUsersFilter = expressAsyncHandler(async (req, res) => {
   const users = await User.find({});
 
   if (!users) {
-    res.status(500);
-    throw new Error("Internal Server error");
+    throw new HTTP_Error("Internal Server error", INTERNAL_SERVER_ERROR);
   }
 
   if (users.length > 0) {
@@ -184,7 +195,7 @@ const fetchAllUsersFilter = expressAsyncHandler(async (req, res) => {
       data: users,
     });
   } else {
-    res.status(404).json({ success: false, message: "No users found" });
+    throw new HTTP_Error("No users found", NOT_FOUND);
   }
 });
 
@@ -192,8 +203,7 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
   const user = await User.findById(id);
 
@@ -204,22 +214,20 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
       data: user,
     });
   } else {
-    res.status(404);
-    throw new Error("User not founded");
+    throw new HTTP_Error("User not founded", NOT_FOUND);
   }
 });
 
 const updateUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!id) {
-    res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
   const user = await User.findById(id);
 
   if (!user) {
     res.status(404);
-    throw new Error("User not found");
+    throw new HTTP_Error("User not found", NOT_FOUND);
   }
   user.firstName = req.body.firstName || user.firstName;
   user.lastName = req.body.lastName || user.lastName;
@@ -230,6 +238,11 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   user.supervisor = req.body.supervisor || user.supervisor;
 
   const updatedUser = await user.save();
+
+  if (!updateUser) {
+    throw new HTTP_Error("Failed to update user.", INTERNAL_SERVER_ERROR);
+  }
+
   res.status(200).json({
     success: true,
     message: `${
@@ -256,15 +269,13 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User not founded");
+    throw new HTTP_Error("User not founded", NOT_FOUND);
   }
 });
 
 const getUserProfile = expressAsyncHandler(async (req, res) => {
   if (!req.user) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Not authorized, user not found" });
+    throw new HTTP_Error("Not authorized, user not found", UNAUTHORIZED);
   }
   const user = {
     _id: req.user._id.toString(),
@@ -276,8 +287,6 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     permissions: req.user.permissions || [],
     department: req.user.department ? req.user.department.toString() : null,
     supervisor: req.user.supervisor ? req.user.supervisor.toString() : null,
-    // createdAt: req.user.createdAt,
-    // updatedAt: req.user.updatedAt,
   };
 
   res.status(200).json({
