@@ -39,12 +39,14 @@ export const downloadValidator = expressAsyncHandler(async (req, res, next) => {
 
 export const deleteFileValidator = expressAsyncHandler(
   async (req, res, next) => {
-    console.log(req.params);
-
-    const result = deleteFileSchema.safeParse();
+    const { filename, documentType } = req.params;
+    const result = deleteFileSchema.safeParse({ filename, documentType });
     if (!result.success) {
       return next(result.error);
     }
+    console.log("result data ", result.data);
+
+    req.params = result.data;
     next();
   }
 );
