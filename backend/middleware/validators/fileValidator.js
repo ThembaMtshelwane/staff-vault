@@ -15,7 +15,7 @@ export const uploadFileValidator = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.errors);
+      return next(result.error);
     }
 
     console.log("result  ", result);
@@ -31,7 +31,7 @@ export const uploadFileValidator = expressAsyncHandler(
 export const downloadValidator = expressAsyncHandler(async (req, res, next) => {
   const result = fileParamsSchema.safeParse(req.params.filename);
   if (!result.success) {
-    throw new Error(result.error.message);
+    return next(result.error);
   }
   req.params.filename = result.data;
   next();
@@ -42,6 +42,9 @@ export const deleteFileValidator = expressAsyncHandler(
     console.log(req.params);
 
     const result = deleteFileSchema.safeParse();
+    if (!result.success) {
+      return next(result.error);
+    }
     next();
   }
 );

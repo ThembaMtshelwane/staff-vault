@@ -12,7 +12,7 @@ export const validateRegisterAllUsers = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
     next();
   }
@@ -25,7 +25,7 @@ export const validateRegisterAdmin = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
     req.body = result.data;
     next();
@@ -37,7 +37,7 @@ export const validateLogin = expressAsyncHandler(async (req, res, next) => {
   const result = loginSchema.safeParse({ email, password });
   if (!result.success) {
     res.status(400);
-    throw new Error(result.error.message);
+    return next(result.error);
   }
   req.body = result.data;
   next();

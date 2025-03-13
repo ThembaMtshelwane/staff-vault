@@ -1,10 +1,34 @@
+import { NODE_ENV } from "../constants/env.const.js";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} from "../constants/http.codes.js";
+import HTTP_Error from "../utils/httpError.js";
+import { ZodError } from "zod";
+
 /*
     @desc: For routes not found
 */
 const notFound = (req, res, next) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  res.status(404);
+  const error = new HTTP_Error(`Not Found - ${req.originalUrl}`, NOT_FOUND);
   next(error);
+};
+
+const handleZodError = (err) => {
+  const errors = err.issues.map((issue) => ({
+    path: issue.path.join("."),
+    message: issue.message,
+  }));
+
+  return {
+    statusCode: BAD_REQUEST,
+    body: {
+      success: false,
+      errors,
+      message: "Validation Error",
+    },
+  };
 };
 
 /*
@@ -12,20 +36,33 @@ const notFound = (req, res, next) => {
 */
 
 const errorHandler = (err, req, res, next) => {
-  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  let message = err.message;
+  console.error("caught err  ", err);
+  console.error("NODE_ENV  ", NODE_ENV);
 
-  console.log('caught err ', err);
-  
   if (err.name === "CastError" && err.kind === "ObjectId") {
     statusCode = 404;
     message = "Resource Not Found";
   }
 
-  res.status(statusCode).json({
+  if (err instanceof HTTP_Error) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+      stack: NODE_ENV === "development" ? err.stack : null,
+    });
+  }
+
+  console.log("is err instance of Zodd ?", err instanceof ZodError);
+
+  if (err.name === "ZodError") {
+    const { statusCode, body } = handleZodError(err);
+    return res.status(statusCode).json(body);
+  }
+
+  res.status(INTERNAL_SERVER_ERROR).json({
     success: false,
     message,
-    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+    stack: NODE_ENV === "development" ? err.stack : null,
   });
 };
 

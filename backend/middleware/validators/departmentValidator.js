@@ -14,7 +14,7 @@ export const validateCreateAllDepartments = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
 
     req.body.departmentsList = result.data;
@@ -30,7 +30,7 @@ export const validateFetchAllDepartments = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
 
     req.query = result.data;
@@ -46,7 +46,7 @@ export const validateDepartmentID = expressAsyncHandler(
 
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
 
     req.params.id = result.data;
@@ -67,7 +67,7 @@ export const validateUpdateDepartment = expressAsyncHandler(
     });
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
     req.params.id = result.data.id;
     req.body.name = result.data.name;
@@ -89,7 +89,7 @@ export const validateAddDepartment = expressAsyncHandler(
     });
     if (!result.success) {
       res.status(400);
-      throw new Error(result.error.message);
+      return next(result.error);
     }
 
     req.body = { name, supervisor, positions };

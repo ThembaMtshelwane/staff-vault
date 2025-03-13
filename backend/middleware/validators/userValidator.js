@@ -18,7 +18,7 @@ export const validateAddUser = expressAsyncHandler(async (req, res, next) => {
 
   if (!result.success) {
     res.status(400);
-    throw new Error(result.error.message);
+    return next(result.error);
   }
 
   req.body = result.data;
@@ -32,7 +32,7 @@ export const validateFetchAllUsers = expressAsyncHandler(
 
     if (!parsedQuery.success) {
       res.status(400);
-      throw new Error(parsedQuery.error.message);
+      return next(parsedQuery.error);
     }
 
     req.query = parsedQuery.data;
@@ -53,16 +53,18 @@ export const validateId = expressAsyncHandler(async (req, res, next) => {
   next();
 });
 
-export const validateGetUserProfile = expressAsyncHandler(async (req, res, next) => {
+export const validateGetUserProfile = expressAsyncHandler(
+  async (req, res, next) => {
     const parsedUser = userProfileSchema.safeParse({
       ...req.user,
-      _id: req.user._id.toString(), 
+      _id: req.user._id.toString(),
     });
-  
+
     if (!parsedUser.success) {
       res.status(400);
-      throw new Error(JSON.stringify(parsedUser.error.format(), null, 2));
+      return next(parsedUser.error);
     }
-  
+
     next();
-  });
+  }
+);

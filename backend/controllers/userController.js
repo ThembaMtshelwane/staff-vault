@@ -256,7 +256,7 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   if (!id) {
     res.status(400);
-    throw new Error("Invalid id");
+    throw new HTTP_Error("Invalid id", BAD_REQUEST);
   }
 
   const removedUser = await User.findByIdAndDelete(id);
