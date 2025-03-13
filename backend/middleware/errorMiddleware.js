@@ -36,9 +36,6 @@ const handleZodError = (err) => {
 */
 
 const errorHandler = (err, req, res, next) => {
-  console.error("caught err  ", err);
-  console.error("NODE_ENV  ", NODE_ENV);
-
   if (err.name === "CastError" && err.kind === "ObjectId") {
     statusCode = 404;
     message = "Resource Not Found";
@@ -52,9 +49,7 @@ const errorHandler = (err, req, res, next) => {
     });
   }
 
-  console.log("is err instance of Zodd ?", err instanceof ZodError);
-
-  if (err.name === "ZodError") {
+  if (err instanceof ZodError) {
     const { statusCode, body } = handleZodError(err);
     return res.status(statusCode).json(body);
   }
