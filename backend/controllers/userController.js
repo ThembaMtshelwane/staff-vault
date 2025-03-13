@@ -10,6 +10,7 @@ import {
 } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
 import {
+  addUserService,
   massStaffRegistrationService,
   registerAdminService,
 } from "../service/authService.js";
@@ -45,33 +46,15 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 });
 
 const addUser = expressAsyncHandler(async (req, res) => {
-  const { firstName, lastName, email, position, department } = req.body;
+  const user = await addUserService(req.body);
 
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    throw new HTTP_Error(
-      `This email already exists within our database.`,
-      BAD_REQUEST
-    );
+  if (!user) {
+    throw new HTTP_Error("User not created", INTERNAL_SERVER_ERROR);
   }
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    position,
-    department,
+  res.status(201).json({
+    success: true,
+    message: `Successfully created a user`,
   });
-
-  if (user) {
-    res.status(201).json({
-      success: true,
-      message: `Successfully created a user`,
-    });
-  } else {
-    res.status(500);
-    throw new Error("User not created");
-  }
 });
 
 const loginUser = expressAsyncHandler(async (req, res) => {

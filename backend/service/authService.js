@@ -67,3 +67,25 @@ export const registerAdminService = async (userData) => {
 
   return user;
 };
+
+export const addUserService = async (userData) => {
+  const { firstName, lastName, email, position, department } = userData;
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    throw new HTTP_Error(
+      `This email already exists within our database.`,
+      BAD_REQUEST
+    );
+  }
+
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    position,
+    department,
+  });
+
+  return user;
+};
