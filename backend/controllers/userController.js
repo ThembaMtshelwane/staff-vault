@@ -11,8 +11,8 @@ import {
 import HTTP_Error from "../utils/httpError.js";
 import {
   addUserService,
+  loginService,
   massStaffRegistrationService,
-  registerAdminService,
 } from "../service/authService.js";
 /**
  *  @description Register all organization's users
@@ -34,7 +34,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
 });
 
 const createAdminUser = expressAsyncHandler(async (req, res) => {
-  const user = await registerAdminService(req.body);
+  const user = await addUserService({ ...req.body, role: "admin" });
   if (!user) {
     throw new HTTP_Error("Failed to create admin", INTERNAL_SERVER_ERROR);
   }
@@ -58,12 +58,9 @@ const addUser = expressAsyncHandler(async (req, res) => {
 });
 
 const loginUser = expressAsyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const user = await loginService(req.body);
 
-  const user = await User.findOne({ email });
-
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
+  if (user) {
     res.status(200).json({
       success: true,
       message: "User authenticated successfully",
