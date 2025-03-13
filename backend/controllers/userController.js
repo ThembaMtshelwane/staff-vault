@@ -9,7 +9,10 @@ import {
   UNAUTHORIZED,
 } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
-import { massStaffRegistrationService } from "../service/authService.js";
+import {
+  massStaffRegistrationService,
+  registerAdminService,
+} from "../service/authService.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -30,31 +33,7 @@ const registerAllUsers = expressAsyncHandler(async (req, res) => {
 });
 
 const createAdminUser = expressAsyncHandler(async (req, res) => {
-  const { email, firstName, lastName } = req.body;
-
-  if (!email) {
-    throw new HTTP_Error(
-      "Please enter an email address for the admin",
-      BAD_REQUEST
-    );
-  }
-
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    throw new HTTP_Error(
-      "This email already exists within our database.",
-      BAD_REQUEST
-    );
-  }
-
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    permissions: ["add_user", "suspend_user"],
-    role: "admin",
-    password: process.env.ADMIN_PASSWORD,
-  });
+  const user = await registerAdminService(req.body);
   if (!user) {
     throw new HTTP_Error("Failed to create admin", INTERNAL_SERVER_ERROR);
   }

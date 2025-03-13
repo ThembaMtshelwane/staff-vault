@@ -36,6 +36,7 @@ const handleZodError = (err) => {
 */
 
 const errorHandler = (err, req, res, next) => {
+  console.log("*************************** caught error :,", err);
 
   if (err.name === "CastError" && err.kind === "ObjectId") {
     statusCode = 404;
