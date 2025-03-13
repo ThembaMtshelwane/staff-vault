@@ -14,6 +14,7 @@ export const validateRegisterAllUsers = expressAsyncHandler(
       res.status(400);
       return next(result.error);
     }
+    req.body = result.data;
     next();
   }
 );

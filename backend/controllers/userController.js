@@ -9,6 +9,7 @@ import {
   UNAUTHORIZED,
 } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
+import { massStaffRegistrationService } from "../service/authService.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -16,30 +17,15 @@ import HTTP_Error from "../utils/httpError.js";
  */
 const registerAllUsers = expressAsyncHandler(async (req, res) => {
   const { staffEmails } = req.body;
-
-  if (!staffEmails) {
-    throw new HTTP_Error("Please enter a list of staff emails", BAD_REQUEST);
-  }
-  const data = await Promise.all(
-    staffEmails.map(async (email) => {
-      let user = await User.findOne({ email });
-      if (!user) {
-        user = await User.create({
-          email,
-          permissions: ["modify_files", "modify_data"],
-          password: process.env.USER_PASSWORD,
-        });
-      }
-      return user;
-    })
-  );
-
-  if (!data) {
-    throw new HTTP_Error("Failed to register all staff", INTERNAL_SERVER_ERROR);
-  }
+  const { data, errors } = await massStaffRegistrationService(staffEmails);
+  const message = errors.map((error) => `${error}\n`).join();
   res.status(201).json({
     success: true,
-    message: `Uploaded ${data.length} staff emails to the database`,
+    message: `✔ Registered: ${data.length} staff members out of ${
+      data.length + errors.length
+    }.
+⚠ Warning: ${errors.length} staff members already exist.
+ℹ Details: ${message}`,
   });
 });
 
