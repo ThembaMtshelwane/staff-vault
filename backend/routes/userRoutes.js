@@ -22,6 +22,7 @@ import {
   validateAddUser,
   validateGetUserProfile,
   validateId,
+  validateUpdateUser,
 } from "../middleware/validators/userValidator.js";
 
 const router = express.Router();
@@ -40,6 +41,6 @@ router
   .route("/:id", protect, validateId)
   .get(fetchUserById)
   .delete(deleteUser)
-  .put(updateUser);
+  .put(validateUpdateUser, updateUser);
 
 export default router;

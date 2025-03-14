@@ -11,7 +11,6 @@ export const validateRegisterAllUsers = expressAsyncHandler(
     const result = staffEmailsSchema.parse(staffEmails);
 
     if (!result.success) {
-      res.status(400);
       return next(result.error);
     }
     req.body = result.data;
@@ -25,7 +24,6 @@ export const validateRegisterAdmin = expressAsyncHandler(
     const result = adminSchema.safeParse({ email, firstName, lastName });
 
     if (!result.success) {
-      res.status(400);
       return next(result.error);
     }
     req.body = result.data;
@@ -37,7 +35,6 @@ export const validateLogin = expressAsyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   const result = loginSchema.safeParse({ email, password });
   if (!result.success) {
-    res.status(400);
     return next(result.error);
   }
   req.body = result.data;

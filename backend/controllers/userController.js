@@ -48,6 +48,8 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 const addUser = expressAsyncHandler(async (req, res) => {
   const user = await addUserService(req.body);
 
+  console.log("user   ", user);
+
   if (!user) {
     throw new HTTP_Error("User not created", INTERNAL_SERVER_ERROR);
   }
@@ -61,6 +63,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   const user = await loginService(req.body);
 
   if (user) {
+    generateToken(res, user._id);
     res.status(200).json({
       success: true,
       message: "User authenticated successfully",

@@ -50,7 +50,8 @@ export const massStaffRegistrationService = async (staffEmails) => {
 };
 
 export const addUserService = async (userData) => {
-  const { firstName, lastName, email, position, department, role } = userData;
+  const { firstName, lastName, email, position, department, role, supervisor } =
+    userData;
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -80,13 +81,14 @@ export const addUserService = async (userData) => {
     ...user,
     position: position || "Not Available",
     department,
+    password: USER_PASSWORD,
+    supervisor,
   });
 };
 
 export const loginService = async (userCredentials) => {
   const { email, password } = userCredentials;
-
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) return user;
-  else null;
+  else return null;
 };

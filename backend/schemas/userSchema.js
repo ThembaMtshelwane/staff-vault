@@ -2,11 +2,17 @@ import mongoose from "mongoose";
 import { z } from "zod";
 
 export const addUserSchema = z.object({
-  firstName: z.string().min(1, { message: "Please enter first name" }),
-  lastName: z.string().min(1, { message: "Please enter last name" }),
-  email: z.string().min(1, "Please enter email").email("Please enter email"),
-  position: z.string().optional(),
-  department: z.string().optional(),
+  firstName: z.string({ message: "Please enter first name" }),
+  lastName: z.string({ message: "Please enter last name" }),
+  email: z.string().email("Please enter email"),
+  password: z
+    .string()
+    .min(8, { message: "Password must be atleast 8 characters long" }),
+  position: z
+    .string()
+    .min(3, { message: "Position must be atleast 3 characters long" }),
+  department: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id)),
+  supervisor: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id)),
 });
 
 export const fetchUsersSchema = z.object({
@@ -52,4 +58,26 @@ export const userProfileSchema = z.object({
   password: z.string(),
   role: z.string().min(1, "Please enter role"),
   permissions: z.array(z.string()).nonempty(),
+});
+
+export const updateUserSchema = z.object({
+  firstName: z.string({ message: "Please enter first name" }).optional(),
+  lastName: z.string({ message: "Please enter last name" }).optional(),
+  email: z.string().email("Please enter email").optional(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be atleast 8 characters long" })
+    .optional(),
+  position: z
+    .string()
+    .min(3, { message: "Position must be atleast 3 characters long" })
+    .optional(),
+  department: z
+    .string()
+    .refine((id) => mongoose.Types.ObjectId.isValid(id))
+    .optional(),
+  supervisor: z
+    .string()
+    .refine((id) => mongoose.Types.ObjectId.isValid(id))
+    .optional(),
 });

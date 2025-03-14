@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import {
   addUserSchema,
+  updateUserSchema,
   userIdSchema,
   userProfileSchema,
 } from "../../schemas/userSchema.js";
@@ -44,14 +45,21 @@ export const validateId = expressAsyncHandler(async (req, res, next) => {
   const parsedParams = userIdSchema.safeParse(req.params);
 
   if (!parsedParams.success) {
-    return res.status(400).json({
-      success: false,
-      errors: parsedParams.error.format(),
-    });
+    return next(parsedParams.error);
   }
   req.params = parsedParams.data;
   next();
 });
+
+export const validateUpdateUser = expressAsyncHandler(
+  async (req, res, next) => {
+    const result = updateUserSchema.safeParse(req.body);
+    if (!result.success) next(result.error);
+
+    req.body = result.data;
+    next();
+  }
+);
 
 export const validateGetUserProfile = expressAsyncHandler(
   async (req, res, next) => {
