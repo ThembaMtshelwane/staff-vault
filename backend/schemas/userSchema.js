@@ -11,8 +11,18 @@ export const addUserSchema = z.object({
   position: z
     .string()
     .min(3, { message: "Position must be atleast 3 characters long" }),
-  department: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id)),
-  supervisor: z.string().refine((id) => mongoose.Types.ObjectId.isValid(id)),
+  department: z
+    .string()
+    .nullable()
+    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid supervisor ID",
+    }),
+  supervisor: z
+    .string()
+    .nullable()
+    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid supervisor ID",
+    }),
 });
 
 export const fetchUsersSchema = z.object({
@@ -74,10 +84,16 @@ export const updateUserSchema = z.object({
     .optional(),
   department: z
     .string()
-    .refine((id) => mongoose.Types.ObjectId.isValid(id))
+    .nullable()
+    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid supervisor ID",
+    })
     .optional(),
   supervisor: z
     .string()
-    .refine((id) => mongoose.Types.ObjectId.isValid(id))
+    .nullable()
+    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid supervisor ID",
+    })
     .optional(),
 });
