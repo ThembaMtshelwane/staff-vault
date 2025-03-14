@@ -14,7 +14,7 @@ import {
   loginService,
   massStaffRegistrationService,
 } from "../service/authService.js";
-import { deleteOneDoc } from "../service/crudHandlerFactory.js";
+import { deleteOneDoc, updateOneDoc } from "../service/crudHandlerFactory.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -164,39 +164,7 @@ const fetchUserById = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const updateUser = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-  const user = await User.findById(id);
-
-  if (!user) {
-    res.status(404);
-    throw new HTTP_Error("User not found", NOT_FOUND);
-  }
-  user.firstName = req.body.firstName || user.firstName;
-  user.lastName = req.body.lastName || user.lastName;
-  user.email = req.body.email || user.email;
-  user.password = req.body.password || user.password;
-  user.position = req.body.position || user.position;
-  user.department = req.body.department || user.department;
-  user.supervisor = req.body.supervisor || user.supervisor;
-
-  const updatedUser = await user.save();
-
-  if (!updateUser) {
-    throw new HTTP_Error("Failed to update user.", INTERNAL_SERVER_ERROR);
-  }
-
-  res.status(200).json({
-    success: true,
-    message: `${
-      updatedUser.firstName ? updatedUser.firstName : "User"
-    } updated`,
-    data: updatedUser,
-  });
-});
+const updateUser = updateOneDoc(User);
 
 const deleteUser = deleteOneDoc(User);
 
