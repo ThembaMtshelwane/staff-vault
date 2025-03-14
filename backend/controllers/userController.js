@@ -14,7 +14,11 @@ import {
   loginService,
   massStaffRegistrationService,
 } from "../service/authService.js";
-import { deleteOneDoc, updateOneDoc } from "../service/crudHandlerFactory.js";
+import {
+  deleteOneDoc,
+  fetchOneDoc,
+  updateOneDoc,
+} from "../service/crudHandlerFactory.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -145,24 +149,7 @@ const fetchAllUsersFilter = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const fetchUserById = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-  const user = await User.findById(id);
-
-  if (user) {
-    res.status(200).json({
-      success: true,
-      message: "Retrieved user",
-      data: user,
-    });
-  } else {
-    throw new HTTP_Error("User not founded", NOT_FOUND);
-  }
-});
+const fetchUserById = fetchOneDoc(User);
 
 const updateUser = updateOneDoc(User);
 
