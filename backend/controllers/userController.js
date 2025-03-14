@@ -14,6 +14,7 @@ import {
   loginService,
   massStaffRegistrationService,
 } from "../service/authService.js";
+import { deleteOneDoc } from "../service/crudHandlerFactory.js";
 /**
  *  @description Register all organization's users
  *  @route POST /api/users
@@ -47,9 +48,6 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 
 const addUser = expressAsyncHandler(async (req, res) => {
   const user = await addUserService(req.body);
-
-  console.log("user   ", user);
-
   if (!user) {
     throw new HTTP_Error("User not created", INTERNAL_SERVER_ERROR);
   }
@@ -200,26 +198,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   });
 });
 
-const deleteUser = expressAsyncHandler(async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    res.status(400);
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-
-  const removedUser = await User.findByIdAndDelete(id);
-
-  if (removedUser) {
-    res.status(200).json({
-      success: true,
-      message: "User deleted",
-      data: removedUser,
-    });
-  } else {
-    res.status(404);
-    throw new HTTP_Error("User not founded", NOT_FOUND);
-  }
-});
+const deleteUser = deleteOneDoc(User);
 
 const getUserProfile = expressAsyncHandler(async (req, res) => {
   if (!req.user) {

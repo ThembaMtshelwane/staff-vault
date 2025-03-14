@@ -7,7 +7,8 @@ import {
 } from "../../schemas/userSchema.js";
 
 export const validateAddUser = expressAsyncHandler(async (req, res, next) => {
-  const { firstName, lastName, email, position, department } = req.body;
+  const { firstName, lastName, email, position, department, password } =
+    req.body;
 
   const result = addUserSchema.safeParse({
     firstName,
@@ -15,6 +16,7 @@ export const validateAddUser = expressAsyncHandler(async (req, res, next) => {
     email,
     position,
     department,
+    password,
   });
 
   if (!result.success) {

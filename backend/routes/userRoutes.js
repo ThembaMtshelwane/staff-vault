@@ -38,9 +38,9 @@ router.post("/logout", logoutUser);
 router.post("/add-user", protect, validateAddUser, addUser);
 router.get("/profile", protect, getUserProfile);
 router
-  .route("/:id", protect, validateId)
-  .get(fetchUserById)
-  .delete(deleteUser)
-  .put(validateUpdateUser, updateUser);
+  .route("/:id", protect)
+  .get(validateId, fetchUserById)
+  .delete(validateId, deleteUser)
+  .put(validateId, validateUpdateUser, updateUser);
 
 export default router;

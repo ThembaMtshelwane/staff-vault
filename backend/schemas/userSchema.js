@@ -10,19 +10,22 @@ export const addUserSchema = z.object({
     .min(8, { message: "Password must be atleast 8 characters long" }),
   position: z
     .string()
-    .min(3, { message: "Position must be atleast 3 characters long" }),
+    .min(3, { message: "Position must be atleast 3 characters long" })
+    .optional(),
   department: z
     .string()
     .nullable()
     .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
       message: "Invalid supervisor ID",
-    }),
+    })
+    .optional(),
   supervisor: z
     .string()
     .nullable()
     .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
       message: "Invalid supervisor ID",
-    }),
+    })
+    .optional(),
 });
 
 export const fetchUsersSchema = z.object({
