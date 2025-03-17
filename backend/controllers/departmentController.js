@@ -73,6 +73,13 @@ const getFilteredDepartments = asyncHandler(async (req, res) => {
 
   const departments = await Department.find(filter).skip(skip).limit(limit);
 
+  if (!departments) {
+    throw new HTTP_Error(
+      "Failed to retrieve departments",
+      INTERNAL_SERVER_ERROR
+    );
+  }
+
   if (departments.length > 0) {
     res.status(200).json({
       success: true,
@@ -86,7 +93,7 @@ const getFilteredDepartments = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    throw new HTTP_Error("Departments not found", INTERNAL_SERVER_ERROR);
+    throw new HTTP_Error("Departments not found", NOT_FOUND);
   }
 });
 

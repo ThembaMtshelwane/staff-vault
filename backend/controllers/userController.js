@@ -1,11 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
 import User from "../model/userModel.js";
 import generateToken from "../utils/generateToken.js";
-import mongoose from "mongoose";
 import {
-  BAD_REQUEST,
   INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
   UNAUTHORIZED,
 } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
@@ -16,6 +13,8 @@ import {
 } from "../service/authService.js";
 import {
   deleteOneDoc,
+  fetchDocs,
+  fetchDocsByPagination,
   fetchOneDoc,
   updateOneDoc,
 } from "../service/crudHandlerFactory.js";
@@ -87,67 +86,9 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
   });
 });
 
-const fetchFilteredUsers = expressAsyncHandler(async (req, res) => {
-  const page = Number(req.query.page) || 1;
-  const search = req.query.search || "";
-  const department = req.query.department;
-  const limit = 12;
-  const skip = (page - 1) * limit;
-  let filter = {};
+const fetchFilteredUsers = fetchDocsByPagination(User);
 
-  if (department) {
-    if (!mongoose.Types.ObjectId.isValid(department)) {
-      throw new HTTP_Error("Invalid department id", BAD_REQUEST);
-    }
-    filter.department = new mongoose.Types.ObjectId(department);
-  }
-
-  if (search) {
-    filter.$or = [
-      { firstName: { $regex: search, $options: "i" } },
-      { lastName: { $regex: search, $options: "i" } },
-      { email: { $regex: search, $options: "i" } },
-      { position: { $regex: search, $options: "i" } },
-    ];
-  }
-
-  const users = await User.find(filter).skip(skip).limit(limit);
-  const totalUsers = await User.countDocuments(filter);
-
-  if (users.length > 0) {
-    res.status(200).json({
-      success: true,
-      message: `Found ${users.length} users`,
-      data: users,
-      pagination: {
-        totalUsers,
-        currentPage: page,
-        totalPages: Math.ceil(totalUsers / limit),
-        pageSize: limit,
-      },
-    });
-  } else {
-    throw new HTTP_Error("No users found", NOT_FOUND);
-  }
-});
-
-const fetchAllUsers = expressAsyncHandler(async (req, res) => {
-  const users = await User.find({});
-
-  if (!users) {
-    throw new HTTP_Error("Internal Server error", INTERNAL_SERVER_ERROR);
-  }
-
-  if (users.length > 0) {
-    res.status(200).json({
-      success: true,
-      message: `Found ${users.length} users`,
-      data: users,
-    });
-  } else {
-    throw new HTTP_Error("No users found", NOT_FOUND);
-  }
-});
+const fetchAllUsers = fetchDocs(User);
 
 const fetchUserById = fetchOneDoc(User);
 

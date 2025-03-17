@@ -40,9 +40,7 @@ export const validateFetchAllDepartments = expressAsyncHandler(
 
 export const validateDepartmentID = expressAsyncHandler(
   async (req, res, next) => {
-    const { id } = req.params;
-
-    const result = departmentIdSchema.safeParse(id);
+    const result = departmentIdSchema.safeParse(req.params.id);
 
     if (!result.success) {
       res.status(400);

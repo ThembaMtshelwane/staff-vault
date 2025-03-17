@@ -18,8 +18,9 @@ export const departmentQuerySchema = z.object({
 
 export const departmentIdSchema = z
   .string()
+  .nullable()
   .refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid user ID",
+    message: "Invalid department ID"
   });
 
 export const updateDepartmentSchema = z.object({

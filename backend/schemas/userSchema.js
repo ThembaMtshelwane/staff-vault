@@ -44,13 +44,13 @@ export const fetchUsersSchema = z.object({
 
 export const userIdSchema = z.object({
   id: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid user ID",
+    message: "Invalid user ID ",
   }),
 });
 
 export const userProfileSchema = z.object({
   _id: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-    message: "Invalid user ID",
+    message: "Invalid user ID ",
   }),
   firstName: z.string(),
   lastName: z.string(),

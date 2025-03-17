@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import {
   addUserSchema,
+  fetchUsersSchema,
   updateUserSchema,
   userIdSchema,
   userProfileSchema,
