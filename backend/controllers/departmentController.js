@@ -55,7 +55,7 @@ const createAllDepartments = asyncHandler(async (req, res) => {
   }
 });
 
-const getDepartments = asyncHandler(async (req, res) => {
+const getFilteredDepartments = asyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
   const search = req.query.search;
   const limit = 12;
@@ -90,8 +90,12 @@ const getDepartments = asyncHandler(async (req, res) => {
   }
 });
 
-const getDepartmentsFilter = asyncHandler(async (req, res) => {
+const getDepartments = asyncHandler(async (req, res) => {
   const departments = await Department.find({});
+
+  if (!departments) {
+    throw new HTTP_Error("Departments not found", INTERNAL_SERVER_ERROR);
+  }
 
   if (departments.length > 0) {
     res.status(200).json({
@@ -201,5 +205,5 @@ export {
   updateDepartment,
   deleteDepartment,
   addDepartment,
-  getDepartmentsFilter,
+  getFilteredDepartments,
 };

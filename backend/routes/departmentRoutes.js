@@ -6,7 +6,7 @@ import {
   updateDepartment,
   addDepartment,
   deleteDepartment,
-  getDepartmentsFilter,
+  getFilteredDepartments,
 } from "../controllers/departmentController.js";
 import {
   validateCreateAllDepartments,
@@ -22,7 +22,7 @@ router
   .route("/")
   .post(validateCreateAllDepartments, createAllDepartments)
   .get(validateFetchAllDepartments, getDepartments);
-router.get("/filter", getDepartmentsFilter);
+router.get("/filter", getFilteredDepartments);
 router.post("/add", validateAddDepartment, addDepartment);
 router
   .route("/:id")

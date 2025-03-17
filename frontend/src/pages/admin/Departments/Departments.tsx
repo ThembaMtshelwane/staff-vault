@@ -3,13 +3,13 @@ import ContentControls from "../../../components/ContentControls";
 import { CustomSpinner } from "../../../components/CustomSpinner";
 import DepartmentCard from "../../../components/DepartmentCard";
 import PaginationUI from "../../../components/PaginationUI";
-import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
+import { useGetFilteredDepartmentsQuery } from "../../../slices/departmentApiSlice";
 
 const Departments = () => {
   const limit = 12;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
-  const { data: departments, isLoading } = useGetDepartmentsQuery({
+  const { data: departments, isLoading } = useGetFilteredDepartmentsQuery({
     page: currentPage,
     search,
   });
@@ -34,7 +34,7 @@ const Departments = () => {
                 key={department._id}
                 name={department.name}
                 id={department._id}
-                superviour={department.supervisor || ""}
+                supervisor={department.supervisor || ""}
               />
             ))}
           </div>

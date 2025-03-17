@@ -5,8 +5,8 @@ import {
 } from "../../../slices/departmentApiSlice";
 import { CustomSpinner } from "../../../components/CustomSpinner";
 import {
+  useGetFilteredUsersQuery,
   useGetUserQuery,
-  useGetUsersQuery,
 } from "../../../slices/userApiSlice";
 import EmployeeCard from "../../../components/EmployeeCard";
 import ReturnIcon from "../../../components/ReturnIcon";
@@ -20,7 +20,7 @@ const Department = () => {
     data: employees,
     isLoading,
     isError,
-  } = useGetUsersQuery({
+  } = useGetFilteredUsersQuery({
     page: 1,
     search: "",
     department: String(id),
@@ -38,7 +38,7 @@ const Department = () => {
     superviourFirstName && superviourLastName
       ? `${superviourFirstName} ${superviourLastName}`
       : "Not Available";
- 
+
   const handleDeleteDepartment = async () => {
     const res = await deleteDepartment(String(id));
     if (res.data?.success) {
