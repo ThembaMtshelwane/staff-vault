@@ -1,11 +1,17 @@
 import asyncHandler from "express-async-handler";
 import Department from "../model/departmentModel.js";
-import mongoose from "mongoose";
 import {
   BAD_REQUEST,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
 } from "../constants/http.codes.js";
+import {
+  deleteOneDoc,
+  fetchDocs,
+  fetchDocsByPagination,
+  fetchOneDoc,
+  updateOneDoc,
+} from "../service/crudHandlerFactory.js";
 
 /**
  *  @description Create all of the organization's department
@@ -55,124 +61,15 @@ const createAllDepartments = asyncHandler(async (req, res) => {
   }
 });
 
-const getFilteredDepartments = asyncHandler(async (req, res) => {
-  const page = Number(req.query.page) || 1;
-  const search = req.query.search;
-  const limit = 12;
-  const skip = (page - 1) * limit;
-  let filter = {};
+const getFilteredDepartments = fetchDocsByPagination(Department);
 
-  const totalDepartments = await Department.countDocuments();
+const getDepartments = fetchDocs(Department);
 
-  if (search) {
-    filter.$or = [
-      { name: { $regex: search, $options: "i" } },
-      mongoose.Types.ObjectId.isValid(search) ? { supervisor: search } : null,
-    ].filter(Boolean);
-  }
+const getDepartmentById = fetchOneDoc(Department);
 
-  const departments = await Department.find(filter).skip(skip).limit(limit);
+const updateDepartment = updateOneDoc(Department);
 
-  if (!departments) {
-    throw new HTTP_Error(
-      "Failed to retrieve departments",
-      INTERNAL_SERVER_ERROR
-    );
-  }
-
-  if (departments.length > 0) {
-    res.status(200).json({
-      success: true,
-      message: `Found ${departments.length} departments`,
-      data: departments,
-      pagination: {
-        totalDepartments,
-        currentPage: page,
-        totalPages: Math.ceil(totalDepartments / limit),
-        pageSize: limit,
-      },
-    });
-  } else {
-    throw new HTTP_Error("Departments not found", NOT_FOUND);
-  }
-});
-
-const getDepartments = asyncHandler(async (req, res) => {
-  const departments = await Department.find({});
-
-  if (!departments) {
-    throw new HTTP_Error("Departments not found", INTERNAL_SERVER_ERROR);
-  }
-
-  if (departments.length > 0) {
-    res.status(200).json({
-      success: true,
-      message: `Fetched all ${departments.length} departments`,
-      data: departments,
-    });
-  } else {
-    throw new HTTP_Error("Departments not found");
-  }
-});
-
-const getDepartmentById = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-
-  const department = await Department.findById(id);
-  if (department) {
-    res.status(200).json({
-      success: true,
-      message: `Found department ${department.name}`,
-      data: department,
-    });
-  } else {
-    throw (new HTTP_Error("Department not found"), NOT_FOUND);
-  }
-});
-
-const updateDepartment = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-  const department = await Department.findById(id);
-  const { name, positions, supervisor } = req.body;
-
-  if (department) {
-    department.name = name || department.name;
-    department.positions = positions || department.positions;
-    department.supervisor = supervisor || department.supervisor;
-
-    const updatedDepartment = await department.save();
-    res.status(200).json({
-      success: true,
-      message: `Department ${department.name} updated`,
-      data: updatedDepartment,
-    });
-  } else {
-    throw new HTTP_Error("Department not found", NOT_FOUND);
-  }
-});
-
-const deleteDepartment = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  if (!id) {
-    throw new HTTP_Error("Invalid id", BAD_REQUEST);
-  }
-  const department = await Department.findByIdAndDelete(id);
-  if (department) {
-    res.status(200).json({
-      success: true,
-      message: `${department.name} Department deleted`,
-    });
-  } else {
-    throw (new HTTP_Error("Department not found"), NOT_FOUND);
-  }
-});
+const deleteDepartment = deleteOneDoc(Department);
 
 const addDepartment = asyncHandler(async (req, res) => {
   const { name, supervisor, positions } = req.body;

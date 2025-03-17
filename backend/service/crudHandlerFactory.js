@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import HTTP_Error from "../utils/httpError.js";
 import { NOT_FOUND, OK } from "../constants/http.codes.js";
+import mongoose from "mongoose";
 
 export const deleteOneDoc = (Model) =>
   expressAsyncHandler(async (req, res) => {
@@ -65,6 +66,7 @@ export const fetchDocsByPagination = (Model) =>
     if (search) {
       filter.$or = [
         { firstName: { $regex: search, $options: "i" } },
+        { name: { $regex: search, $options: "i" } },
         { lastName: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },
         { position: { $regex: search, $options: "i" } },
