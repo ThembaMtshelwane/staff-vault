@@ -89,7 +89,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         message: string;
         data: IUser[];
         pagination: {
-          totalUsers: number;
+          totalDocuments: number;
           currentPage: number;
           totalPages: number;
           pageSize: number;

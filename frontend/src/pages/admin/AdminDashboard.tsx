@@ -57,7 +57,7 @@ const AdminDashboard = () => {
       <div className=" flex flex-col gap-4 sm:flex-row ">
         <TagAndStat
           name={"Total Employees"}
-          stat={employees?.pagination.totalUsers || 0}
+          stat={employees?.pagination.totalDocuments || 0}
           icon={<GrGroup className="sidebar-icons" />}
           link={"/admin/employees"}
         />
