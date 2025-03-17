@@ -8,9 +8,7 @@ import {
   NOT_FOUND,
 } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
-import {
-  fetchDocs,
-} from "../service/crudHandlerFactory.js";
+import { fetchDocs } from "../service/crudHandlerFactory.js";
 
 /**
  * Uploads a file to GridFS and stores its metadata.
@@ -79,7 +77,7 @@ export const getFilteredFiles = expressAsyncHandler(async (req, res) => {
   }
   res.status(200).json({
     success: true,
-    message: `${documentType} files returned`,
+    message: `${files.length} ${documentType} files returned`,
     data: files,
   });
 });
