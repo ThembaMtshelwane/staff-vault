@@ -87,7 +87,7 @@ const logoutUser = expressAsyncHandler(async (req, res) => {
   });
 });
 
-const fetchAllUsers = expressAsyncHandler(async (req, res) => {
+const fetchFilteredUsers = expressAsyncHandler(async (req, res) => {
   const page = Number(req.query.page) || 1;
   const search = req.query.search || "";
   const department = req.query.department;
@@ -131,7 +131,7 @@ const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const fetchAllUsersFilter = expressAsyncHandler(async (req, res) => {
+const fetchAllUsers = expressAsyncHandler(async (req, res) => {
   const users = await User.find({});
 
   if (!users) {
@@ -183,7 +183,7 @@ export {
   createAdminUser,
   loginUser,
   fetchAllUsers,
-  fetchAllUsersFilter,
+  fetchFilteredUsers,
   fetchUserById,
   deleteUser,
   updateUser,

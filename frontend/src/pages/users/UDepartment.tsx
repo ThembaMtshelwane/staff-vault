@@ -1,7 +1,10 @@
 import { useState } from "react";
 import UEmployeeCard from "../../components/uEmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
-import { useGetUserQuery, useGetUsersQuery } from "../../slices/userApiSlice";
+import {
+  useGetFilteredUsersQuery,
+  useGetUserQuery,
+} from "../../slices/userApiSlice";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
@@ -21,7 +24,7 @@ const uDepartment = () => {
     data: departmentEmployees,
     isLoading,
     isError,
-  } = useGetUsersQuery({
+  } = useGetFilteredUsersQuery({
     page: currentPage,
     search,
     department: userInfo?.department || "",

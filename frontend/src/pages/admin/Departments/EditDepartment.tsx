@@ -6,17 +6,14 @@ import {
 } from "../../../slices/departmentApiSlice";
 import { FormEvent, useEffect, useState } from "react";
 import { IDepartment } from "../../../definitions";
-import {
-  useGetUsersFilterQuery,
-} from "../../../slices/userApiSlice";
+import { useGetUsersQuery } from "../../../slices/userApiSlice";
 
 const EditDepartment = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading: departmentLoading } = useGetDepartmentQuery({
     id: String(id),
   });
-  const { data: employees, isLoading: employeesLoading } =
-    useGetUsersFilterQuery();
+  const { data: employees, isLoading: employeesLoading } = useGetUsersQuery();
   const [updateDepartment] = useUpdateDepartmentMutation();
   const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
@@ -43,9 +40,7 @@ const EditDepartment = () => {
     setDepartment((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSupervisorChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleSupervisorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSupervisorId = e.target.value;
     const selectedSupervisor = employees?.data.find(
       (employee) => employee._id === selectedSupervisorId
@@ -56,7 +51,6 @@ const EditDepartment = () => {
         ...prev,
         supervisor: selectedSupervisorId,
       }));
-
     }
   };
   const handleCancel = () => {

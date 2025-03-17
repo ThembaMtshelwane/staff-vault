@@ -3,10 +3,10 @@ import { useNavigate } from "react-router";
 import { useCreateDepartmentMutation } from "../../../slices/departmentApiSlice";
 import ReturnHeader from "../../../components/ReturnHeader";
 import { IDepartment } from "../../../definitions";
-import { useGetUsersFilterQuery } from "../../../slices/userApiSlice";
+import { useGetUsersQuery } from "../../../slices/userApiSlice";
 
 const AddDepartment = () => {
-  const { data: employees } = useGetUsersFilterQuery();
+  const { data: employees } = useGetUsersQuery();
   const [createDepartment] = useCreateDepartmentMutation();
   const navigate = useNavigate();
   const [department, setDepartment] = useState<Partial<IDepartment>>({

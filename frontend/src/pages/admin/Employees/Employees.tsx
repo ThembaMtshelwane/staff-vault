@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "../../../slices/userApiSlice";
+import { useGetFilteredUsersQuery } from "../../../slices/userApiSlice";
 import EmployeeCard from "../../../components/EmployeeCard";
 import { CustomSpinner } from "../../../components/CustomSpinner";
 import ContentControls from "../../../components/ContentControls";
@@ -10,7 +10,7 @@ const Employees = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
-  const { data: employees, isLoading } = useGetUsersQuery({
+  const { data: employees, isLoading } = useGetFilteredUsersQuery({
     page: currentPage,
     search,
     department,

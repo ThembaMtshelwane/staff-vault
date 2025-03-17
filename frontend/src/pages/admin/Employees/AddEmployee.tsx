@@ -3,12 +3,12 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import ReturnIcon from "../../../components/ReturnIcon";
 import { IUser } from "../../../definitions";
-import { useGetDepartmentFilterQuery } from "../../../slices/departmentApiSlice";
+import { useGetDepartmentsQuery } from "../../../slices/departmentApiSlice";
 
 const AddEmployee = () => {
   const [addUser] = useAddUserMutation();
   const navigate = useNavigate();
-  const { data: departments } = useGetDepartmentFilterQuery();
+  const { data: departments } = useGetDepartmentsQuery();
   const [profile, setProfile] = useState<Partial<IUser>>({
     firstName: "",
     lastName: "",

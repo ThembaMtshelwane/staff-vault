@@ -1,7 +1,7 @@
 import { IoAddCircleOutline, IoSearch } from "react-icons/io5";
 import { Link } from "react-router";
 import Filter from "./Filter";
-import { useGetDepartmentFilterQuery } from "../slices/departmentApiSlice";
+import { useGetDepartmentsQuery } from "../slices/departmentApiSlice";
 
 type Props = {
   addFunctionName: string;
@@ -16,7 +16,7 @@ const ContentControls = ({
   setSearch,
   setDepartment,
 }: Props) => {
-  const { data: departments } = useGetDepartmentFilterQuery();
+  const { data: departments } = useGetDepartmentsQuery();
 
   return (
     <div className="flex flex-col gap-2 md:flex-row justify-between">

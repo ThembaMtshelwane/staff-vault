@@ -7,7 +7,7 @@ import {
 } from "../../slices/userApiSlice";
 import { IUser } from "../../definitions";
 import {
-  useGetDepartmentFilterQuery,
+  useGetDepartmentsQuery,
   useUpdateDepartmentMutation,
 } from "../../slices/departmentApiSlice";
 import { setCredentials } from "../../slices/authSlice";
@@ -19,7 +19,7 @@ const UProfile = () => {
   const [updateUser] = useUpdateUserMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
   const { data: supervisor } = useGetUserQuery(userInfo?.supervisor || "");
-  const { data: departments } = useGetDepartmentFilterQuery();
+  const { data: departments } = useGetDepartmentsQuery();
   const [departmentID, setDepartmentID] = useState(userInfo?.department || "");
   const [profile, setProfile] = useState<Partial<IUser>>({
     _id: "",

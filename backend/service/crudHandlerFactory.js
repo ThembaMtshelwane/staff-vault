@@ -45,3 +45,8 @@ export const fetchOneDoc = (Model) =>
       data: foundDocument,
     });
   });
+
+export const fetchDocsByPagination = (Model) =>
+  expressAsyncHandler(async (req, res) => {});
+
+export const fetchDocs = (Model) => expressAsyncHandler(async (req, res) => {});

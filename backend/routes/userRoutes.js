@@ -10,7 +10,7 @@ import {
   logoutUser,
   getUserProfile,
   updateUser,
-  fetchAllUsersFilter,
+  fetchFilteredUsers,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import {
@@ -31,7 +31,7 @@ router
   .route("/")
   .post(protect, validateRegisterAllUsers, registerAllUsers)
   .get(protect, fetchAllUsers);
-router.get("/filter", fetchAllUsersFilter);
+router.get("/filter", fetchFilteredUsers);
 router.post("/admin", validateRegisterAdmin, createAdminUser);
 router.post("/login", validateLogin, loginUser);
 router.post("/logout", logoutUser);

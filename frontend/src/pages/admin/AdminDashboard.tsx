@@ -5,14 +5,14 @@ import { useGetOrganizationByAdminQuery } from "../../slices/organizationSlice";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useGetUsersQuery } from "../../slices/userApiSlice";
-import { useGetDepartmentFilterQuery } from "../../slices/departmentApiSlice";
+import { useGetFilteredUsersQuery } from "../../slices/userApiSlice";
+import { useGetDepartmentsQuery } from "../../slices/departmentApiSlice";
 
 const AdminDashboard = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { data } = useGetOrganizationByAdminQuery(userInfo?.email || "");
-  const { data: departments } = useGetDepartmentFilterQuery();
-  const { data: employees } = useGetUsersQuery({
+  const { data: departments } = useGetDepartmentsQuery();
+  const { data: employees } = useGetFilteredUsersQuery({
     page: 1,
     search: "",
     department: "",

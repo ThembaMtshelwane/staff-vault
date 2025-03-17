@@ -83,7 +83,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    getUsers: builder.query<
+    getFilteredUsers: builder.query<
       {
         success: boolean;
         message: string;
@@ -98,13 +98,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       { page: number; search: string; department: string }
     >({
       query: ({ page, search, department }) => ({
-        url: `${USERS_URL}?page=${page}&search=${search}&department=${department}`,
+        url: `${USERS_URL}/filter?page=${page}&search=${search}&department=${department}`,
         method: "GET",
       }),
       providesTags: ["User"],
     }),
 
-    getUsersFilter: builder.query<
+    getUsers: builder.query<
       {
         success: boolean;
         message: string;
@@ -113,7 +113,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       void
     >({
       query: () => ({
-        url: `${USERS_URL}/filter`,
+        url: `${USERS_URL}/`,
         method: "GET",
       }),
       providesTags: ["User"],
@@ -161,7 +161,7 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useGetUsersQuery,
-  useGetUsersFilterQuery,
+  useGetFilteredUsersQuery,
   useGetUserQuery,
   useGetUserProfileQuery,
   useLogoutMutation,
