@@ -1,46 +1,16 @@
 import mongoose from "mongoose";
 import { z } from "zod";
+import {
+  fetchContentByFilters,
+  objectIdSchema,
+  passwordSchema,
+  positionSchema,
+  userInfoSchema,
+} from "./genericSchema.js";
 
-export const addUserSchema = z.object({
-  firstName: z.string({ message: "Please enter first name" }),
-  lastName: z.string({ message: "Please enter last name" }),
-  email: z.string().email("Please enter email"),
-  password: z
-    .string()
-    .min(8, { message: "Password must be atleast 8 characters long" }),
-  position: z
-    .string()
-    .min(3, { message: "Position must be atleast 3 characters long" })
-    .optional(),
-  department: z
-    .string()
-    .nullable()
-    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid supervisor ID",
-    })
-    .optional(),
-  supervisor: z
-    .string()
-    .nullable()
-    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid supervisor ID",
-    })
-    .optional(),
-});
+export const addUserSchema = userInfoSchema;
 
-export const fetchUsersSchema = z.object({
-  page: z
-    .string()
-    .optional()
-    .transform((val) => (val ? Number(val) : 1)),
-  search: z.string().optional().default(""),
-  department: z
-    .string()
-    .optional()
-    .refine((val) => !val || mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid department ID",
-    }),
-});
+export const fetchUsersSchema = fetchContentByFilters;
 
 export const userIdSchema = z.object({
   id: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
@@ -74,29 +44,11 @@ export const userProfileSchema = z.object({
 });
 
 export const updateUserSchema = z.object({
-  firstName: z.string({ message: "Please enter first name" }).optional(),
-  lastName: z.string({ message: "Please enter last name" }).optional(),
-  email: z.string().email("Please enter email").optional(),
-  password: z
-    .string()
-    .min(8, { message: "Password must be atleast 8 characters long" })
-    .optional(),
-  position: z
-    .string()
-    .min(3, { message: "Position must be atleast 3 characters long" })
-    .optional(),
-  department: z
-    .string()
-    .nullable()
-    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid supervisor ID",
-    })
-    .optional(),
-  supervisor: z
-    .string()
-    .nullable()
-    .refine((val) => val === null || mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid supervisor ID",
-    })
-    .optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  email: z.string().email("Please enter a valid email").optional(),
+  password: passwordSchema.optional(),
+  position: positionSchema,
+  department: objectIdSchema,
+  supervisor: objectIdSchema,
 });

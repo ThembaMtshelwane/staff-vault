@@ -12,6 +12,7 @@ import {
   fetchOneDoc,
   updateOneDoc,
 } from "../service/crudHandlerFactory.js";
+import HTTP_Error from "../utils/httpError.js";
 
 /**
  *  @description Create all of the organization's department
