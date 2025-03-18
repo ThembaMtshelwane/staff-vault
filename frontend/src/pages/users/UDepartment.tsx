@@ -1,5 +1,5 @@
 import { useState } from "react";
-import UEmployeeCard from "../../components/uEmployeeCard";
+import UEmployeeCard from "../../components/UEmployeeCard";
 import PaginationUI from "../../components/PaginationUI";
 import {
   useGetFilteredUsersQuery,
@@ -10,11 +10,10 @@ import { useSelector } from "react-redux";
 import { useGetDepartmentQuery } from "../../slices/departmentApiSlice";
 import { CustomSpinner } from "../../components/CustomSpinner";
 
-const uDepartment = () => {
+const UDepartment = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const limit = 12;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [search, setSearch] = useState<string>("");
 
   const { data: department } = useGetDepartmentQuery({
     id: userInfo?.department || "",
@@ -26,7 +25,7 @@ const uDepartment = () => {
     isError,
   } = useGetFilteredUsersQuery({
     page: currentPage,
-    search,
+    search: "",
     department: userInfo?.department || "",
   });
 
@@ -69,7 +68,7 @@ const uDepartment = () => {
             <PaginationUI
               limit={limit}
               currentPage={currentPage}
-              totalElements={departmentEmployees.pagination.totalUsers}
+              totalElements={departmentEmployees.pagination.totalDocuments}
               totalPages={departmentEmployees.pagination.totalPages}
               setCurrentPage={setCurrentPage}
             />
@@ -85,4 +84,4 @@ const uDepartment = () => {
   );
 };
 
-export default uDepartment;
+export default UDepartment;

@@ -12,9 +12,10 @@ type Props = {
 
 const EmployeeCard = ({ firstName, lastName, position, id }: Props) => {
   const { data: employee } = useGetUserQuery(id);
-  const { data: department } = useGetDepartmentQuery({
-    id: String(employee?.data.department),
+  const { data: department, isLoading } = useGetDepartmentQuery({
+    id: String(employee?.data.department || "") || "",
   });
+  if (isLoading) <>Loading</>;
   return (
     <Link
       to={`/admin/employees/${id}`}

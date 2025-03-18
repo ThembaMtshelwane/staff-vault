@@ -46,7 +46,6 @@ export const validateDepartmentID = expressAsyncHandler(
       res.status(400);
       return next(result.error);
     }
-
     req.params.id = result.data;
     next();
   }

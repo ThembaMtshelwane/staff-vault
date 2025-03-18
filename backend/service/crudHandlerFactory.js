@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
 import HTTP_Error from "../utils/httpError.js";
-import { NOT_FOUND, OK } from "../constants/http.codes.js";
+import { BAD_REQUEST, NOT_FOUND, OK } from "../constants/http.codes.js";
 import mongoose from "mongoose";
 
 export const deleteOneDoc = (Model) =>

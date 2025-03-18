@@ -48,7 +48,7 @@ const Employees = () => {
             <PaginationUI
               limit={limit}
               currentPage={currentPage}
-              totalElements={employees.pagination.totalUsers}
+              totalElements={employees.pagination.totalDocuments}
               totalPages={employees.pagination.totalPages}
               setCurrentPage={setCurrentPage}
             />
