@@ -37,21 +37,21 @@ Staff Vault is a full-stack staff management website built using the MERN stack 
 
 2. Install backend dependencies:
    ```bash
-      cd staff-vault/
-      npm install
+   cd staff-vault/
+   npm install
 
 3. Install frontend dependencies:
    ```bash
-       cd ../frontend
-      npm install
+   cd ../frontend
+   npm install
    
 4. Set up your environment variables:
 Create a .env file in both the backend and frontend directories with the necessary configurations (e.g. PORT, ADMIN_PASSWORD, USER_PASSWORD, MONGO_URI, JWT_SECRET). 
 
 5. Run the project:
    ```bash
-       cd staff-vault
-      npm install
+   cd staff-vault
+   npm install
 
 
   ## Development
