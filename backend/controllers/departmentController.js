@@ -9,7 +9,10 @@ import {
   updateOneDoc,
 } from "../service/crudHandlerFactory.js";
 import HTTP_Error from "../utils/httpError.js";
-import { massDepartmentCreationService } from "../service/departmentServices.js";
+import {
+  addDepartmentService,
+  massDepartmentCreationService,
+} from "../service/departmentServices.js";
 
 /**
  *  @description Create all of the organization's department
@@ -46,30 +49,11 @@ const updateDepartment = updateOneDoc(Department);
 const deleteDepartment = deleteOneDoc(Department);
 
 const addDepartment = asyncHandler(async (req, res) => {
-  const { name, supervisor, positions } = req.body;
-
-  if (!name || !supervisor || !positions) {
-    throw new HTTP_Error(
-      "Department must have an email, a supervisor, and positions",
-      BAD_REQUEST
-    );
-  }
-
-  const departmentExists = await Department.findOne({ name });
-
-  if (departmentExists) {
-    throw new HTTP_Error("Department already exists", BAD_REQUEST);
-  }
-
-  const department = await Department.create({
-    name,
-    supervisor,
-    positions,
-  });
+  const department = await addDepartmentService(req.body);
   if (department) {
     res.status(201).json({
       success: true,
-      message: `${name} Department created successfully`,
+      message: "Department created successfully",
     });
   } else {
     throw new HTTP_Error("Department not created", INTERNAL_SERVER_ERROR);
