@@ -1,21 +1,15 @@
 import { ADMIN_PASSWORD, USER_PASSWORD } from "../constants/env.const.js";
-import {
-  BAD_REQUEST,
-  INTERNAL_SERVER_ERROR,
-  UNAUTHORIZED,
-} from "../constants/http.codes.js";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../constants/http.codes.js";
 import User from "../model/userModel.js";
 import HTTP_Error from "../utils/httpError.js";
+import { removeDuplicates } from "../utils/utils.js";
 
-export const massStaffRegistrationService = async (staffEmails) => {
-  if (!staffEmails || !Array.isArray(staffEmails) || staffEmails.length === 0) {
-    throw new HTTP_Error(
-      "Please enter a valid list of staff emails",
-      BAD_REQUEST
-    );
-  }
+export const massStaffRegistrationService = async (input) => {
+  const { uniqueStrings: staffEmails, duplicates } = removeDuplicates(input);
   const errors = [];
   const data = [];
+  let errorMessage = duplicates === 0 ? "" : `${duplicates} Duplicates removed`;
+
   await Promise.all(
     staffEmails.map(async (email) => {
       let user = await User.findOne({ email });
@@ -26,7 +20,6 @@ export const massStaffRegistrationService = async (staffEmails) => {
           password: USER_PASSWORD,
         });
         data.push(user);
-        return user;
       } else {
         errors.push(`${email} already exists`);
       }
@@ -45,8 +38,20 @@ export const massStaffRegistrationService = async (staffEmails) => {
       BAD_REQUEST
     );
   }
+  errorMessage =
+    errors.map((error) => `${error}\n`).join() + " and " + errorMessage;
 
-  return { data, errors };
+  const message = `✔ Registered: ${data.length} department out of the ${
+    input.length
+  } given. ${
+    errors.length
+      ? ` ⚠ Warning: ${errors.length} departments already exist.
+    ℹ Details: ${errorMessage}`
+      : ""
+  }
+   `;
+
+  return { data, message, errors };
 };
 
 export const addUserService = async (userData) => {

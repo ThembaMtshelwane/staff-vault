@@ -25,16 +25,16 @@ import {
  */
 const registerAllUsers = expressAsyncHandler(async (req, res) => {
   const { staffEmails } = req.body;
-  const { data, errors } = await massStaffRegistrationService(staffEmails);
-  const message = errors.map((error) => `${error}\n`).join();
-  res.status(201).json({
-    success: true,
-    message: `✔ Registered: ${data.length} staff members out of ${
-      data.length + errors.length
-    }.
-⚠ Warning: ${errors.length} staff members already exist.
-ℹ Details: ${message}`,
-  });
+  const { data, message } = await massStaffRegistrationService(staffEmails);
+
+  if (data) {
+    res.status(201).json({
+      success: true,
+      message,
+    });
+  } else {
+    throw new HTTP_Error("Failed to create all users", INTERNAL_SERVER_ERROR);
+  }
 });
 
 const createAdminUser = expressAsyncHandler(async (req, res) => {
@@ -52,7 +52,7 @@ const createAdminUser = expressAsyncHandler(async (req, res) => {
 const addUser = expressAsyncHandler(async (req, res) => {
   const user = await addUserService(req.body);
   if (!user) {
-    throw new HTTP_Error("User not created", INTERNAL_SERVER_ERROR);
+    throw new HTTP_Error("Failed to create user", INTERNAL_SERVER_ERROR);
   }
   res.status(201).json({
     success: true,
