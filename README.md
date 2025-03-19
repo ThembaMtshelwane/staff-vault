@@ -52,7 +52,7 @@ Create a .env file in both the backend and frontend directories with the necessa
    ```bash
    cd staff-vault
    npm install
-
+   npm run dev
 
   ## Development
   1. Backend
