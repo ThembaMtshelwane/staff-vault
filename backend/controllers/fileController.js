@@ -2,13 +2,10 @@
 import File from "../model/fileUploadModel.js";
 import expressAsyncHandler from "express-async-handler";
 import path from "path";
-import {
-  BAD_REQUEST,
-  INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
-} from "../constants/http.codes.js";
+import { INTERNAL_SERVER_ERROR, NOT_FOUND } from "../constants/http.codes.js";
 import HTTP_Error from "../utils/httpError.js";
 import { fetchDocs } from "../service/crudHandlerFactory.js";
+import { fileUploadService } from "../service/fileService.js";
 
 /**
  * Uploads a file to GridFS and stores its metadata.
@@ -16,21 +13,7 @@ import { fetchDocs } from "../service/crudHandlerFactory.js";
  * @param {Object} res - Express response object.
  */
 export const uploadFile = expressAsyncHandler(async (req, res) => {
-  if (!req.file) {
-    throw new HTTP_Error("No file selected", BAD_REQUEST);
-  }
-
-  const relativePath = path.relative(process.cwd(), req.file.path);
-
-  const newFile = new File({
-    name: req.file.originalname,
-    mimetype: req.file.mimetype,
-    path: relativePath,
-    employee: req.body.employee,
-    documentType: req.body.documentType,
-  });
-
-  const uploaded = await newFile.save();
+  const uploaded = await fileUploadService(req.file, req.body);
 
   if (!uploaded) {
     throw new HTTP_Error("Failed to upload file", INTERNAL_SERVER_ERROR);

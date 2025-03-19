@@ -17,8 +17,6 @@ export const uploadFileValidator = expressAsyncHandler(
       res.status(400);
       return next(result.error);
     }
-
-    console.log("result  ", result);
     req.file = result.data.file;
     req.body = {
       employee: result.data.employee,
