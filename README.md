@@ -76,3 +76,4 @@ Create a .env file in both the backend and frontend directories with the necessa
 ## Future Improvements
    1. Use Zod for client data validation in the backend.
    2. Use TypeScriot in the backend.
+   3. Deploy the website
