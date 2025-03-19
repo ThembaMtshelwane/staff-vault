@@ -18,6 +18,7 @@ import UDepartment from "./pages/users/UDepartment";
 import UProfile from "./pages/users/UProfile";
 import UpdateFile from "./pages/users/Files/UpdateFile";
 import EditDepartment from "./pages/admin/Departments/EditDepartment";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
           <Route path="Profile" element={<UProfile />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
