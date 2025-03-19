@@ -72,3 +72,7 @@ Create a .env file in both the backend and frontend directories with the necessa
    2. Role-Based Access Control: Learned how to implement and manage different access levels within the application.
    3. File Management: Implemented the functionality to upload, store, and associate files with staff members.    
    4. MVC Architecture: Used the MVC pattern to structure the backend, improving scalability and code organization.
+
+## Future Improvements
+   1. Use Zod for client data validation in the backend.
+   2. Use TypeScriot in the backend.
