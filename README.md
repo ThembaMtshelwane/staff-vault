@@ -23,17 +23,17 @@ Staff Vault is a full-stack staff management website built using the MERN stack 
 
 ## Features and Learnings
 
-- **Role-Based Access Control**: Implemented role-based access to restrict certain actions based on the user's role (Admin, Manager, Staff).
+- **Role-Based Access Control**: Implemented role-based access to restrict specific actions based on the user's role (Admin, Manager, Staff).
 - **CRUD Operations**: Developed API endpoints for managing staff records and handling file uploads.
-- **Redux Toolkit**: Learned and implemented Redux Toolkit for managing state efficiently across the application.
+- **Redux Toolkit**: Learned and implemented Redux Toolkit to manage state efficiently across the application.
 - **File Handling**: Handled file uploads (e.g., resumes, employee records) and associated them with staff profiles.
-- **Full-Stack Development**: Gained experience in integrating the frontend (React) with the backend (Node.js/Express), using MongoDB for data storage.
+- **Full-Stack Development**: Gained experience in integrating the frontend (React) with the backend (Node.js/Express), using Redux Toolit and MongoDB for data storage.
 
 ## Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/staff-vault.git
+   git clone https://github.com/ThembaMtshelwane/staff-vault.git
 
 2. Install backend dependencies:
    ```bash
@@ -46,7 +46,7 @@ Staff Vault is a full-stack staff management website built using the MERN stack 
       npm install
    
 4. Set up your environment variables:
-Create a .env file in both backend and frontend directories with the necessary configurations (e.g., MongoDB URI, JWT secret). 
+Create a .env file in both the backend and frontend directories with the necessary configurations (e.g. PORT, ADMIN_PASSWORD, USER_PASSWORD, MONGO_URI, JWT_SECRET). 
 
 5. Run the project:
    ```bash
@@ -62,7 +62,7 @@ Create a .env file in both backend and frontend directories with the necessary c
 -    The backend uses JWT tokens for authentication and role-based access control.
 
 2. Frontend
--    The frontend is built with React and TypeScript, with Redux Toolkit used to manage application state.
+-    The frontend is built with React and TypeScript, with Redux Toolkit used to manage the application state.
 -    Tailwind CSS is used for building the UI with a focus on responsiveness.
 -    Role-based access is implemented by conditionally rendering components based on the user's role.
 
