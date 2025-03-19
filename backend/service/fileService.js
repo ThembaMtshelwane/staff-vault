@@ -13,3 +13,16 @@ export const fileUploadService = async (fileData, reqBody) => {
   const uploaded = await newFile.save();
   return uploaded;
 };
+
+export const fileDownloadService = async (fileData) => {
+  const { filename } = fileData;
+  const file = await File.findOne({ name: filename });
+
+  if (!file) {
+    throw new HTTP_Error("File not found", NOT_FOUND);
+  }
+
+  const fullPath = path.join(process.cwd(), file.path);
+
+  return { fullPath, filename };
+};

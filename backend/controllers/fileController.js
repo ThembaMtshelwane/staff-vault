@@ -32,14 +32,7 @@ export const uploadFile = expressAsyncHandler(async (req, res) => {
  * @param {Object} res - Express response object.
  */
 export const downloadFile = expressAsyncHandler(async (req, res) => {
-  const { filename } = req.params;
-  const file = await File.findOne({ name: filename });
-
-  if (!file) {
-    throw new HTTP_Error("File not found", NOT_FOUND);
-  }
-
-  const fullPath = path.join(process.cwd(), file.path);
+  const { fullPath, filename } = fileDownloadService(req.params);
   res.download(fullPath, filename);
 });
 
