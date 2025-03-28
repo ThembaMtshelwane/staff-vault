@@ -31,10 +31,10 @@ router
   .route("/")
   .post(protect, validateRegisterAllUsers, registerAllUsers)
   .get(protect, fetchAllUsers);
-router.get("/filter", fetchFilteredUsers);
-router.post("/admin", validateRegisterAdmin, createAdminUser);
+router.get("/filter", protect, fetchFilteredUsers);
+router.post("/admin", protect, validateRegisterAdmin, createAdminUser);
 router.post("/login", validateLogin, loginUser);
-router.post("/logout", logoutUser);
+router.post("/logout", protect, logoutUser);
 router.post("/add-user", protect, validateAddUser, addUser);
 router.get("/profile", protect, getUserProfile);
 router

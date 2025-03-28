@@ -6,6 +6,7 @@ import {
   departmentsListSchema,
   updateDepartmentSchema,
 } from "../../schemas/departmentSchemas.js";
+import { BAD_REQUEST } from "../../constants/http.codes.js";
 
 export const validateCreateAllDepartments = expressAsyncHandler(
   async (req, res, next) => {
@@ -13,7 +14,7 @@ export const validateCreateAllDepartments = expressAsyncHandler(
     const result = departmentsListSchema.safeParse(departmentsList);
 
     if (!result.success) {
-      res.status(400);
+      res.status(BAD_REQUEST);
       return next(result.error);
     }
 

@@ -1,8 +1,6 @@
 // Controller for handling file operations
 import File from "../model/fileUploadModel.js";
 import expressAsyncHandler from "express-async-handler";
-import { NOT_FOUND } from "../constants/http.codes.js";
-import HTTP_Error from "../utils/httpError.js";
 import { fetchDocs } from "../service/crudHandlerFactory.js";
 import {
   fileDeleteService,

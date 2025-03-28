@@ -54,5 +54,4 @@ export const departmentNameSchema = z
 
 export const departmentPositions = z
   .array(z.string().min(1, { message: "Position cannot be empty" }))
-  .optional()
   .default([]);

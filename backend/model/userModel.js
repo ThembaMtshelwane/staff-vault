@@ -26,6 +26,7 @@ const userSchema = mongoose.Schema(
     password: { type: String, default: process.env.USER_PASSWORD },
     role: {
       type: String,
+      enum: ["general", "admin", "super_admin"],
       default: "general",
     },
     permissions: {
