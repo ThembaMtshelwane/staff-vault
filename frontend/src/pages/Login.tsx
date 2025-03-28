@@ -44,13 +44,13 @@ const Login = () => {
   if (isLoading) return <>Loggin in data...</>;
 
   return (
-    <section className="bg-background h-screen border border-red-700 justify-center flex flex-col md:flex-wrap">
+    <section className="bg-background h-screen justify-center flex flex-col md:flex-wrap">
       <img
         src="login-image.jpg"
         alt="login-image"
         className="hidden md:block h-full w-1/2 object-center object-cover"
       />
-      <div className="border w-[90%] mx-auto flex flex-col gap-4 py-8 px-8 rounded-lg max-w-[400px] md:mx-0">
+      <div className="border-2 border-secondary w-[90%] mx-auto flex flex-col gap-4 py-8 px-8 rounded-lg max-w-[400px] md:mx-0">
         <h1 className="">Login to Staff Vault.</h1>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <label htmlFor="email">

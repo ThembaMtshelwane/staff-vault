@@ -52,24 +52,27 @@ const HomeNavbar = () => {
       )}
 
       <ul className="hidden md:flex  w-[40%] max-w-[350px]">
-        <li
+        <a
+          href="#about"
           onClick={() => setToggle(false)}
           className=" p-2  w-full  hover:text-accent hover:scale-102 cursor-pointer"
         >
-          <a href="#about"> About</a>
-        </li>
-        <li
+          About
+        </a>
+        <a
+          href="#contact"
           onClick={() => setToggle(false)}
           className="  p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
         >
           <a href="#contact"> Contact</a>
-        </li>
-        <li
+        </a>
+        <Link
+          to="login"
           onClick={() => setToggle(false)}
           className="hover:text-accent hover:scale-102 cursor-pointer bg-secondary text-background text-center px-4 py-2 rounded-lg md:w-[240px]"
         >
-          <Link to="login"> Register</Link>
-        </li>
+          Register
+        </Link>
       </ul>
     </ul>
   );
