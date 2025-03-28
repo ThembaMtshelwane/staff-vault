@@ -33,7 +33,7 @@ const Department = () => {
   const departmentName = data?.data.name || "Not Available";
   const superviourFirstName = employee?.data.firstName;
   const superviourLastName = employee?.data.lastName;
-  const staff = employees?.pagination.totalUsers;
+  const staff = employees?.pagination.totalDocuments;
   const supervisor =
     superviourFirstName && superviourLastName
       ? `${superviourFirstName} ${superviourLastName}`
@@ -88,7 +88,7 @@ const Department = () => {
             <PaginationUI
               limit={12}
               currentPage={currentPage}
-              totalElements={employees.pagination.totalUsers}
+              totalElements={employees.pagination.totalDocuments}
               totalPages={employees.pagination.totalPages}
               setCurrentPage={setCurrentPage}
             />
