@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://staff-vault-server.vercel.app",
+  // baseUrl: "",
+  baseUrl: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 

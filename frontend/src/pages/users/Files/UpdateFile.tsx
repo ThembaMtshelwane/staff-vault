@@ -53,16 +53,20 @@ const UpdateFile = ({ type }: Props) => {
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!file) {
       alert("Please select a file before uploading.");
       return;
     }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("employee", userInfo?._id || "");
     formData.append("documentType", type);
 
     try {
+      console.log("formData  ", formData);
+
       const res = await uploadFile(formData).unwrap();
 
       if (!res.success) {
