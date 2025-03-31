@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-import { IFile } from "../definitions";
+import { FileMetadata, IFile } from "../definitions";
 const FILES_URL = "/api/files";
 
 export const fileApiSlice = apiSlice.injectEndpoints({
@@ -17,7 +17,7 @@ export const fileApiSlice = apiSlice.injectEndpoints({
     }),
 
     getFile: builder.query<
-      { success: boolean; message: string; data: IFile[] },
+      { success: boolean; message: string; data: FileMetadata[] },
       { documentType: string }
     >({
       query: ({ documentType }) => ({

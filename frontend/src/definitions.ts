@@ -12,6 +12,15 @@ export interface IFile {
   updatedAt: Date;
 }
 
+export interface FileMetadata {
+  id: string;
+  filename: string;
+  documentType: string;
+  path: string;
+  uploadedAt: string;
+  userId: string;
+}
+
 export interface IUser {
   _id: string;
   firstName: string;

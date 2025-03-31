@@ -65,7 +65,7 @@ const UpdateFile = ({ type }: Props) => {
     formData.append("documentType", type);
 
     try {
-      console.log("formData  ", formData);
+      console.log("formData  ", formData.entries);
 
       const res = await uploadFile(formData).unwrap();
 
@@ -121,17 +121,17 @@ const UpdateFile = ({ type }: Props) => {
         {docs?.data.map((doc, index) => (
           <li
             className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 py-2 px-4  sm:p-4 rounded-lg shadow-lg hover:scale-[1.01] bg-white"
-            key={doc.name + index}
+            key={doc.filename + index}
           >
             <div className="flex flex-wrap gap-2 w-full sm:w-[70%] justify-between max-w-[550px] ">
-              <p className="w-[250px]">{doc.name}</p>
-              <p>{new Date(doc.updatedAt).toDateString()}</p>
+              <p className="w-[250px]">{doc.filename}</p>
+              <p>{new Date(doc.uploadedAt).toDateString()}</p>
             </div>
 
             <div className="flex gap-4">
               <button
                 className="button"
-                onClick={() => handleDownload(doc.name)}
+                onClick={() => handleDownload(doc.filename)}
               >
                 <FaArrowDown />
               </button>
@@ -142,7 +142,7 @@ const UpdateFile = ({ type }: Props) => {
 
                   await deleteFile({
                     documentType: doc.documentType,
-                    filename: doc.name,
+                    filename: doc.filename,
                   });
                 }}
               >
