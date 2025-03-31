@@ -64,7 +64,7 @@ const HomeNavbar = () => {
           onClick={() => setToggle(false)}
           className="  p-2 w-full  hover:text-accent hover:scale-102 cursor-pointer"
         >
-          <a href="#contact"> Contact</a>
+          Contact
         </a>
         <Link
           to="login"
