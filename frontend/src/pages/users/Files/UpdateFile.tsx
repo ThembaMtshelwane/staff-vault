@@ -3,7 +3,7 @@ import ReturnHeader from "../../../components/ReturnHeader";
 import { TbCloudUpload } from "react-icons/tb";
 import {
   useDeleteFileMutation,
-  useDownloadFileMutation,
+  // useDownloadFileMutation,
   useGetFileQuery,
   useUploadFileMutation,
 } from "../../../slices/fileApiSlice";
@@ -22,7 +22,7 @@ const UpdateFile = ({ type }: Props) => {
   const { data: docs } = useGetFileQuery({ documentType: type });
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const [deleteFile] = useDeleteFileMutation();
-  const [downloadFile] = useDownloadFileMutation();
+  // const [downloadFile] = useDownloadFileMutation();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("pick file");
@@ -32,19 +32,45 @@ const UpdateFile = ({ type }: Props) => {
     }
   };
 
+  // const handleDownload = async (filename: string) => {
+  //   try {
+  //     const response = await downloadFile(filename).unwrap();
+  //     if (response) {
+  //       const blob = new Blob([response], { type: response.type });
+  //       const url = window.URL.createObjectURL(blob);
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       link.setAttribute("download", filename);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //       document.body.removeChild(link);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error downloading file:", error);
+  //     alert("File not found or could not be downloaded.");
+  //   }
+  // };
+
   const handleDownload = async (filename: string) => {
     try {
-      const response = await downloadFile(filename).unwrap();
-      if (response) {
-        const blob = new Blob([response], { type: response.type });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      const response = await fetch(`/api/files/download/${filename}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("File not found");
       }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading file:", error);
       alert("File not found or could not be downloaded.");
@@ -65,8 +91,6 @@ const UpdateFile = ({ type }: Props) => {
     formData.append("documentType", type);
 
     try {
-      console.log("formData  ", formData.entries);
-
       const res = await uploadFile(formData).unwrap();
 
       if (!res.success) {
