@@ -7,7 +7,13 @@ type Props = {
   id: string;
 };
 
-const UEmployeeCard = ({ firstName, lastName, position, id }: Props) => {
+const UEmployeeCard = ({
+  firstName,
+  lastName,
+  position,
+  id,
+  department,
+}: Props) => {
   return (
     <div
       key={id}
@@ -27,7 +33,7 @@ const UEmployeeCard = ({ firstName, lastName, position, id }: Props) => {
           .
         </h3>
         <p>{position ? position : "No positon provided"}</p>
-        <p>Software Development Academy.</p>
+        <p>{department ? department : "No department provided"}.</p>
       </div>
     </div>
   );

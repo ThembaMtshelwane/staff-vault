@@ -61,6 +61,7 @@ const UDepartment = () => {
                 lastName={employee.lastName}
                 position={employee.position}
                 id={employee._id}
+                department={department?.data.name}
               />
             ))}
           </div>

@@ -10,8 +10,8 @@ export default defineConfig({
     proxy: {
       "/api": {
         // target: "http://localhost:9000",
-        // target: "http://localhost:8000",
-        target: "https://staff-vault-server.vercel.app",
+        target: "http://localhost:8000",
+        // target: "https://staff-vault-server.vercel.app",
         changeOrigin: true,
         secure: true,
       },

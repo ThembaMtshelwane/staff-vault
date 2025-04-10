@@ -23,24 +23,24 @@ const Dashboard = () => {
   const supervisorFirstName = supervisor?.data.firstName;
   const supervisorLastName = supervisor?.data.lastName;
 
+  const fullname =
+    firstName && lastName ? `${firstName} ${lastName}` : "No name given";
+
+  const supervisorFullName =
+    supervisorFirstName && supervisorLastName
+      ? `${supervisorFirstName} ${supervisorLastName}`
+      : "Not available";
+
   return (
     <>
       <h1>Dashboard Overview.</h1>
 
       <div className="flex flex-col gap-2">
-        <h2>
-          {firstName} {lastName}.
-        </h2>
-        <h3>{position}.</h3>
+        <h2>{fullname}.</h2>
+        <h3>{position ? position : "Position not available"}.</h3>
         <p>{email}.</p>
         <p>Department: {department?.data.name || "Not Available"}.</p>
-        <p>
-          Supervisor:{" "}
-          {userInfo?.supervisor
-            ? `${supervisorFirstName} ${supervisorLastName}`
-            : "Not Available"}
-          .
-        </p>
+        <p>Supervisor: {supervisorFullName}.</p>
       </div>
       <div className="">
         <p>Documents:</p>
