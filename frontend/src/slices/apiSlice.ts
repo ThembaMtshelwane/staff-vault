@@ -7,7 +7,8 @@ import {
 } from "@reduxjs/toolkit/query/react";
 // import {AppDispatch } from '../store'
 import { AppDispatch } from "../store";
-import { clearCredentials } from "./authSlice";
+import { clearCredentials, setCredentials } from "./authSlice";
+import { IUser } from "../definitions";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "",
@@ -20,17 +21,39 @@ const customBaseQuery: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions);
+  let result = await baseQuery(args, api, extraOptions);
 
-  // Catch 401 errors
   if (result.error && result.error.status === 401) {
-    console.warn("Unauthorized: Logging out and redirecting...");
+    // console.warn("Unauthorized: Logging out and redirecting...");
 
-    // Dispatch logout action
-    (api.dispatch as AppDispatch)(clearCredentials());
+    // (api.dispatch as AppDispatch)(clearCredentials());
 
-    // Optional: redirect using window.location or a custom function
-    window.location.href = "/login"; // or "/"
+    // window.location.href = "/login";
+
+    // console.log("Attemp tot refresh access token");
+
+    const refreshResult = await baseQuery(
+      "/api/users/refresh-token",
+      api,
+      extraOptions
+    );
+
+    // console.log("refreshResult  ", refreshResult);
+
+    if (refreshResult.data) {
+      // Store new token
+      (api.dispatch as AppDispatch)(
+        setCredentials({
+          ...(refreshResult.data.data as IUser),
+        })
+      );
+
+      // Retry the original query
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      // Logout or show login again
+      (api.dispatch as AppDispatch)(clearCredentials());
+    }
   }
 
   return result;
