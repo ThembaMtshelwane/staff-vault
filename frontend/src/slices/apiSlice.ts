@@ -40,11 +40,11 @@ const customBaseQuery: BaseQueryFn<
 
     // console.log("refreshResult  ", refreshResult);
 
-    if (refreshResult.data) {
+    if ((refreshResult as { message: string; data: IUser, success:boolean }).data) {
       // Store new token
       (api.dispatch as AppDispatch)(
         setCredentials({
-          ...(refreshResult.data.data as IUser),
+          ...(refreshResult.data as IUser),
         })
       );
 
