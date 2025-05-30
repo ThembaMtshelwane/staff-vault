@@ -2,7 +2,6 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { GrGroup, GrStorage } from "react-icons/gr";
 import { PiTreeStructureLight } from "react-icons/pi";
 import { FaRegUser } from "react-icons/fa";
-// import { FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
 import { JSX, useEffect, useRef, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";

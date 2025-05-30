@@ -1,7 +1,7 @@
 import { IOrganization } from "../definitions";
 import { apiSlice } from "./apiSlice";
 
-const ORGANIZATION_URL = "/api/organization";
+const ORGANIZATION_URL = "/api/organizations";
 
 export const organizationApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

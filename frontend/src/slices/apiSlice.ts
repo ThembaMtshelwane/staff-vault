@@ -5,14 +5,12 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
-// import {AppDispatch } from '../store'
 import { AppDispatch } from "../store";
 import { clearCredentials, setCredentials } from "./authSlice";
 import { IUser } from "../definitions";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "",
-  // baseUrl: import.meta.env.VITE_API_URL,
   credentials: "include",
 });
 
@@ -23,36 +21,35 @@ const customBaseQuery: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
-    // console.warn("Unauthorized: Logging out and redirecting...");
+  if (result.error?.status === 401) {
+    console.warn("Attempting to refresh access token...");
 
-    // (api.dispatch as AppDispatch)(clearCredentials());
-
-    // window.location.href = "/login";
-
-    // console.log("Attemp tot refresh access token");
-
+    // Try to get new access token
     const refreshResult = await baseQuery(
       "/api/users/refresh-token",
       api,
       extraOptions
     );
 
-    // console.log("refreshResult  ", refreshResult);
+    const newData = refreshResult.data as {
+      success: boolean;
+      message: string;
+      data: IUser;
+    };
 
-    if ((refreshResult as { message: string; data: IUser, success:boolean }).data) {
-      // Store new token
-      (api.dispatch as AppDispatch)(
-        setCredentials({
-          ...(refreshResult.data as IUser),
-        })
-      );
+    if (newData.success) {
+      // Set new credentials
+      (api.dispatch as AppDispatch)(setCredentials(newData.data));
 
-      // Retry the original query
+      // Retry original request
       result = await baseQuery(args, api, extraOptions);
     } else {
-      // Logout or show login again
+      // Refresh failed, logout
+      console.warn("Refresh token failed, logging out");
       (api.dispatch as AppDispatch)(clearCredentials());
+
+      // Optionally replace the original error with refresh error
+      result = refreshResult;
     }
   }
 
@@ -60,8 +57,8 @@ const customBaseQuery: BaseQueryFn<
 };
 
 export const apiSlice = createApi({
-  // baseQuery,
-  baseQuery: customBaseQuery,
+  // baseQuery: customBaseQuery,
+  baseQuery,
   tagTypes: ["User", "Department", "Organization", "File"],
   endpoints: () => ({}),
 });

@@ -2,15 +2,12 @@ import { GrGroup } from "react-icons/gr";
 import { PiTreeStructureLight } from "react-icons/pi";
 import TagAndStat from "../../components/TagAndStat";
 import { useGetOrganizationByAdminQuery } from "../../slices/organizationSlice";
-import { RootState } from "../../store";
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useGetFilteredUsersQuery } from "../../slices/userApiSlice";
 import { useGetDepartmentsQuery } from "../../slices/departmentApiSlice";
 
 const AdminDashboard = () => {
-  const { userInfo } = useSelector((state: RootState) => state.auth);
-  const { data } = useGetOrganizationByAdminQuery(userInfo?.email || "");
+  const { data } = useGetOrganizationByAdminQuery("admin@staffvault.co.za");
   const { data: departments } = useGetDepartmentsQuery();
   const { data: employees } = useGetFilteredUsersQuery({
     page: 1,
