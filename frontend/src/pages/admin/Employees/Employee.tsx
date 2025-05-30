@@ -22,9 +22,6 @@ const Employee = () => {
   const [deleteUser] = useDeleteUserMutation();
   const navigate = useNavigate();
 
-  console.log('id    ',id);
-  
-
   const firstName = employee?.data?.firstName || "N/A";
   const lastName = employee?.data?.lastName || "N/A";
   const position = employee?.data?.position || "Not Available";
@@ -103,12 +100,14 @@ const Employee = () => {
           </div>
         </div>
 
-        <div className=" flex justify-center gap-4">
-          {/* <button className="button w-[150px]">Edit</button> */}
-          <button onClick={handleDeleteEmployee} className="button w-[150px]">
-            Delete
-          </button>
-        </div>
+        {employee?.data.role !== "admin" && (
+          <div className=" flex justify-center gap-4">
+            {/* <button className="button w-[150px]">Edit</button> */}
+            <button onClick={handleDeleteEmployee} className="button w-[150px]">
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
