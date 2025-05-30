@@ -41,14 +41,18 @@ const AdminDashboard = () => {
       <h1 className="">Dashboard Overview.</h1>
 
       <div className="flex flex-col gap-4 max-w-[640px]">
-        <h3 className="font-bold">{profile.name}.</h3>
+        <h3 className="font-bold">
+          {profile.name || "No company name provided"}.
+        </h3>
 
         <div className="underline flex flex-col md:flex-row gap-2 md:gap-4">
-          <p>{profile.email}</p>
-          <p>{profile.phone} </p>
+          <p>{profile.email || "No email provided"} </p>
+          <p>{profile.phone || "No phone number provided"} </p>
         </div>
 
-        <p className="text-justify">{profile.description}</p>
+        <p className="text-justify">
+          {profile.description || "No company description given"}
+        </p>
       </div>
 
       <div className=" flex flex-col gap-4 sm:flex-row ">

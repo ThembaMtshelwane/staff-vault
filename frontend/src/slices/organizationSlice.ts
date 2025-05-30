@@ -25,7 +25,7 @@ export const organizationApiSlice = apiSlice.injectEndpoints({
       string
     >({
       query: (admin) => ({
-        url: `${ORGANIZATION_URL}/${admin}`,
+        url: `${ORGANIZATION_URL}/admin/${admin}`,
         method: "GET",
       }),
       providesTags: ["Organization"],
